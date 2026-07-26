@@ -151,6 +151,7 @@ function M.initQABar(deps)
     _qb._AF              = deps._AF or _qb.AF
     _qb.stopQA74         = deps.stopQA74 or function() end
     _qb._registerResetFn = deps.registerResetFn or function() end
+    _qb.safeGetCustomAsset = deps._TL_safeGetCustomAsset or function() return nil end
     _qb.tlArrow    = _qb.tlArrow or _qb.g._TL_tlArrow
     _qb.tlArrowBig = _qb.tlArrowBig or _qb.g._TL_tlArrowBig
 end
@@ -750,7 +751,7 @@ function M.startQABar()
             icoLbl.Size = UDim2.new(1, 0, 1, 0)
             icoLbl.Position = UDim2.new(0, 0, 0, 0)
             icoLbl.BackgroundTransparency = 1
-            icoLbl.Image = _TL_safeGetCustomAsset("assets/SU-Icons/Syndicate-App-Logo-Main.png") or "https://raw.githubusercontent.com/shortviet/Syndicate-Universal-Parts/main/SU-Icons/Syndicate-App-Logo-Main.png"
+            icoLbl.Image = _qb.safeGetCustomAsset("assets/SU-Icons/Syndicate-App-Logo-Main.png") or "rbxassetid://77458828386203"
             icoLbl.ImageColor3 = Color3.new(1, 1, 1)
             icoLbl.ScaleType = Enum.ScaleType.Fit
             icoLbl.ZIndex = 12
