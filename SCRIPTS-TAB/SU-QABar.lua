@@ -186,7 +186,7 @@ local QA_CATS = {{
         { key = "orbit",      label = "Orbit TP",    imageId = "rbxassetid://139840976938907" },
         { key = "spinning",   label = "Spinning",    imageId = "rbxassetid://113740413795794" },
         { key = "upsidedown", label = "Upside Down", imageId = "rbxassetid://89009236995193" },
-        { key = "crossud",    label = "Cross UD",    imageId = "rbxassetid://77458828386203" },
+        { key = "crossud",    label = "Cross UD",    downloadUrl = "https://raw.githubusercontent.com/shortviet/Syndicate-Universal-Parts/main/SU-Icons/Syndicate-App-Logo-Main.png" },
         { key = "ghost",      label = "Ghost",       imageId = "rbxassetid://77104113506431" },
     }
 }, {
@@ -901,7 +901,29 @@ function M.startQABar()
                     if act.imageId then
                         icoL = Instance.new("ImageLabel", bg)
                         icoL.Size = UDim2.new(0, 30, 0, 30); icoL.Position = UDim2.new(0.5, -15, 0, 8)
-                        icoL.BackgroundTransparency = 1; icoL.Image = act.imageId
+                        icoL.BackgroundTransparency = 1
+                    if act.downloadUrl then
+                        task.spawn(function()
+                            local asset = _qb.safeGetCustomAsset(act.file or "assets/SU-Icons/Syndicate-App-Logo-Main.png")
+                            if not asset and type(writefile) == "function" and type(getcustomasset) == "function" then
+                                local ok, res = pcall(function()
+                                    local req = syn and syn.request or http_request or request
+                                    if req then return req({ Url = act.downloadUrl, Method = "GET" }) end
+                                end)
+                                if ok and res and res.StatusCode == 200 and res.Body and #res.Body > 0 then
+                                    local fname = act.file or "assets/SU-Icons/Syndicate-App-Logo-Main.png"
+                                    local wok = pcall(writefile, fname, res.Body)
+                                    if wok then
+                                        local aok, aid = pcall(getcustomasset, fname)
+                                        if aok and aid and #aid > 0 then asset = aid end
+                                    end
+                                end
+                            end
+                            if asset and icoL then icoL.Image = asset end
+                        end)
+                    else
+                        icoL.Image = act.imageId
+                    end
                         icoL.ImageColor3 = Color3.new(1, 1, 1); icoL.ImageTransparency = 0
                         icoL.ScaleType = Enum.ScaleType.Fit; icoL.ZIndex = 12
                     else
