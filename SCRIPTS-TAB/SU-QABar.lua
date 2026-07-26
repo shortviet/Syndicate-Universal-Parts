@@ -755,20 +755,31 @@ function M.startQABar()
             icoLbl.ImageColor3 = Color3.new(1, 1, 1)
             icoLbl.ScaleType = Enum.ScaleType.Fit
             icoLbl.ZIndex = 12
-            -- Retry icon after assets finish loading
-            if _qb.assetLoader then
-                task.spawn(function()
-                    local maxWait = 30
-                    while not _qb.assetLoader.ready and maxWait > 0 do
-                        task.wait(0.5)
-                        maxWait = maxWait - 1
+            -- Download Syndicate logo directly (bypasses asset loader timing)
+            task.spawn(function()
+                local _iconURL = "https://raw.githubusercontent.com/shortviet/Syndicate-Universal-Parts/main/SU-Icons/Syndicate-App-Logo-Main.png"
+                local _iconFile = "assets/SU-Icons/Syndicate-App-Logo-Main.png"
+                -- Try safeGetCustomAsset first (file may already be cached)
+                local asset = _qb.safeGetCustomAsset(_iconFile)
+                if not asset and type(writefile) == "function" and type(getcustomasset) == "function" then
+                    -- Download from GitHub and write locally
+                    local ok, res = pcall(function()
+                        local req = syn and syn.request or http_request or request
+                        if req then return req({ Url = _iconURL, Method = "GET" }) end
+                        return nil
+                    end)
+                    if ok and res and res.StatusCode == 200 and res.Body and #res.Body > 0 then
+                        local wok = pcall(writefile, _iconFile, res.Body)
+                        if wok then
+                            local aok, aid = pcall(getcustomasset, _iconFile)
+                            if aok and aid and #aid > 0 then asset = aid end
+                        end
                     end
-                    local asset = _qb.safeGetCustomAsset("assets/SU-Icons/Syndicate-App-Logo-Main.png")
-                    if asset and icoLbl then
-                        icoLbl.Image = asset
-                    end
-                end)
-            end
+                end
+                if asset and icoLbl then
+                    icoLbl.Image = asset
+                end
+            end)
             _qb.titleLbl = mkTxt(hdr,
                 UDim2.new(0, 125, 0, 18), UDim2.new(0, 32, 0.5, -9),
                 "Quick Actions", Enum.Font.GothamBlack, 13, Color3.new(1, 1, 1))
