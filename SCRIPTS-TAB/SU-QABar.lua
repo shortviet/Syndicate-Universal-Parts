@@ -755,6 +755,21 @@ function M.startQABar()
             icoLbl.ImageColor3 = Color3.new(1, 1, 1)
             icoLbl.ScaleType = Enum.ScaleType.Fit
             icoLbl.ZIndex = 12
+
+            -- Retry icon after assets finish loading
+            if _qb.assetLoader then
+                task.spawn(function()
+                    local maxWait = 30
+                    while not _qb.assetLoader.ready and maxWait > 0 do
+                        task.wait(0.5)
+                        maxWait = maxWait - 1
+                    end
+                    local syndicateLogo = _qb.safeGetCustomAsset("assets/SU-Icons/Syndicate-App-Logo-Main.png")
+                    if syndicateLogo then
+                        icoLbl.Image = syndicateLogo
+                    end
+                end)
+            end
             _qb.titleLbl = mkTxt(hdr,
                 UDim2.new(0, 125, 0, 18), UDim2.new(0, 32, 0.5, -9),
                 "Quick Actions", Enum.Font.GothamBlack, 13, Color3.new(1, 1, 1))
