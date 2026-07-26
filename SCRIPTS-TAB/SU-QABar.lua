@@ -150,8 +150,8 @@ function M.initQABar(deps)
     _qb._sc              = deps._sc or {}
     _qb._AF              = deps._AF or _qb.AF
     _qb.stopQA74         = deps.stopQA74 or function() end
-    _qb._registerResetFn = deps.registerResetFn or function() end
-    _qb.safeGetCustomAsset = deps._TL_safeGetCustomAsset or function() return nil end
+    _qb._registerResetFn = deps.registerResetFn or function() end            _qb.safeGetCustomAsset = deps._TL_safeGetCustomAsset or function() return nil end
+            _qb.assetLoader = deps._TL_assetLoader
     _qb.tlArrow    = _qb.tlArrow or _qb.g._TL_tlArrow
     _qb.tlArrowBig = _qb.tlArrowBig or _qb.g._TL_tlArrowBig
 end
@@ -755,6 +755,20 @@ function M.startQABar()
             icoLbl.ImageColor3 = Color3.new(1, 1, 1)
             icoLbl.ScaleType = Enum.ScaleType.Fit
             icoLbl.ZIndex = 12
+            -- Retry icon after assets finish loading
+            if _qb.assetLoader then
+                task.spawn(function()
+                    local maxWait = 30
+                    while not _qb.assetLoader.ready and maxWait > 0 do
+                        task.wait(0.5)
+                        maxWait = maxWait - 1
+                    end
+                    local asset = _qb.safeGetCustomAsset("assets/SU-Icons/Syndicate-App-Logo-Main.png")
+                    if asset and icoLbl then
+                        icoLbl.Image = asset
+                    end
+                end)
+            end
             _qb.titleLbl = mkTxt(hdr,
                 UDim2.new(0, 125, 0, 18), UDim2.new(0, 32, 0.5, -9),
                 "Quick Actions", Enum.Font.GothamBlack, 13, Color3.new(1, 1, 1))
