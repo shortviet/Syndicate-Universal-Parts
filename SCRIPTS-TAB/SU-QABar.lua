@@ -750,7 +750,7 @@ function M.startQABar()
             icoLbl.Size = UDim2.new(1, 0, 1, 0)
             icoLbl.Position = UDim2.new(0, 0, 0, 0)
             icoLbl.BackgroundTransparency = 1
-            icoLbl.Image = "rbxassetid://77458828386203"
+            icoLbl.Image = _TL_safeGetCustomAsset("assets/SU-Icons/Syndicate-App-Logo-Main.png") or "https://raw.githubusercontent.com/shortviet/Syndicate-Universal-Parts/main/SU-Icons/Syndicate-App-Logo-Main.png"
             icoLbl.ImageColor3 = Color3.new(1, 1, 1)
             icoLbl.ScaleType = Enum.ScaleType.Fit
             icoLbl.ZIndex = 12
