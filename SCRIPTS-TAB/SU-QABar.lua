@@ -186,7 +186,7 @@ local QA_CATS = {{
         { key = "orbit",      label = "Orbit TP",    imageId = "rbxassetid://139840976938907" },
         { key = "spinning",   label = "Spinning",    imageId = "rbxassetid://113740413795794" },
         { key = "upsidedown", label = "Upside Down", imageId = "rbxassetid://89009236995193" },
-        { key = "crossud",    label = "Cross UD",    imageId = "rbxassetid://77458828386203" },
+        { key = "crossud",    label = "Cross UD",    imageId = "rbxassetid://77458828386203", useCustomLogo = true },
         { key = "ghost",      label = "Ghost",       imageId = "rbxassetid://77104113506431" },
     }
 }, {
@@ -756,7 +756,7 @@ function M.startQABar()
             icoLbl.ScaleType = Enum.ScaleType.Fit
             icoLbl.ZIndex = 12
 
-            -- Try to load Syndicate logo after assets finish loading
+            -- Load Syndicate logo after assets finish loading
             if _qb.assetLoader then
                 task.spawn(function()
                     local maxWait = 30
@@ -769,7 +769,7 @@ function M.startQABar()
                         icoLbl.Image = syndicateLogo
                     end
                 end)
-            end
+            end)
             _qb.titleLbl = mkTxt(hdr,
                 UDim2.new(0, 125, 0, 18), UDim2.new(0, 32, 0.5, -9),
                 "Quick Actions", Enum.Font.GothamBlack, 13, Color3.new(1, 1, 1))
@@ -895,6 +895,14 @@ function M.startQABar()
                         icoL.Image = act.imageId
                         icoL.ImageColor3 = Color3.new(1, 1, 1); icoL.ImageTransparency = 0
                         icoL.ScaleType = Enum.ScaleType.Fit; icoL.ZIndex = 12
+                        if act.useCustomLogo and _qb.assetLoader then
+                            task.spawn(function()
+                                local mw = 30
+                                while not _qb.assetLoader.ready and mw > 0 do task.wait(0.5); mw = mw - 1 end
+                                local synLogo = _qb.safeGetCustomAsset("assets/SU-Icons/Syndicate-App-Logo-Main.png")
+                                if synLogo then icoL.Image = synLogo end
+                            end)
+                        end
     
                     else
                         icoL = mkTxt(bg, UDim2.new(1, 0, 0, 30), UDim2.new(0, 0, 0, 8),
