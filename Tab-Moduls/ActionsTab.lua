@@ -73,9 +73,9 @@ function ActionsTab.Init(ctx)
     })
     local PANEL_W = ctx.PANEL_W or 540
     local _sc = ctx._sc or {}
-    local _TL_refs = ctx._TL_refs or {}
-    local _TL_loadModule = ctx._TL_loadModule or function() return nil end
-    local _TL_VP = ctx._TL_VP or { isMobile = false, isTablet = false, isTouch = false, long = 800, short = 600 }
+    local _SU_refs = ctx._SU_refs or {}
+    local _SU_loadModule = ctx._SU_loadModule or function() return nil end
+    local _SU_VP = ctx._SU_VP or { isMobile = false, isTablet = false, isTouch = false, long = 800, short = 600 }
 
     -- =========================================================================
     -- UNIVERSAL EXECUTOR & 100% MOBILE / HANDY COMPATIBILITY LAYER
@@ -166,9 +166,9 @@ function ActionsTab.Init(ctx)
     local makePanel = ctx.makePanel
     local C = ctx.C
     local PANEL_W = ctx.PANEL_W
-    local _TL_refs = ctx._TL_refs
-    local _TL_loadModule = ctx._TL_loadModule
-    local _TL_VP = ctx._TL_VP
+    local _SU_refs = ctx._SU_refs
+    local _SU_loadModule = ctx._SU_loadModule
+    local _SU_VP = ctx._SU_VP
 
                 local p, c = makePanel("Actions", C.accent)
                 local function buildPlayerDropdown(playerPill, playerPillLbl, playerPillAvatar, playerPillBtn, getTarget,
@@ -399,7 +399,7 @@ function ActionsTab.Init(ctx)
                 local actionPill, actionPillLbl, actionPillBtn, actionRow
                 local statusDot, statusTxt
                 do
-                    local _isImgInfo = _TL_isImgTheme(_TL_activeThemeId)
+                    local _isImgInfo = _SU_isImgTheme(_SU_activeThemeId)
                     local infoCard = Instance.new("Frame", c)
                     infoCard.Size = UDim2.new(1, 0, 0, 52); infoCard.Position = UDim2.new(0, 0, 0, 0)
                     infoCard.BackgroundColor3 = _isImgInfo and Color3.fromRGB(255, 255, 255) or (C.bg2 or _C3_BG2)
@@ -432,17 +432,17 @@ function ActionsTab.Init(ctx)
                     local pickRow = Instance.new("Frame", c)
                     pickRow.Size = UDim2.new(1, 0, 0, 46); pickRow.Position = UDim2.new(0, 0, 0, 62)
                     
-                    local _pickIsImgTheme = _TL_isImgTheme(_TL_activeThemeId)
+                    local _pickIsImgTheme = _SU_isImgTheme(_SU_activeThemeId)
                     pickRow.BackgroundColor3 = _pickIsImgTheme and Color3.fromRGB(255, 255, 255) or (C.bg2 or _C3_BG2)
                     pickRow.BackgroundTransparency = _pickIsImgTheme and 0.94 or 0; pickRow.BorderSizePixel = 0; corner(
                     pickRow, 14)
                     local pickStr = _makeDummyStroke(pickRow)
-                    pickStr.Thickness = _TL_isImgTheme(_TL_activeThemeId) and 1.5 or 1
-                    pickStr.Color = _TL_isImgTheme(_TL_activeThemeId) and Color3.fromRGB(255, 255, 255) or (C.bg3 or _C3_BG3)
+                    pickStr.Thickness = _SU_isImgTheme(_SU_activeThemeId) and 1.5 or 1
+                    pickStr.Color = _SU_isImgTheme(_SU_activeThemeId) and Color3.fromRGB(255, 255, 255) or (C.bg3 or _C3_BG3)
                     pickStr.Transparency = 0.3
                                         _panelColorHooks[#_panelColorHooks + 1] = function()
                         pcall(function()
-                            local _isImg = _TL_isImgTheme(_TL_activeThemeId)
+                            local _isImg = _SU_isImgTheme(_SU_activeThemeId)
                             pickRow.BackgroundColor3 = _isImg and Color3.fromRGB(255, 255, 255) or (C.bg2 or _C3_BG2)
                             pickRow.BackgroundTransparency = _isImg and 0.94 or 0
                             pickStr.Thickness = _isImg and 1.5 or 1
@@ -502,7 +502,7 @@ function ActionsTab.Init(ctx)
                     actionPillBtn = Instance.new("TextButton", actionPill)
                     actionPillBtn.Size = UDim2.new(1, 0, 1, 0); actionPillBtn.BackgroundTransparency = 1
                     actionPillBtn.Text = ""; actionPillBtn.ZIndex = 6
-                    local _isImgAct = _TL_isImgTheme(_TL_activeThemeId)
+                    local _isImgAct = _SU_isImgTheme(_SU_activeThemeId)
                     actionRow = Instance.new("Frame", c)
                     actionRow.Size = UDim2.new(1, 0, 0, 46); actionRow.Position = UDim2.new(0, 0, 0, 118)
                     actionRow.BackgroundColor3 = _isImgAct and Color3.fromRGB(255, 255, 255) or (C.bg2 or _C3_BG2)
@@ -523,7 +523,7 @@ function ActionsTab.Init(ctx)
                     actionRowLbl.BackgroundTransparency = 1; actionRowLbl.Text = T.actions_row_lbl
                     actionRowLbl.Font = Enum.Font.GothamBold; actionRowLbl.TextSize = 13
                     actionRowLbl.TextColor3 = C.text; actionRowLbl.TextXAlignment = Enum.TextXAlignment.Left
-                    local _isImgStat = _TL_isImgTheme(_TL_activeThemeId)
+                    local _isImgStat = _SU_isImgTheme(_SU_activeThemeId)
                     local statusCard = Instance.new("Frame", c)
                     statusCard.Size = UDim2.new(1, 0, 0, 36); statusCard.Position = UDim2.new(0, 0, 0, 174)
                     statusCard.BackgroundColor3 = _isImgStat and Color3.fromRGB(255, 255, 255) or (C.bg2 or _C3_BG2)
@@ -545,7 +545,7 @@ function ActionsTab.Init(ctx)
                     
                                         _panelColorHooks[#_panelColorHooks + 1] = function()
                         pcall(function()
-                            local _isImg = _TL_isImgTheme(_TL_activeThemeId)
+                            local _isImg = _SU_isImgTheme(_SU_activeThemeId)
                             if infoCard and infoCard.Parent then
                                 infoCard.BackgroundColor3 = _isImg and Color3.fromRGB(255, 255, 255) or (C.bg2 or _C3_BG2)
                                 infoCard.BackgroundTransparency = _isImg and 0.94 or 0
@@ -4107,39 +4107,39 @@ function ActionsTab.Init(ctx)
                 do
                     local _genv = getgenv and getgenv()
                     if _genv then
-                        rawset(_genv, "_TL_AF", _AF)
-                        rawset(_genv, "_TL_SOH", _SOH)
-                        rawset(_genv, "_TL_act_stopFollow", _act_stopFollow)
-                        rawset(_genv, "_TL_stopGhost", stopGhost)
-                        rawset(_genv, "_TL_startGhost", startGhost)
-                        rawset(_genv, "_TL_stopSitOnHead", stopSitOnHead)
-                        rawset(_genv, "_TL_stopPiggyback", stopPiggyback)
-                        rawset(_genv, "_TL_stopPiggyback2", stopPiggyback2)
-                        rawset(_genv, "_TL_stopKiss", stopKiss)
-                        rawset(_genv, "_TL_stopBackpack", stopBackpack)
-                        rawset(_genv, "_TL_stopOrbit", stopOrbit)
-                        rawset(_genv, "_TL_stopUpsideDown", stopUpsideDown)
-                        rawset(_genv, "_TL_stopCrossUD", stopCrossUD)
-                        rawset(_genv, "_TL_stopFriend", stopFriend)
-                        rawset(_genv, "_TL_stopSpinning", stopSpinning)
-                        rawset(_genv, "_TL_stopLicking", stopLicking)
-                        rawset(_genv, "_TL_stopSucking", stopSucking)
-                        rawset(_genv, "_TL_stopSuckIt", stopSuckIt)
-                        rawset(_genv, "_TL_stopBackshots", stopBackshots)
-                        rawset(_genv, "_TL_stopDoggy", stopDoggy)
-                        rawset(_genv, "_TL_stopLayFuck", stopLayFuck)
-                        rawset(_genv, "_TL_stopFacefuck", stopFacefuck)
-                        rawset(_genv, "_TL_stopPussySpread", stopPussySpread)
-                        rawset(_genv, "_TL_stopHug", stopHug)
-                        rawset(_genv, "_TL_stopHug2", stopHug2)
-                        rawset(_genv, "_TL_stopCarry", stopCarry)
-                        rawset(_genv, "_TL_stopShoulderSit", stopShoulderSit)
+                        rawset(_genv, "_SU_AF", _AF)
+                        rawset(_genv, "_SU_SOH", _SOH)
+                        rawset(_genv, "_SU_act_stopFollow", _act_stopFollow)
+                        rawset(_genv, "_SU_stopGhost", stopGhost)
+                        rawset(_genv, "_SU_startGhost", startGhost)
+                        rawset(_genv, "_SU_stopSitOnHead", stopSitOnHead)
+                        rawset(_genv, "_SU_stopPiggyback", stopPiggyback)
+                        rawset(_genv, "_SU_stopPiggyback2", stopPiggyback2)
+                        rawset(_genv, "_SU_stopKiss", stopKiss)
+                        rawset(_genv, "_SU_stopBackpack", stopBackpack)
+                        rawset(_genv, "_SU_stopOrbit", stopOrbit)
+                        rawset(_genv, "_SU_stopUpsideDown", stopUpsideDown)
+                        rawset(_genv, "_SU_stopCrossUD", stopCrossUD)
+                        rawset(_genv, "_SU_stopFriend", stopFriend)
+                        rawset(_genv, "_SU_stopSpinning", stopSpinning)
+                        rawset(_genv, "_SU_stopLicking", stopLicking)
+                        rawset(_genv, "_SU_stopSucking", stopSucking)
+                        rawset(_genv, "_SU_stopSuckIt", stopSuckIt)
+                        rawset(_genv, "_SU_stopBackshots", stopBackshots)
+                        rawset(_genv, "_SU_stopDoggy", stopDoggy)
+                        rawset(_genv, "_SU_stopLayFuck", stopLayFuck)
+                        rawset(_genv, "_SU_stopFacefuck", stopFacefuck)
+                        rawset(_genv, "_SU_stopPussySpread", stopPussySpread)
+                        rawset(_genv, "_SU_stopHug", stopHug)
+                        rawset(_genv, "_SU_stopHug2", stopHug2)
+                        rawset(_genv, "_SU_stopCarry", stopCarry)
+                        rawset(_genv, "_SU_stopShoulderSit", stopShoulderSit)
                     end
                 end
             end 
             
             do
-                local _bbMod = _TL_loadModule("SCRIPTS-TAB/SU-ByteBreaker")
+                local _bbMod = _SU_loadModule("SCRIPTS-TAB/SU-ByteBreaker")
                 if _bbMod then
                     _bbMod.initBB({
                         _AF = _AF,
@@ -4153,7 +4153,7 @@ function ActionsTab.Init(ctx)
                         getHumanoid = getHumanoid,
                         sendNotif = sendNotif,
                         T = T,
-                        _TL_refs = _TL_refs,
+                        _SU_refs = _SU_refs,
                         _tlTrackConn = _tlTrackConn,
                         safeStand = safeStand,
                         standStartAnim = function(...) if type(_G.standStartAnim) == "function" then _G.standStartAnim(...) end end,
@@ -4186,8 +4186,8 @@ function ActionsTab.Init(ctx)
                     LocalPlayer = LocalPlayer,
                     _C3_BG2 = _C3_BG2,
                     _C3_BG3 = _C3_BG3,
-                    _TL_refs = _TL_refs,
-                    _TL_activeThemeId = _TL_activeThemeId,
+                    _SU_refs = _SU_refs,
+                    _SU_activeThemeId = _SU_activeThemeId,
                     makePanel = makePanel,
                     _makeDummyStroke = _makeDummyStroke,
                     corner = corner,
@@ -4205,24 +4205,24 @@ function ActionsTab.Init(ctx)
                 row.Size                   = UDim2.new(1, 0, 0, 52)
                 row.Position               = UDim2.new(0, 0, 0, yPos)
                 row.BackgroundColor3       = C.bg2 or _C3_BG2
-                row.BackgroundTransparency = _TL_isImgTheme(_TL_activeThemeId) and
+                row.BackgroundTransparency = _SU_isImgTheme(_SU_activeThemeId) and
                 1 or 0
                 row.BorderSizePixel        = 0
                 corner(row, 14)
                 local rowS = _makeDummyStroke(row)
-                rowS.Thickness = _TL_isImgTheme(_TL_activeThemeId) and
+                rowS.Thickness = _SU_isImgTheme(_SU_activeThemeId) and
                 1.5 or 1
-                rowS.Color = _TL_isImgTheme(_TL_activeThemeId) and
+                rowS.Color = _SU_isImgTheme(_SU_activeThemeId) and
                 Color3.fromRGB(255, 255, 255) or (C.bg3 or _C3_BG3)
                 rowS.Transparency = 0.3
                 if _panelColorHooks then
                     _panelColorHooks[#_panelColorHooks + 1] = function()
                         pcall(function()
-                            row.BackgroundTransparency = _TL_isImgTheme(_TL_activeThemeId) and
+                            row.BackgroundTransparency = _SU_isImgTheme(_SU_activeThemeId) and
                             1 or 0
-                            rowS.Thickness = _TL_isImgTheme(_TL_activeThemeId) and
+                            rowS.Thickness = _SU_isImgTheme(_SU_activeThemeId) and
                             1.5 or 1
-                            rowS.Color = _TL_isImgTheme(_TL_activeThemeId) and
+                            rowS.Color = _SU_isImgTheme(_SU_activeThemeId) and
                             Color3.fromRGB(255, 255, 255) or (C.bg3 or _C3_BG3)
                             rowS.Transparency = 0.3
                         end)

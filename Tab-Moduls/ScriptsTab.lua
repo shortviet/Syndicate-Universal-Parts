@@ -73,9 +73,9 @@ function ScriptsTab.Init(ctx)
     })
     local PANEL_W = ctx.PANEL_W or 540
     local _sc = ctx._sc or {}
-    local _TL_refs = ctx._TL_refs or {}
-    local _TL_loadModule = ctx._TL_loadModule or function() return nil end
-    local _TL_VP = ctx._TL_VP or { isMobile = false, isTablet = false, isTouch = false, long = 800, short = 600 }
+    local _SU_refs = ctx._SU_refs or {}
+    local _SU_loadModule = ctx._SU_loadModule or function() return nil end
+    local _SU_VP = ctx._SU_VP or { isMobile = false, isTablet = false, isTouch = false, long = 800, short = 600 }
 
     -- =========================================================================
     -- UNIVERSAL EXECUTOR & 100% MOBILE / HANDY COMPATIBILITY LAYER
@@ -167,16 +167,16 @@ function ScriptsTab.Init(ctx)
     local C = ctx.C
     local PANEL_W = ctx.PANEL_W
     local _sc = ctx._sc or {}
-    local _TL_refs = ctx._TL_refs
-    local _TL_loadModule = ctx._TL_loadModule
-    local _TL_VP = ctx._TL_VP
+    local _SU_refs = ctx._SU_refs
+    local _SU_loadModule = ctx._SU_loadModule
+    local _SU_VP = ctx._SU_VP
 
     -- Missing variable aliases and definitions needed by the script
     local Players = _SvcPlr
     local UserInputService = _SvcUIS
     local Workspace = workspace
 
-    local _TL_MODULES_BASE = ctx._TL_MODULES_BASE or "https://raw.githubusercontent.com/shortviet/Syndicate-Universal-Parts/main/"
+    local _SU_MODULES_BASE = ctx._SU_MODULES_BASE or "https://raw.githubusercontent.com/shortviet/Syndicate-Universal-Parts/main/"
 
     -- Animation / tween helpers
     local TweenService = game:GetService("TweenService")
@@ -371,15 +371,15 @@ function ScriptsTab.Init(ctx)
                 sSubArea.BackgroundTransparency = 1
                 sSubArea.BorderSizePixel        = 0
                 sSubArea.ClipsDescendants       = false
-                local _TL_WIDGET_CLOSE_ICON     = "rbxassetid://111119570195816"
-                local _scriptWidgetMod = _TL_loadModule("SCRIPTS-TAB/SU-ScriptWidget")
+                local _SU_WIDGET_CLOSE_ICON     = "rbxassetid://111119570195816"
+                local _scriptWidgetMod = _SU_loadModule("SCRIPTS-TAB/SU-ScriptWidget")
                 if _scriptWidgetMod then
                     _scriptWidgetMod.init({
                         ScreenGui = ScreenGui,
                         _sc = _sc,
                         MDARK = MDARK, MHDR = MHDR, MGLOW = MGLOW,
                         _C3_WHITE = _C3_WHITE,
-                        _TL_WIDGET_CLOSE_ICON = _TL_WIDGET_CLOSE_ICON,
+                        _SU_WIDGET_CLOSE_ICON = _SU_WIDGET_CLOSE_ICON,
                         getNearestPlayer = getNearestPlayer,
                     })
                 end
@@ -651,7 +651,7 @@ function ScriptsTab.Init(ctx)
                         end
                         
                     end
-                    local flingMod = _TL_loadModule("SU-BALL-FLING")
+                    local flingMod = _SU_loadModule("SU-BALL-FLING")
                     local flingSelectedPlayer = nil
 
                     local FLING_SUB_H = 12
@@ -900,23 +900,23 @@ function ScriptsTab.Init(ctx)
                     
                     
                     do
-                        local _oeUrl = _TL_MODULES_BASE .. "SU-OUTFIT-EXPAND.lua"
+                        local _oeUrl = _SU_MODULES_BASE .. "SU-OUTFIT-EXPAND.lua"
                         outfitExpandBtn.MouseButton1Click:Connect(function()
                             local ok, source = pcall(function() return (game :: any):HttpGet(_oeUrl) end)
                             if not ok or not source or #source < 50 then
-                                warn("[TL] Module load failed: SU-OUTFIT-EXPAND — " .. tostring(source))
+                                warn("[SU] Module load failed: SU-OUTFIT-EXPAND — " .. tostring(source))
                                 sendNotif("Outfit Expand", "Module offline ❌", 2)
                                 return
                             end
                             local fn, loadErr = loadstring(source)
                             if not fn then
-                                warn("[TL] Module compile error: SU-OUTFIT-EXPAND — " .. tostring(loadErr))
+                                warn("[SU] Module compile error: SU-OUTFIT-EXPAND — " .. tostring(loadErr))
                                 sendNotif("Outfit Expand", "Module offline ❌", 2)
                                 return
                             end
                             local execOk, execErr = pcall(fn)
                             if not execOk then
-                                warn("[TL] Module exec error: SU-OUTFIT-EXPAND — " .. tostring(execErr))
+                                warn("[SU] Module exec error: SU-OUTFIT-EXPAND — " .. tostring(execErr))
                                 sendNotif("Outfit Expand", "Module offline ❌", 2)
                             end
                         end)
@@ -932,7 +932,7 @@ movePage = Instance.new("Frame", sSubArea)
                 movePage.Visible = false
                 
                 do
-                    local avMod = _TL_loadModule("SCRIPTS-TAB/SU-AntiVoid")
+                    local avMod = _SU_loadModule("SCRIPTS-TAB/SU-AntiVoid")
                     if avMod then
                         avMod.init({ RunService = RunService, LocalPlayer = LocalPlayer, sendNotif = sendNotif })
                         sRow(movePage, 0, "Anti-Void", "Im not letting you die in the Void!!", C.accent2, false,
@@ -951,7 +951,7 @@ movePage = Instance.new("Frame", sSubArea)
 
                 
                 do
-                    local arMod = _TL_loadModule("SCRIPTS-TAB/SU-AntiRagdoll")
+                    local arMod = _SU_loadModule("SCRIPTS-TAB/SU-AntiRagdoll")
                     if arMod then
                         arMod.init({ RunService = RunService, LocalPlayer = LocalPlayer, flyActiveFn = function() return flyActive end })
                         sRow(movePage, 56, "Anti-Ragdoll", "Movement", C.red, false, function(on)
@@ -962,7 +962,7 @@ movePage = Instance.new("Frame", sSubArea)
 
                 
                 do
-                    local pfMod = _TL_loadModule("SCRIPTS-TAB/SU-PunchFling")
+                    local pfMod = _SU_loadModule("SCRIPTS-TAB/SU-PunchFling")
                     if pfMod then
                         pfMod.init({ RunService = RunService, Players = Players, LocalPlayer = LocalPlayer, sendNotif = sendNotif })
                         sRow(movePage, 112, "Punch-Fling", "Combat", C.orange, false, function(on)
@@ -983,7 +983,7 @@ movePage = Instance.new("Frame", sSubArea)
 
                 
                 do
-                    local tfMod = _TL_loadModule("SCRIPTS-TAB/SU-TouchFling")
+                    local tfMod = _SU_loadModule("SCRIPTS-TAB/SU-TouchFling")
                     if tfMod then
                         tfMod.init({ RunService = RunService, Players = Players, LocalPlayer = LocalPlayer, sendNotif = sendNotif, _AF_loadAndPlayAnimation = _AF_loadAndPlayAnimation, flyMuteSoundsFn = _flyMuteSounds })
                         local tfModeList = tfMod.getModes()
@@ -1108,7 +1108,7 @@ movePage = Instance.new("Frame", sSubArea)
 
                 
                 do
-                    local ctMod = _TL_loadModule("SCRIPTS-TAB/SU-ClickTeleport")
+                    local ctMod = _SU_loadModule("SCRIPTS-TAB/SU-ClickTeleport")
                     if ctMod then
                         ctMod.init({ RunService = RunService, UserInputService = UserInputService or _SvcUIS, LocalPlayer = LocalPlayer, sendNotif = sendNotif })
                         sRow(movePage, 224, "Click Teleport", "Movement", C.accent2, false, function(on)
@@ -1341,7 +1341,7 @@ visualPage = Instance.new("Frame", sSubArea)
 
                 
                 do
-                    local _shdMod = _TL_loadModule("SU-Shader")
+                    local _shdMod = _SU_loadModule("SU-Shader")
                     local shRow = Instance.new("Frame", visualPage)
                     shRow.Size = UDim2.new(1, 0, 0, 54)
                     shRow.Position = UDim2.new(0, 0, 0, 52)
@@ -1839,7 +1839,7 @@ visualPage = Instance.new("Frame", sSubArea)
                     end
                 end)
 
-                combatContainer, combatContent, combatAddRow, _combatFolderApi = _sc.makeMiscFolder("Combat Tools", "TL",
+                combatContainer, combatContent, combatAddRow, _combatFolderApi = _sc.makeMiscFolder("Combat Tools", "SU",
                     C.red, 1, combatPage)
                 task.defer(function()
                     if _combatFolderApi then
@@ -1851,7 +1851,7 @@ visualPage = Instance.new("Frame", sSubArea)
 
                 
                 do
-                    local aimMod = _TL_loadModule("SCRIPTS-TAB/SU-Aimbot")
+                    local aimMod = _SU_loadModule("SCRIPTS-TAB/SU-Aimbot")
                     if aimMod then
                         aimMod.init({ Players = Players, RunService = RunService, UserInputService = UserInputService, Workspace = Workspace, LocalPlayer = LocalPlayer })
                         local cfg = aimMod.getConfig()
@@ -2013,7 +2013,7 @@ visualPage = Instance.new("Frame", sSubArea)
                     _sc.sonstigePage)
                 cfRow, cfSetFn = miscToolsAddRow("Cutszene breaker", "Break Cutszene and Walk around", C.accent, false,
                     function(on) setCut(on) end)
-                _TL_refs._TL_setCut = setCut
+                _SU_refs._SU_setCut = setCut
 
                 _sc.miscLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
                     _sc.updateMiscSize()
@@ -2278,7 +2278,7 @@ visualPage = Instance.new("Frame", sSubArea)
                         
             
             
-_TL_state.actions = {}
+_SU_state.actions = {}
             
             _SOH = {
                 active = false,
@@ -2292,10 +2292,10 @@ _TL_state.actions = {}
                 charConn = nil,
                 ANIM_ID = "119898270336796",
             }
-            _TL_state.ppActive = false
-            _TL_state.setFreeze = nil
+            _SU_state.ppActive = false
+            _SU_state.setFreeze = nil
             do
-                _TL_state.actions.stopSitOnHead = function()
+                _SU_state.actions.stopSitOnHead = function()
                     _SOH.active = false
                     if _SOH.hoverVel then
                         pcall(function() _SOH.hoverVel:Destroy() end); _SOH.hoverVel = nil
@@ -2315,7 +2315,7 @@ _TL_state.actions = {}
                     local hum = myChar and myChar:FindFirstChildOfClass("Humanoid")
                     if hum then
                         hum.PlatformStand = false
-                        if _TL_state.setFreeze then _TL_state.setFreeze(false) end
+                        if _SU_state.setFreeze then _SU_state.setFreeze(false) end
                     end
                 end
                 local function sohStopAnim()
@@ -2472,9 +2472,9 @@ _TL_state.actions = {}
             }
             local bbMode_ = nil 
             local function _AF_onStartAction()
-                _AF.origGodState = _TL_refs._TL_isGodOn and _TL_refs._TL_isGodOn() or false
+                _AF.origGodState = _SU_refs._SU_isGodOn and _SU_refs._SU_isGodOn() or false
                 _AF.origInvisState = invisActive
-                if _TL_refs._TL_godStart then pcall(_TL_refs._TL_godStart) end
+                if _SU_refs._SU_godStart then pcall(_SU_refs._SU_godStart) end
                 if invisActive then pcall(function() setInvis(false) end) end
                 local hum = getHumanoid()
                 if hum then
@@ -2483,7 +2483,7 @@ _TL_state.actions = {}
                 end
             end
             local function _AF_onStopAction()
-                if not _AF.origGodState and _TL_refs._TL_godStop then pcall(_TL_refs._TL_godStop) end
+                if not _AF.origGodState and _SU_refs._SU_godStop then pcall(_SU_refs._SU_godStop) end
                 local hum = getHumanoid()
                 if hum then pcall(function() hum:SetStateEnabled(Enum.HumanoidStateType.Seated, true) end) end
                 if _AF.origInvisState then

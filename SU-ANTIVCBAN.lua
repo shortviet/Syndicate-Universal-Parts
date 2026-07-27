@@ -1,5 +1,5 @@
 local GLOBAL_ENV = (typeof(getgenv) == "function" and getgenv()) or _G
-local RUNTIME_KEY = "__TL_AntiVCBAN_Runtime"
+local RUNTIME_KEY = "__SU_AntiVCBAN_Runtime"
 
 local prev = GLOBAL_ENV and GLOBAL_ENV[RUNTIME_KEY]
 if type(prev) == "table" and type(prev.cleanup) == "function" then pcall(prev.cleanup) end
@@ -566,7 +566,7 @@ function API.cleanup()
 end
 
 if GLOBAL_ENV then
-    GLOBAL_ENV.__TL_AntiVCBAN = API
+    GLOBAL_ENV.__SU_AntiVCBAN = API
 end
 
 return API

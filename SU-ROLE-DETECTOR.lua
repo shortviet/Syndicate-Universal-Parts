@@ -15,11 +15,11 @@ local function playStaffAlert()
             local s = Instance.new("Sound")
             local adminAsset = nil
             pcall(function()
-                local _TL_safeIsFile = getgenv and getgenv()._TL_safeIsFile
-                local _TL_safeGetCustomAsset = getgenv and getgenv()._TL_safeGetCustomAsset
+                local _SU_safeIsFile = getgenv and getgenv()._SU_safeIsFile
+                local _SU_safeGetCustomAsset = getgenv and getgenv()._SU_safeGetCustomAsset
                 local adminAudioFileName = "admin_alert.mp3"
-                if _TL_safeIsFile and _TL_safeGetCustomAsset and _TL_safeIsFile(adminAudioFileName) then
-                    adminAsset = _TL_safeGetCustomAsset(adminAudioFileName)
+                if _SU_safeIsFile and _SU_safeGetCustomAsset and _SU_safeIsFile(adminAudioFileName) then
+                    adminAsset = _SU_safeGetCustomAsset(adminAudioFileName)
                 end
             end)
             if adminAsset then
@@ -40,18 +40,18 @@ end
 
 local function refreshStaffDetectorUI()
     pcall(function()
-        local _TL_refs = getgenv and getgenv()._TL_refs
-        local fn = _TL_refs and _TL_refs._TL_rebuildPlayerList
+        local _SU_refs = getgenv and getgenv()._SU_refs
+        local fn = _SU_refs and _SU_refs._SU_rebuildPlayerList
         if type(fn) == "function" then fn() end
     end)
 end
 
 local function sendStaffDetectorNotification(title, text)
-    local _TL_refs = getgenv and getgenv()._TL_refs
-    local settingsState = _TL_refs and _TL_refs._TL_settingsState
+    local _SU_refs = getgenv and getgenv()._SU_refs
+    local settingsState = _SU_refs and _SU_refs._SU_settingsState
     if settingsState and settingsState.notifications == false then return end
     pcall(function()
-        local sendNotif = getgenv and getgenv()._TL_refs and getgenv()._TL_refs._TL_sendNotif
+        local sendNotif = getgenv and getgenv()._SU_refs and getgenv()._SU_refs._SU_sendNotif
         if sendNotif then
             sendNotif(title, text, 7, Color3.fromRGB(255, 80, 80))
         end
@@ -220,15 +220,15 @@ local function runStaffCheck(plr, notifyOnDetect, delaySec, onDone)
 end
 
 pcall(function()
-    local _TL_refs = getgenv and getgenv()._TL_refs
-    if _TL_refs then
-        _TL_refs._TL_isThreatPlayer = function(plr)
+    local _SU_refs = getgenv and getgenv()._SU_refs
+    if _SU_refs then
+        _SU_refs._SU_isThreatPlayer = function(plr)
             return trackedStaff[plr] ~= nil
         end
-        _TL_refs._TL_getThreatRole = function(plr)
+        _SU_refs._SU_getThreatRole = function(plr)
             return trackedStaff[plr]
         end
-        _TL_refs._TL_checkThreatPlayer = function(plr, callback)
+        _SU_refs._SU_checkThreatPlayer = function(plr, callback)
             runStaffCheck(plr, false, 0, callback)
         end
     end

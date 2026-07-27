@@ -71,9 +71,9 @@ function SettingsTab.Init(ctx)
     })
     local PANEL_W = ctx.PANEL_W or 540
     local _sc = ctx._sc or {}
-    local _TL_refs = ctx._TL_refs or {}
-    local _TL_loadModule = ctx._TL_loadModule or function() return nil end
-    local _TL_VP = ctx._TL_VP or { isMobile = false, isTablet = false, isTouch = false, long = 800, short = 600 }
+    local _SU_refs = ctx._SU_refs or {}
+    local _SU_loadModule = ctx._SU_loadModule or function() return nil end
+    local _SU_VP = ctx._SU_VP or { isMobile = false, isTablet = false, isTouch = false, long = 800, short = 600 }
 
     -- =========================================================================
     -- UNIVERSAL EXECUTOR & 100% MOBILE / HANDY COMPATIBILITY LAYER
@@ -164,9 +164,9 @@ function SettingsTab.Init(ctx)
     local makePanel = ctx.makePanel
     local C = ctx.C
     local PANEL_W = ctx.PANEL_W
-    local _TL_refs = ctx._TL_refs
-    local _TL_loadModule = ctx._TL_loadModule
-    local _TL_VP = ctx._TL_VP
+    local _SU_refs = ctx._SU_refs
+    local _SU_loadModule = ctx._SU_loadModule
+    local _SU_VP = ctx._SU_VP
 
                 local p, c           = makePanel("Settings", C.sub)
                 local settingsPage         = p 
@@ -302,8 +302,8 @@ function SettingsTab.Init(ctx)
                             end
                             
                             task.defer(function()
-                                if _TL_refs._TL_applyGuiPosition then
-                                    pcall(function() _TL_refs._TL_applyGuiPosition(pos) end)
+                                if _SU_refs._SU_applyGuiPosition then
+                                    pcall(function() _SU_refs._SU_applyGuiPosition(pos) end)
                                 end
                             end)
                         end
@@ -451,12 +451,12 @@ function SettingsTab.Init(ctx)
                                 _gsValLbl.Text = string.format("%d%%", math.floor(v * 100 + 0.5))
                             end
                             
-                            if _TL_GUIScale then
+                            if _SU_GUIScale then
                                 if v == 0 then
                                     local vp = workspace.CurrentCamera.ViewportSize
-                                    _TL_GUIScale.Scale = math.clamp(math.min(vp.X / 1920, vp.Y / 1080), 0.55, 1.15)
+                                    _SU_GUIScale.Scale = math.clamp(math.min(vp.X / 1920, vp.Y / 1080), 0.55, 1.15)
                                 else
-                                    _TL_GUIScale.Scale = v
+                                    _SU_GUIScale.Scale = v
                                 end
                             end
                         end
@@ -493,12 +493,12 @@ function SettingsTab.Init(ctx)
                                 _gsResetBtn.Visible = false
                                 
                                 _gsCurrentScale = _gsSavedScale
-                                if _TL_GUIScale then
+                                if _SU_GUIScale then
                                     if _gsSavedScale == 0 then
                                         local vp = workspace.CurrentCamera.ViewportSize
-                                        _TL_GUIScale.Scale = math.clamp(math.min(vp.X / 1920, vp.Y / 1080), 0.55, 1.15)
+                                        _SU_GUIScale.Scale = math.clamp(math.min(vp.X / 1920, vp.Y / 1080), 0.55, 1.15)
                                     else
-                                        _TL_GUIScale.Scale = _gsSavedScale
+                                        _SU_GUIScale.Scale = _gsSavedScale
                                     end
                                 end
                                 
@@ -539,12 +539,12 @@ function SettingsTab.Init(ctx)
 
                         _gsResetBtn.MouseButton1Click:Connect(function()
                             _gsCurrentScale = _gsSavedScale
-                            if _TL_GUIScale then
+                            if _SU_GUIScale then
                                 if _gsSavedScale == 0 then
                                     local vp = workspace.CurrentCamera.ViewportSize
-                                    _TL_GUIScale.Scale = math.clamp(math.min(vp.X / 1920, vp.Y / 1080), 0.55, 1.15)
+                                    _SU_GUIScale.Scale = math.clamp(math.min(vp.X / 1920, vp.Y / 1080), 0.55, 1.15)
                                 else
-                                    _TL_GUIScale.Scale = _gsSavedScale
+                                    _SU_GUIScale.Scale = _gsSavedScale
                                 end
                             end
                             gsApplyRatio(gsInitRatio())
@@ -571,8 +571,8 @@ function SettingsTab.Init(ctx)
                     end
 
                     settingToggleSetters["antiVcBan"] = function(val)
-                        if val and _G._TL_vcSetToggle then
-                            _G._TL_vcSetToggle(true)
+                        if val and _G._SU_vcSetToggle then
+                            _G._SU_vcSetToggle(true)
                             settingsState.antiVcBan = true
                         end
                     end
@@ -643,23 +643,23 @@ function SettingsTab.Init(ctx)
                             row.Size = UDim2.new(1, 0, 0, 52)
                             row.Position = UDim2.new(0, 0, 0, yPos)
                             row.BackgroundColor3 = C.bg2 or Color3.fromRGB(26, 26, 28) or _C3_BG2
-                            row.BackgroundTransparency = _TL_isImgTheme(_TL_activeThemeId) and
+                            row.BackgroundTransparency = _SU_isImgTheme(_SU_activeThemeId) and
                             1 or 0; row.BorderSizePixel = 0
                             corner(row, 14)
                             local rowStr = _makeDummyStroke(row)
-                            rowStr.Thickness = _TL_isImgTheme(_TL_activeThemeId) and
+                            rowStr.Thickness = _SU_isImgTheme(_SU_activeThemeId) and
                             1.5 or 1
-                            rowStr.Color = _TL_isImgTheme(_TL_activeThemeId) and
+                            rowStr.Color = _SU_isImgTheme(_SU_activeThemeId) and
                             Color3.fromRGB(255, 255, 255) or (C.bg3 or _C3_BG3)
                             rowStr.Transparency = 0.3
                             if _panelColorHooks then
                                 _panelColorHooks[#_panelColorHooks + 1] = function()
                                     pcall(function()
-                                        row.BackgroundTransparency = _TL_isImgTheme(_TL_activeThemeId) and
+                                        row.BackgroundTransparency = _SU_isImgTheme(_SU_activeThemeId) and
                                         1 or 0
-                                        rowStr.Thickness = _TL_isImgTheme(_TL_activeThemeId) and
+                                        rowStr.Thickness = _SU_isImgTheme(_SU_activeThemeId) and
                                         1.5 or 1
-                                        rowStr.Color = _TL_isImgTheme(_TL_activeThemeId) and
+                                        rowStr.Color = _SU_isImgTheme(_SU_activeThemeId) and
                                         Color3.fromRGB(255, 255, 255) or (C.bg3 or _C3_BG3)
                                         rowStr.Transparency = 0.3
                                     end)
@@ -754,7 +754,7 @@ function SettingsTab.Init(ctx)
                         local CHIP_BG_INACTIVE       = Color3.fromRGB(0, 0, 0) 
                         local CHIP_BG_ACTIVE         = Color3.fromRGB(5, 5, 5)
                         local function updateThemeChips(activeId)
-                            local isCustomThemeActive = _TL_isAnimeTheme(activeId)
+                            local isCustomThemeActive = _SU_isAnimeTheme(activeId)
                             for _, ch in ipairs(_themeChipBtns) do
                                 local isActive = (ch.id == activeId) and not isCustomThemeActive
                                 ch.card.BackgroundColor3 = isActive and CHIP_BG_ACTIVE or CHIP_BG_INACTIVE
@@ -778,8 +778,8 @@ function SettingsTab.Init(ctx)
                             end
                         end
                         local colIdx = 0
-                        for _, theme in ipairs(_TL_THEMES) do
-                            if not _TL_isAnimeTheme(theme.id) then
+                        for _, theme in ipairs(_SU_THEMES) do
+                            if not _SU_isAnimeTheme(theme.id) then
                                 local row                   = math.floor(colIdx / 3)
                                 local c2                    = colIdx % 3
                                 local cx                    = 16 + c2 * (CHIP_W + CHIP_GAP)
@@ -807,20 +807,20 @@ function SettingsTab.Init(ctx)
                                 themeBtn.Text = ""; themeBtn.ZIndex = 8
                                 local captId = theme.id
                                 themeBtn.MouseButton1Click:Connect(function()
-                                    if _TL_isImgTheme(_TL_activeThemeId) then return end
-                                    _TL_applyTheme(captId)
+                                    if _SU_isImgTheme(_SU_activeThemeId) then return end
+                                    _SU_applyTheme(captId)
                                     task.defer(function()
                                         updateThemeChips(captId)
                                     end)
                                 end)
                                 themeBtn.MouseEnter:Connect(function()
-                                    if _TL_isImgTheme(_TL_activeThemeId) then return end
+                                    if _SU_isImgTheme(_SU_activeThemeId) then return end
                                     _sc._playHoverSound()
                                     twP(card, 0.1, { BackgroundColor3 = CHIP_BG_ACTIVE })
                                 end)
                                 themeBtn.MouseLeave:Connect(function()
-                                    if _TL_isImgTheme(_TL_activeThemeId) then return end
-                                    if _TL_activeThemeId ~= captId then
+                                    if _SU_isImgTheme(_SU_activeThemeId) then return end
+                                    if _SU_activeThemeId ~= captId then
                                         twP(card, 0.1, { BackgroundColor3 = CHIP_BG_INACTIVE })
                                     end
                                 end)
@@ -833,18 +833,18 @@ function SettingsTab.Init(ctx)
                         local rows = math.ceil(colIdx / 3)
                         cpY = cpY + rows * (CHIP_H + CHIP_GAP) + 8
                         colorsPage.Size = UDim2.new(1, 0, 0, cpY)
-                        updateThemeChips(_TL_activeThemeId)
+                        updateThemeChips(_SU_activeThemeId)
                         
                         task.defer(function()
-                            pcall(function() updateThemeChips(_TL_activeThemeId) end)
+                            pcall(function() updateThemeChips(_SU_activeThemeId) end)
                         end)
 
                         
                         local env = _genv
                         pcall(function()
-                            env._TL_FixThemeChips = function(themeId)
+                            env._SU_FixThemeChips = function(themeId)
                                 task.defer(function()
-                                    pcall(function() updateThemeChips(themeId or _TL_activeThemeId) end)
+                                    pcall(function() updateThemeChips(themeId or _SU_activeThemeId) end)
                                 end)
                             end
                         end)
@@ -869,7 +869,7 @@ function SettingsTab.Init(ctx)
                     visualSettingsPage.BackgroundTransparency = 1; visualSettingsPage.BorderSizePixel = 0
                     visualSettingsPage.Visible                = false
 
-                    local _curMod = _TL_loadModule("C-CURSOR")
+                    local _curMod = _SU_loadModule("C-CURSOR")
                     if _curMod then
                         _curMod.init({
                             _SvcUIS = _SvcUIS,
@@ -1116,7 +1116,7 @@ local themePage = Instance.new("Frame", subArea)
 
                 local animeCard = cards["Anime"]
                 if animeCard then
-                    local initOn = (_TL_activeThemeId == "onepiece")
+                    local initOn = (_SU_activeThemeId == "onepiece")
                     local row, setFn, _, setVisualFn = cleanRow(animeCard.Content, 4, "One Piece", "Straw Hat Theme",
                         C.accent, initOn, function(on)
                         pcall(function()
@@ -1134,10 +1134,10 @@ local themePage = Instance.new("Frame", subArea)
                                 if dexterToggleSet then dexterToggleSet(false) end
                                 if dexterToggleVisual then dexterToggleVisual(false) end
                                 isLoadingDexter = false
-                                if _TL_activeThemeId ~= "onepiece" and not isLoadingOnePiece then
+                                if _SU_activeThemeId ~= "onepiece" and not isLoadingOnePiece then
                                     isLoadingOnePiece = true
                                     
-                                    local sg = _TL_refs and _TL_refs._TL_ScreenGui
+                                    local sg = _SU_refs and _SU_refs._SU_ScreenGui
                                     local playerGui = sg and sg.Parent or nil
                                     if not playerGui then
                                         pcall(function() playerGui = game:GetService("Players").LocalPlayer:WaitForChild(
@@ -1274,7 +1274,7 @@ local themePage = Instance.new("Frame", subArea)
 
                                     task.delay(1.5, function()
                                         pcall(function()
-                                            _TL_applyTheme("onepiece")
+                                            _SU_applyTheme("onepiece")
                                             
                                             for _, _pn in ipairs({ "Character", "Home", "Settings", "Actions" }) do
                                                 local _pp = panels[_pn]
@@ -1288,10 +1288,10 @@ local themePage = Instance.new("Frame", subArea)
                                                 end
                                             end
                                             
-                                            local tabBtns = _TL_refs._TL_tabBtns
+                                            local tabBtns = _SU_refs._SU_tabBtns
                                             if tabBtns then
                                                 for _, tb in ipairs(tabBtns) do
-                                                    local opIcon = _TL_refs._TL_tabOnePieceIcons[tb.name]
+                                                    local opIcon = _SU_refs._SU_tabOnePieceIcons[tb.name]
                                                     if opIcon and tb.iconImg then
                                                         tb.iconImg.Image = opIcon
                                                         tb.iconImg.ImageColor3 = MGDIM()
@@ -1379,7 +1379,7 @@ local themePage = Instance.new("Frame", subArea)
                                                     abg.Size = UDim2.new(1, 0, 1, 0)
                                                     abg.Position = UDim2.new(0, 0, 0, 0)
                                                     abg.BackgroundTransparency = 1
-                                                    abg.Image = _TL_safeGetCustomAsset("assets/THEMES/ONEPIECE/OP-ACT-BG.png") or "rbxassetid://132090006833323"
+                                                    abg.Image = _SU_safeGetCustomAsset("assets/THEMES/ONEPIECE/OP-ACT-BG.png") or "rbxassetid://132090006833323"
                                                     abg.ScaleType = Enum.ScaleType.Crop
                                                     abg.ImageTransparency = 1
                                                     abg.ZIndex = 0
@@ -1418,16 +1418,16 @@ local themePage = Instance.new("Frame", subArea)
                                     end)
                                 end
                             else
-                                local targetTheme = (not _TL_isImgTheme(_TL_lastColor) and _TL_lastColor) or
+                                local targetTheme = (not _SU_isImgTheme(_SU_lastColor) and _SU_lastColor) or
                                 "white"
-                                if _TL_isImgTheme(_TL_activeThemeId) then
-                                    _TL_applyTheme(targetTheme)
+                                if _SU_isImgTheme(_SU_activeThemeId) then
+                                    _SU_applyTheme(targetTheme)
                                 end
                                 
-                                local tabBtns = _TL_refs._TL_tabBtns
+                                local tabBtns = _SU_refs._SU_tabBtns
                                 if tabBtns then
                                     for _, tb in ipairs(tabBtns) do
-                                        local origIcon = _TL_refs._TL_tabOrigIcons and _TL_refs._TL_tabOrigIcons
+                                        local origIcon = _SU_refs._SU_tabOrigIcons and _SU_refs._SU_tabOrigIcons
                                         [tb.name]
                                         if origIcon and tb.iconImg then
                                             tb.iconImg.Image = origIcon
@@ -1455,8 +1455,8 @@ local themePage = Instance.new("Frame", subArea)
                                 task.defer(function()
                                     pcall(function()
                                         local env = _genv
-                                        if env._TL_FixThemeChips then
-                                            env._TL_FixThemeChips(targetTheme)
+                                        if env._SU_FixThemeChips then
+                                            env._SU_FixThemeChips(targetTheme)
                                         end
                                     end)
                                 end)
@@ -1471,12 +1471,12 @@ local themePage = Instance.new("Frame", subArea)
                 dragonballToggleVisual = nil
                 isLoadingDragonball = false
                 if animeCard then
-                    local initOn = (_TL_activeThemeId == "dragonball")
+                    local initOn = (_SU_activeThemeId == "dragonball")
                     local row, setFn, _, setVisualFn = cleanRow(animeCard.Content, 56, "Dragonball", "Saiyan Theme",
                         C.accent, initOn, function(on)
                         pcall(function()
                             if on then
-                                if _TL_activeThemeId ~= "dragonball" and not isLoadingDragonball then
+                                if _SU_activeThemeId ~= "dragonball" and not isLoadingDragonball then
                                     isLoadingDragonball = true
                                     
                                     isLoadingOnePiece = false
@@ -1495,7 +1495,7 @@ local themePage = Instance.new("Frame", subArea)
                                     if dexterToggleSet then dexterToggleSet(false) end
                                     if dexterToggleVisual then dexterToggleVisual(false) end
                                     
-                                    local sg = _TL_refs and _TL_refs._TL_ScreenGui
+                                    local sg = _SU_refs and _SU_refs._SU_ScreenGui
                                     local playerGui = sg and sg.Parent or nil
                                     if not playerGui then
                                         pcall(function() playerGui = game:GetService("Players").LocalPlayer:WaitForChild(
@@ -1632,7 +1632,7 @@ local themePage = Instance.new("Frame", subArea)
 
                                     task.delay(1.5, function()
                                         pcall(function()
-                                            _TL_applyTheme("dragonball")
+                                            _SU_applyTheme("dragonball")
                                             
                                             for _, _pn in ipairs({ "Character", "Home", "Settings", "Actions" }) do
                                                 local _pp = panels[_pn]
@@ -1648,18 +1648,18 @@ local themePage = Instance.new("Frame", subArea)
                                             
                                             
                                             pcall(function()
-                                                if _TL_refs._TL_tabDragonballIcons and dragonballSettingsIconFileName then
-                                                    local _asset = _TL_safeGetCustomAsset(dragonballSettingsIconFileName)
+                                                if _SU_refs._SU_tabDragonballIcons and dragonballSettingsIconFileName then
+                                                    local _asset = _SU_safeGetCustomAsset(dragonballSettingsIconFileName)
                                                     if _asset then
-                                                        _TL_refs._TL_tabDragonballIcons.Settings = _asset
+                                                        _SU_refs._SU_tabDragonballIcons.Settings = _asset
                                                     end
                                                 end
                                             end)
-                                            local tabBtns = _TL_refs._TL_tabBtns
+                                            local tabBtns = _SU_refs._SU_tabBtns
                                             if tabBtns then
                                                 for _, tb in ipairs(tabBtns) do
-                                                    local dbIcon = _TL_refs._TL_tabDragonballIcons and
-                                                    _TL_refs._TL_tabDragonballIcons[tb.name]
+                                                    local dbIcon = _SU_refs._SU_tabDragonballIcons and
+                                                    _SU_refs._SU_tabDragonballIcons[tb.name]
                                                     if dbIcon and tb.iconImg then
                                                         tb.iconImg.Image = dbIcon
                                                     end
@@ -1698,7 +1698,7 @@ local themePage = Instance.new("Frame", subArea)
                                                     hbg.Size = UDim2.new(1, 0, 1, 0)
                                                     hbg.Position = UDim2.new(0, 0, 0, 0)
                                                     hbg.BackgroundTransparency = 1
-                                                    hbg.Image = _TL_safeGetCustomAsset(dragonballBgFileName) or "rbxassetid://85278059623649"
+                                                    hbg.Image = _SU_safeGetCustomAsset(dragonballBgFileName) or "rbxassetid://85278059623649"
                                                     hbg.ScaleType = Enum.ScaleType.Crop
                                                     hbg.ImageTransparency = 1
                                                     hbg.ZIndex = 0
@@ -1760,16 +1760,16 @@ local themePage = Instance.new("Frame", subArea)
                                     end)
                                 end
                             else
-                                local targetTheme = (not _TL_isImgTheme(_TL_lastColor) and _TL_lastColor) or
+                                local targetTheme = (not _SU_isImgTheme(_SU_lastColor) and _SU_lastColor) or
                                 "white"
-                                if _TL_isImgTheme(_TL_activeThemeId) then
-                                    _TL_applyTheme(targetTheme)
+                                if _SU_isImgTheme(_SU_activeThemeId) then
+                                    _SU_applyTheme(targetTheme)
                                 end
                                 
-                                local tabBtns = _TL_refs._TL_tabBtns
+                                local tabBtns = _SU_refs._SU_tabBtns
                                 if tabBtns then
                                     for _, tb in ipairs(tabBtns) do
-                                        local origIcon = _TL_refs._TL_tabOrigIcons and _TL_refs._TL_tabOrigIcons
+                                        local origIcon = _SU_refs._SU_tabOrigIcons and _SU_refs._SU_tabOrigIcons
                                         [tb.name]
                                         if origIcon and tb.iconImg then
                                             tb.iconImg.Image = origIcon
@@ -1797,8 +1797,8 @@ local themePage = Instance.new("Frame", subArea)
                                 task.defer(function()
                                     pcall(function()
                                         local env = _genv
-                                        if env._TL_FixThemeChips then
-                                            env._TL_FixThemeChips(targetTheme)
+                                        if env._SU_FixThemeChips then
+                                            env._SU_FixThemeChips(targetTheme)
                                         end
                                     end)
                                 end)
@@ -1815,7 +1815,7 @@ local themePage = Instance.new("Frame", subArea)
                 isLoadingTheBoys = false
                 local seriesCard = cards["Series"]
                 if seriesCard then
-                    local initOn = (_TL_activeThemeId == "theboys")
+                    local initOn = (_SU_activeThemeId == "theboys")
 
                     
                     if initOn then
@@ -1831,7 +1831,7 @@ local themePage = Instance.new("Frame", subArea)
                                         bg.Size = UDim2.new(1, 0, 1, 0)
                                         bg.Position = UDim2.new(0, 0, 0, 0)
                                         bg.BackgroundTransparency = 1
-                                        bg.Image = _TL_safeGetCustomAsset(theBoysBgFileName) or "rbxassetid://84736824738121"
+                                        bg.Image = _SU_safeGetCustomAsset(theBoysBgFileName) or "rbxassetid://84736824738121"
                                         bg.ScaleType = Enum.ScaleType.Crop
                                         bg.ImageTransparency = 1
                                         bg.ZIndex = 0
@@ -1864,11 +1864,11 @@ local themePage = Instance.new("Frame", subArea)
                                 if dexterToggleSet then dexterToggleSet(false) end
                                 if dexterToggleVisual then dexterToggleVisual(false) end
                                 isLoadingDexter = false
-                                if _TL_activeThemeId ~= "theboys" and not isLoadingTheBoys then
+                                if _SU_activeThemeId ~= "theboys" and not isLoadingTheBoys then
                                     isLoadingTheBoys = true
 
                                     
-                                    local sg = _TL_refs and _TL_refs._TL_ScreenGui
+                                    local sg = _SU_refs and _SU_refs._SU_ScreenGui
                                     local playerGui = sg and sg.Parent or nil
                                     if not playerGui then
                                         pcall(function() playerGui = game:GetService("Players").LocalPlayer:WaitForChild(
@@ -2005,7 +2005,7 @@ local themePage = Instance.new("Frame", subArea)
 
                                     task.delay(1.5, function()
                                         pcall(function()
-                                            _TL_applyTheme("theboys")
+                                            _SU_applyTheme("theboys")
                                             
                                             for _, _pn in ipairs({ "Character", "Home", "Settings", "Actions" }) do
                                                 local _pp = panels[_pn]
@@ -2021,8 +2021,8 @@ local themePage = Instance.new("Frame", subArea)
                                             
                                             
                                             pcall(function()
-                                                local _getIcon = _TL_refs._TL_getCustomIcon
-                                                local _tb = _TL_refs._TL_tabTheBoys_Icons
+                                                local _getIcon = _SU_refs._SU_getCustomIcon
+                                                local _tb = _SU_refs._SU_tabTheBoys_Icons
                                                 if _tb and _getIcon then
                                                     _tb.Settings = _getIcon(theBoysSettingsIconFileName, "rbxassetid://83091867260863")
                                                     _tb.Home     = _getIcon(theBoysHomeIconFileName,     "rbxassetid://79298842483031")
@@ -2030,10 +2030,10 @@ local themePage = Instance.new("Frame", subArea)
                                                     _tb.Actions  = _getIcon(theBoysActionsIconFileName,  "rbxassetid://110933969812438")
                                                 end
                                             end)
-                                            local tabBtns = _TL_refs._TL_tabBtns
+                                            local tabBtns = _SU_refs._SU_tabBtns
                                             if tabBtns then
                                                 for _, tb in ipairs(tabBtns) do
-                                                    local tbIcon = _TL_refs._TL_tabTheBoys_Icons[tb.name]
+                                                    local tbIcon = _SU_refs._SU_tabTheBoys_Icons[tb.name]
                                                     if tbIcon and tb.iconImg then
                                                         tb.iconImg.Image = tbIcon
                                                     end
@@ -2042,7 +2042,7 @@ local themePage = Instance.new("Frame", subArea)
                                             
                                             local _panelBgs = {
                                                 Character = "rbxassetid://77174664585520",
-                                                Home      = _TL_safeGetCustomAsset(theBoysBgFileName) or "rbxassetid://84736824738121",
+                                                Home      = _SU_safeGetCustomAsset(theBoysBgFileName) or "rbxassetid://84736824738121",
                                                 Settings  = "rbxassetid://84736824738121",
                                             }
                                             for _pname, _imgId in pairs(_panelBgs) do
@@ -2073,8 +2073,8 @@ local themePage = Instance.new("Frame", subArea)
                                             task.defer(function()
                                                 pcall(function()
                                                     local env = _genv
-                                                    if env._TL_FixThemeChips then
-                                                        env._TL_FixThemeChips("theboys")
+                                                    if env._SU_FixThemeChips then
+                                                        env._SU_FixThemeChips("theboys")
                                                     end
                                                 end)
                                             end)
@@ -2105,18 +2105,18 @@ local themePage = Instance.new("Frame", subArea)
                                 end
                             else
                                 isLoadingTheBoys = false
-                                local targetTheme = (not _TL_isImgTheme(_TL_lastColor) and _TL_lastColor) or
+                                local targetTheme = (not _SU_isImgTheme(_SU_lastColor) and _SU_lastColor) or
                                 "white"
-                                if _TL_isImgTheme(_TL_activeThemeId) then
-                                    _TL_applyTheme(targetTheme)
+                                if _SU_isImgTheme(_SU_activeThemeId) then
+                                    _SU_applyTheme(targetTheme)
                                 end
                                 
                                 pcall(function()
-                                    local _tabBtns = _TL_refs._TL_tabBtns
+                                    local _tabBtns = _SU_refs._SU_tabBtns
                                     if _tabBtns then
                                         for _, tb in ipairs(_tabBtns) do
-                                            local origIcon = _TL_refs._TL_tabOrigIcons and
-                                            _TL_refs._TL_tabOrigIcons[tb.name]
+                                            local origIcon = _SU_refs._SU_tabOrigIcons and
+                                            _SU_refs._SU_tabOrigIcons[tb.name]
                                             if origIcon and tb.iconImg then
                                                 tb.iconImg.Image = origIcon
                                             end
@@ -2143,8 +2143,8 @@ local themePage = Instance.new("Frame", subArea)
                                 task.defer(function()
                                     pcall(function()
                                         local env = _genv
-                                        if env._TL_FixThemeChips then
-                                            env._TL_FixThemeChips(targetTheme)
+                                        if env._SU_FixThemeChips then
+                                            env._SU_FixThemeChips(targetTheme)
                                         end
                                     end)
                                 end)
@@ -2160,7 +2160,7 @@ local themePage = Instance.new("Frame", subArea)
                     dexterToggleSet = nil
                     dexterToggleVisual = nil
                     isLoadingDexter = false
-                    local initOn = (_TL_activeThemeId == "dexter")
+                    local initOn = (_SU_activeThemeId == "dexter")
                     local row, setFn, _, setVisualFn = cleanRow(seriesCard.Content, 56, "Dexter", "Dark Passenger Theme",
                         Color3.fromRGB(0, 100, 180), initOn, function(on)
                         pcall(function()
@@ -2177,9 +2177,9 @@ local themePage = Instance.new("Frame", subArea)
                                 if deathNoteToggleSet then deathNoteToggleSet(false) end
                                 if deathNoteToggleVisual then deathNoteToggleVisual(false) end
                                 isLoadingDeathNote = false
-                                if _TL_activeThemeId ~= "dexter" and not isLoadingDexter then
+                                if _SU_activeThemeId ~= "dexter" and not isLoadingDexter then
                                     isLoadingDexter = true
-                                    local sg = _TL_refs and _TL_refs._TL_ScreenGui
+                                    local sg = _SU_refs and _SU_refs._SU_ScreenGui
                                     local playerGui = sg and sg.Parent or nil
                                     if not playerGui then
                                         pcall(function() playerGui = game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui") end)
@@ -2219,7 +2219,7 @@ local themePage = Instance.new("Frame", subArea)
                                     logo.Size = UDim2.new(0, 120, 0, 120)
                                     logo.Position = UDim2.new(0.5, -60, 0, 10)
                                     logo.BackgroundTransparency = 1
-                                    logo.Image = _TL_safeGetCustomAsset(dexterLoadingScreenFileName) or dexterLoadingScreenUrl
+                                    logo.Image = _SU_safeGetCustomAsset(dexterLoadingScreenFileName) or dexterLoadingScreenUrl
                                     logo.ScaleType = Enum.ScaleType.Fit
                                     logo.ImageTransparency = 1
                                     logo.ZIndex = 10
@@ -2289,7 +2289,7 @@ local themePage = Instance.new("Frame", subArea)
 
                                     task.delay(1.5, function()
                                         pcall(function()
-                                            _TL_applyTheme("dexter")
+                                            _SU_applyTheme("dexter")
                                             for _, _pn in ipairs({ "Character", "Home", "Settings", "Actions", "Scripts", "Communication" }) do
                                                 local _pp = panels[_pn]
                                                 if _pp then
@@ -2302,8 +2302,8 @@ local themePage = Instance.new("Frame", subArea)
                                                 end
                                             end
                                             pcall(function()
-                                                local _getIcon = _TL_refs._TL_getCustomIcon
-                                                local _dx = _TL_refs._TL_tabDexterIcons
+                                                local _getIcon = _SU_refs._SU_getCustomIcon
+                                                local _dx = _SU_refs._SU_tabDexterIcons
                                                 if _dx and _getIcon then
                                                     _dx.Character     = _getIcon(dexterCharIconFileName,     _dx.Character)
                                                     _dx.Playerlist    = _getIcon(dexterPlayerlistIconFileName, _dx.Playerlist)
@@ -2311,10 +2311,10 @@ local themePage = Instance.new("Frame", subArea)
                                                     _dx.Scripts       = _getIcon(dexterScriptsIconFileName,  _dx.Scripts)
                                                 end
                                             end)
-                                            local tabBtns = _TL_refs._TL_tabBtns
+                                            local tabBtns = _SU_refs._SU_tabBtns
                                             if tabBtns then
                                                 for _, tb in ipairs(tabBtns) do
-                                                    local dxIcon = _TL_refs._TL_tabDexterIcons and _TL_refs._TL_tabDexterIcons[tb.name]
+                                                    local dxIcon = _SU_refs._SU_tabDexterIcons and _SU_refs._SU_tabDexterIcons[tb.name]
                                                     if dxIcon and tb.iconImg then
                                                         tb.iconImg.Image = dxIcon
                                                     end
@@ -2335,7 +2335,7 @@ local themePage = Instance.new("Frame", subArea)
                                                             _bg.Size = UDim2.new(1, 0, 1, 0)
                                                             _bg.Position = UDim2.new(0, 0, 0, 0)
                                                             _bg.BackgroundTransparency = 1
-                                                            _bg.Image = _TL_safeGetCustomAsset(_src.file) or _src.url
+                                                            _bg.Image = _SU_safeGetCustomAsset(_src.file) or _src.url
                                                             _bg.ScaleType = Enum.ScaleType.Crop
                                                             _bg.ImageTransparency = 1
                                                             _bg.ZIndex = 0
@@ -2366,15 +2366,15 @@ local themePage = Instance.new("Frame", subArea)
                                 end
                             else
                                 isLoadingDexter = false
-                                local targetTheme = (not _TL_isImgTheme(_TL_lastColor) and _TL_lastColor) or "white"
-                                if _TL_activeThemeId == "dexter" then
-                                    _TL_applyTheme(targetTheme)
+                                local targetTheme = (not _SU_isImgTheme(_SU_lastColor) and _SU_lastColor) or "white"
+                                if _SU_activeThemeId == "dexter" then
+                                    _SU_applyTheme(targetTheme)
                                 end
                                 pcall(function()
-                                    local _tabBtns = _TL_refs._TL_tabBtns
+                                    local _tabBtns = _SU_refs._SU_tabBtns
                                     if _tabBtns then
                                         for _, tb in ipairs(_tabBtns) do
-                                            local origIcon = _TL_refs._TL_tabOrigIcons and _TL_refs._TL_tabOrigIcons[tb.name]
+                                            local origIcon = _SU_refs._SU_tabOrigIcons and _SU_refs._SU_tabOrigIcons[tb.name]
                                             if origIcon and tb.iconImg then
                                                 tb.iconImg.Image = origIcon
                                             end
@@ -2398,8 +2398,8 @@ local themePage = Instance.new("Frame", subArea)
                                 task.defer(function()
                                     pcall(function()
                                         local env = _genv
-                                        if env._TL_FixThemeChips then
-                                            env._TL_FixThemeChips(targetTheme)
+                                        if env._SU_FixThemeChips then
+                                            env._SU_FixThemeChips(targetTheme)
                                         end
                                     end)
                                 end)
@@ -2415,7 +2415,7 @@ local themePage = Instance.new("Frame", subArea)
                 deathNoteToggleVisual = nil
                 isLoadingDeathNote = false
                 if animeCard then
-                    local initOn = (_TL_activeThemeId == "deathnote")
+                    local initOn = (_SU_activeThemeId == "deathnote")
                     local row, setFn, _, setVisualFn = cleanRow(animeCard.Content, 108, "Death Note", "Shinigami Theme",
                         Color3.fromRGB(200, 20, 20), initOn, function(on)
                         pcall(function()
@@ -2433,10 +2433,10 @@ local themePage = Instance.new("Frame", subArea)
                                 if dexterToggleSet then dexterToggleSet(false) end
                                 if dexterToggleVisual then dexterToggleVisual(false) end
                                 isLoadingDexter = false
-                                if _TL_activeThemeId ~= "deathnote" and not isLoadingDeathNote then
+                                if _SU_activeThemeId ~= "deathnote" and not isLoadingDeathNote then
                                     isLoadingDeathNote = true
                                     
-                                    local sg = _TL_refs and _TL_refs._TL_ScreenGui
+                                    local sg = _SU_refs and _SU_refs._SU_ScreenGui
                                     local playerGui = sg and sg.Parent or nil
                                     if not playerGui then
                                         pcall(function() playerGui = game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui") end)
@@ -2478,7 +2478,7 @@ local themePage = Instance.new("Frame", subArea)
                                     logo.Size = UDim2.new(0, 120, 0, 120)
                                     logo.Position = UDim2.new(0.5, -60, 0, 10)
                                     logo.BackgroundTransparency = 1
-                                    logo.Image = _TL_safeGetCustomAsset(deathNoteLoadingScreenFileName) or deathNoteLoadingScreenUrl
+                                    logo.Image = _SU_safeGetCustomAsset(deathNoteLoadingScreenFileName) or deathNoteLoadingScreenUrl
                                     logo.ScaleType = Enum.ScaleType.Fit
                                     logo.ImageTransparency = 1
                                     logo.ZIndex = 10
@@ -2548,7 +2548,7 @@ local themePage = Instance.new("Frame", subArea)
 
                                     task.delay(1.5, function()
                                         pcall(function()
-                                            _TL_applyTheme("deathnote")
+                                            _SU_applyTheme("deathnote")
                                             
                                             for _, _pn in ipairs({ "Character", "Home", "Settings", "Actions", "Scripts", "Communication" }) do
                                                 local _pp = panels[_pn]
@@ -2563,8 +2563,8 @@ local themePage = Instance.new("Frame", subArea)
                                             end
                                             
                                             pcall(function()
-                                                local _getIcon = _TL_refs._TL_getCustomIcon
-                                                local _dn = _TL_refs._TL_tabDeathNote_Icons
+                                                local _getIcon = _SU_refs._SU_getCustomIcon
+                                                local _dn = _SU_refs._SU_tabDeathNote_Icons
                                                 if _dn and _getIcon then
                                                     _dn.Home          = _getIcon(deathNoteHomeIconFileName,     _dn.Home)
                                                     _dn.Character     = _getIcon(deathNoteCharIconFileName,     _dn.Character)
@@ -2573,10 +2573,10 @@ local themePage = Instance.new("Frame", subArea)
                                                     _dn.Communication = _getIcon(deathNoteComIconFileName,      _dn.Communication)
                                                 end
                                             end)
-                                            local tabBtns = _TL_refs._TL_tabBtns
+                                            local tabBtns = _SU_refs._SU_tabBtns
                                             if tabBtns then
                                                 for _, tb in ipairs(tabBtns) do
-                                                    local dnIcon = _TL_refs._TL_tabDeathNote_Icons and _TL_refs._TL_tabDeathNote_Icons[tb.name]
+                                                    local dnIcon = _SU_refs._SU_tabDeathNote_Icons and _SU_refs._SU_tabDeathNote_Icons[tb.name]
                                                     if dnIcon and tb.iconImg then
                                                         tb.iconImg.Image = dnIcon
                                                     end
@@ -2601,7 +2601,7 @@ local themePage = Instance.new("Frame", subArea)
                                                             _bg.Size = UDim2.new(1, 0, 1, 0)
                                                             _bg.Position = UDim2.new(0, 0, 0, 0)
                                                             _bg.BackgroundTransparency = 1
-                                                            _bg.Image = _TL_safeGetCustomAsset(_src.file) or _src.url
+                                                            _bg.Image = _SU_safeGetCustomAsset(_src.file) or _src.url
                                                             _bg.ScaleType = Enum.ScaleType.Crop
                                                             _bg.ImageTransparency = 1
                                                             _bg.ZIndex = 0
@@ -2636,16 +2636,16 @@ local themePage = Instance.new("Frame", subArea)
                                 end
                             else
                                 isLoadingDeathNote = false
-                                local targetTheme = (not _TL_isImgTheme(_TL_lastColor) and _TL_lastColor) or "white"
-                                if _TL_activeThemeId == "deathnote" then
-                                    _TL_applyTheme(targetTheme)
+                                local targetTheme = (not _SU_isImgTheme(_SU_lastColor) and _SU_lastColor) or "white"
+                                if _SU_activeThemeId == "deathnote" then
+                                    _SU_applyTheme(targetTheme)
                                 end
                                 
                                 pcall(function()
-                                    local _tabBtns = _TL_refs._TL_tabBtns
+                                    local _tabBtns = _SU_refs._SU_tabBtns
                                     if _tabBtns then
                                         for _, tb in ipairs(_tabBtns) do
-                                            local origIcon = _TL_refs._TL_tabOrigIcons and _TL_refs._TL_tabOrigIcons[tb.name]
+                                            local origIcon = _SU_refs._SU_tabOrigIcons and _SU_refs._SU_tabOrigIcons[tb.name]
                                             if origIcon and tb.iconImg then
                                                 tb.iconImg.Image = origIcon
                                             end
@@ -2670,8 +2670,8 @@ local themePage = Instance.new("Frame", subArea)
                                 task.defer(function()
                                     pcall(function()
                                         local env = _genv
-                                        if env._TL_FixThemeChips then
-                                            env._TL_FixThemeChips(targetTheme)
+                                        if env._SU_FixThemeChips then
+                                            env._SU_FixThemeChips(targetTheme)
                                         end
                                     end)
                                 end)
@@ -2686,19 +2686,19 @@ local themePage = Instance.new("Frame", subArea)
                 function syncThemeTogglesAfterUI()
                     pcall(function()
                         if onePieceToggleVisual then
-                            onePieceToggleVisual(_TL_activeThemeId == "onepiece")
+                            onePieceToggleVisual(_SU_activeThemeId == "onepiece")
                         end
                         if dragonballToggleVisual then
-                            dragonballToggleVisual(_TL_activeThemeId == "dragonball")
+                            dragonballToggleVisual(_SU_activeThemeId == "dragonball")
                         end
                         if theBoysToggleVisual then
-                            theBoysToggleVisual(_TL_activeThemeId == "theboys")
+                            theBoysToggleVisual(_SU_activeThemeId == "theboys")
                         end
                         if deathNoteToggleVisual then
-                            deathNoteToggleVisual(_TL_activeThemeId == "deathnote")
+                            deathNoteToggleVisual(_SU_activeThemeId == "deathnote")
                         end
                         if dexterToggleVisual then
-                            dexterToggleVisual(_TL_activeThemeId == "dexter")
+                            dexterToggleVisual(_SU_activeThemeId == "dexter")
                         end
                     end)
                 end
@@ -2708,80 +2708,80 @@ local themePage = Instance.new("Frame", subArea)
                         
                         
                         if onePieceToggleVisual then
-                            onePieceToggleVisual(_TL_activeThemeId == "onepiece" or isLoadingOnePiece)
+                            onePieceToggleVisual(_SU_activeThemeId == "onepiece" or isLoadingOnePiece)
                         end
                         if dragonballToggleVisual then
-                            dragonballToggleVisual(_TL_activeThemeId == "dragonball" or isLoadingDragonball)
+                            dragonballToggleVisual(_SU_activeThemeId == "dragonball" or isLoadingDragonball)
                         end
                         if theBoysToggleVisual then
-                            theBoysToggleVisual(_TL_activeThemeId == "theboys" or isLoadingTheBoys)
+                            theBoysToggleVisual(_SU_activeThemeId == "theboys" or isLoadingTheBoys)
                         end
                         if deathNoteToggleVisual then
-                            deathNoteToggleVisual(_TL_activeThemeId == "deathnote" or isLoadingDeathNote)
+                            deathNoteToggleVisual(_SU_activeThemeId == "deathnote" or isLoadingDeathNote)
                         end
                         if dexterToggleVisual then
-                            dexterToggleVisual(_TL_activeThemeId == "dexter" or isLoadingDexter)
+                            dexterToggleVisual(_SU_activeThemeId == "dexter" or isLoadingDexter)
                         end
                         
-                        if (_TL_activeThemeId == "onepiece" or isLoadingOnePiece) and dragonballToggleVisual then
+                        if (_SU_activeThemeId == "onepiece" or isLoadingOnePiece) and dragonballToggleVisual then
                             dragonballToggleVisual(false)
                         end
-                        if (_TL_activeThemeId == "onepiece" or isLoadingOnePiece) and theBoysToggleVisual then
+                        if (_SU_activeThemeId == "onepiece" or isLoadingOnePiece) and theBoysToggleVisual then
                             theBoysToggleVisual(false)
                         end
-                        if (_TL_activeThemeId == "onepiece" or isLoadingOnePiece) and deathNoteToggleVisual then
+                        if (_SU_activeThemeId == "onepiece" or isLoadingOnePiece) and deathNoteToggleVisual then
                             deathNoteToggleVisual(false)
                         end
-                        if (_TL_activeThemeId == "onepiece" or isLoadingOnePiece) and dexterToggleVisual then
+                        if (_SU_activeThemeId == "onepiece" or isLoadingOnePiece) and dexterToggleVisual then
                             dexterToggleVisual(false)
                         end
                         
-                        if (_TL_activeThemeId == "dragonball" or isLoadingDragonball) and onePieceToggleVisual then
+                        if (_SU_activeThemeId == "dragonball" or isLoadingDragonball) and onePieceToggleVisual then
                             onePieceToggleVisual(false)
                         end
-                        if (_TL_activeThemeId == "dragonball" or isLoadingDragonball) and theBoysToggleVisual then
+                        if (_SU_activeThemeId == "dragonball" or isLoadingDragonball) and theBoysToggleVisual then
                             theBoysToggleVisual(false)
                         end
-                        if (_TL_activeThemeId == "dragonball" or isLoadingDragonball) and deathNoteToggleVisual then
+                        if (_SU_activeThemeId == "dragonball" or isLoadingDragonball) and deathNoteToggleVisual then
                             deathNoteToggleVisual(false)
                         end
-                        if (_TL_activeThemeId == "dragonball" or isLoadingDragonball) and dexterToggleVisual then
+                        if (_SU_activeThemeId == "dragonball" or isLoadingDragonball) and dexterToggleVisual then
                             dexterToggleVisual(false)
                         end
                         
-                        if (_TL_activeThemeId == "theboys" or isLoadingTheBoys) and onePieceToggleVisual then
+                        if (_SU_activeThemeId == "theboys" or isLoadingTheBoys) and onePieceToggleVisual then
                             onePieceToggleVisual(false)
                         end
-                        if (_TL_activeThemeId == "theboys" or isLoadingTheBoys) and dragonballToggleVisual then
+                        if (_SU_activeThemeId == "theboys" or isLoadingTheBoys) and dragonballToggleVisual then
                             dragonballToggleVisual(false)
                         end
-                        if (_TL_activeThemeId == "theboys" or isLoadingTheBoys) and deathNoteToggleVisual then
+                        if (_SU_activeThemeId == "theboys" or isLoadingTheBoys) and deathNoteToggleVisual then
                             deathNoteToggleVisual(false)
                         end
-                        if (_TL_activeThemeId == "theboys" or isLoadingTheBoys) and dexterToggleVisual then
+                        if (_SU_activeThemeId == "theboys" or isLoadingTheBoys) and dexterToggleVisual then
                             dexterToggleVisual(false)
                         end
                         
-                        if (_TL_activeThemeId == "deathnote" or isLoadingDeathNote) and onePieceToggleVisual then
+                        if (_SU_activeThemeId == "deathnote" or isLoadingDeathNote) and onePieceToggleVisual then
                             onePieceToggleVisual(false)
                         end
-                        if (_TL_activeThemeId == "deathnote" or isLoadingDeathNote) and dragonballToggleVisual then
+                        if (_SU_activeThemeId == "deathnote" or isLoadingDeathNote) and dragonballToggleVisual then
                             dragonballToggleVisual(false)
                         end
-                        if (_TL_activeThemeId == "deathnote" or isLoadingDeathNote) and theBoysToggleVisual then
+                        if (_SU_activeThemeId == "deathnote" or isLoadingDeathNote) and theBoysToggleVisual then
                             theBoysToggleVisual(false)
                         end
                         
-                        if (_TL_activeThemeId == "dexter" or isLoadingDexter) and onePieceToggleVisual then
+                        if (_SU_activeThemeId == "dexter" or isLoadingDexter) and onePieceToggleVisual then
                             onePieceToggleVisual(false)
                         end
-                        if (_TL_activeThemeId == "dexter" or isLoadingDexter) and dragonballToggleVisual then
+                        if (_SU_activeThemeId == "dexter" or isLoadingDexter) and dragonballToggleVisual then
                             dragonballToggleVisual(false)
                         end
-                        if (_TL_activeThemeId == "dexter" or isLoadingDexter) and theBoysToggleVisual then
+                        if (_SU_activeThemeId == "dexter" or isLoadingDexter) and theBoysToggleVisual then
                             theBoysToggleVisual(false)
                         end
-                        if (_TL_activeThemeId == "dexter" or isLoadingDexter) and deathNoteToggleVisual then
+                        if (_SU_activeThemeId == "dexter" or isLoadingDexter) and deathNoteToggleVisual then
                             deathNoteToggleVisual(false)
                         end
                     end)
@@ -3196,23 +3196,23 @@ local themePage = Instance.new("Frame", subArea)
                     local card = Instance.new("Frame", grid)
                     card.Size = UDim2.new(0, CARD_W_S, 0, CARD_H_S)
                     card.Position = UDim2.new(0, xOff, 0, 0)
-                    card.BackgroundColor3 = C.bg2 or Color3.fromRGB(26, 26, 28); card.BackgroundTransparency = _TL_isImgTheme(_TL_activeThemeId) and
+                    card.BackgroundColor3 = C.bg2 or Color3.fromRGB(26, 26, 28); card.BackgroundTransparency = _SU_isImgTheme(_SU_activeThemeId) and
                     1 or 0
                     card.BorderSizePixel = 0; corner(card, 12)
                     local cStr = _makeDummyStroke(card)
-                    cStr.Thickness = _TL_isImgTheme(_TL_activeThemeId) and
+                    cStr.Thickness = _SU_isImgTheme(_SU_activeThemeId) and
                     1.5 or 1
-                    cStr.Color = _TL_isImgTheme(_TL_activeThemeId) and
+                    cStr.Color = _SU_isImgTheme(_SU_activeThemeId) and
                     Color3.fromRGB(255, 255, 255) or (C.bg3 or _C3_BG3)
                     cStr.Transparency = 0.3
                     if _panelColorHooks then
                         _panelColorHooks[#_panelColorHooks + 1] = function()
                             pcall(function()
-                                card.BackgroundTransparency = _TL_isImgTheme(_TL_activeThemeId) and
+                                card.BackgroundTransparency = _SU_isImgTheme(_SU_activeThemeId) and
                                 1 or 0
-                                cStr.Thickness = _TL_isImgTheme(_TL_activeThemeId) and
+                                cStr.Thickness = _SU_isImgTheme(_SU_activeThemeId) and
                                 1.5 or 1
-                                cStr.Color = _TL_isImgTheme(_TL_activeThemeId) and
+                                cStr.Color = _SU_isImgTheme(_SU_activeThemeId) and
                                 Color3.fromRGB(255, 255, 255) or (C.bg3 or _C3_BG3)
                                 cStr.Transparency = 0.3
                             end)
@@ -3289,7 +3289,7 @@ local themePage = Instance.new("Frame", subArea)
             if #catBtns > 0 then
                 switchCat(catBtns[1].id)
             end
-            end); if not _ok_Settings then warn("[TL] Settings-IIFE crashed: " .. tostring(_err_Settings)) end
+            end); if not _ok_Settings then warn("[SU] Settings-IIFE crashed: " .. tostring(_err_Settings)) end
 
     return p, c
 end

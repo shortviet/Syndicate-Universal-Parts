@@ -1,5 +1,5 @@
 local GLOBAL_ENV = (typeof(getgenv) == "function" and getgenv()) or _G
-local RUNTIME_KEY = "__TL_FlyRuntime"
+local RUNTIME_KEY = "__SU_FlyRuntime"
 
 local prev = GLOBAL_ENV and GLOBAL_ENV[RUNTIME_KEY]
 if type(prev) == "table" and type(prev.cleanup) == "function" then pcall(prev.cleanup) end
@@ -104,7 +104,7 @@ local function getSpeedData(i) return speedLevels[i] end
 
 
 local animSets = {
-    { name = "TLFly",       idle = "89068086839142", fwd = "101570135818967", glide = "85697950221122", fwd2 = "115638214618522" },
+    { name = "SUFly",       idle = "89068086839142", fwd = "101570135818967", glide = "85697950221122", fwd2 = "115638214618522" },
     { name = "Mysterious",  idle = "121818495967360", fwd = "138488768673643", glide = "101573394483995" },
     { name = "Villain Fly", idle = "89068086839142", fwd = "134861929761233", glide = "89369893784562" },
     { name = "Superman",    idle = "107357050902519", fwd = "83739357666592", glide = "135720178713765", fwd2 = "106493972274585" },
@@ -112,10 +112,10 @@ local animSets = {
 }
 
 
-local _FLY_ANIM_FILE = "TLCACHE/FlyAnimSet.json"
+local _FLY_ANIM_FILE = "SUCACHE/FlyAnimSet.json"
 local function _saveFlyAnimSet(idx)
     pcall(function()
-        if not isfolder("TLCACHE") then makefolder("TLCACHE") end
+        if not isfolder("SUCACHE") then makefolder("SUCACHE") end
         writefile(_FLY_ANIM_FILE, tostring(idx))
     end)
 end
@@ -901,8 +901,8 @@ Wrapper.Visible = false
 
 
 if GLOBAL_ENV then
-    GLOBAL_ENV._TL_setFly    = setFly
-    GLOBAL_ENV._TL_flyActive = function() return flyActive end
+    GLOBAL_ENV._SU_setFly    = setFly
+    GLOBAL_ENV._SU_flyActive = function() return flyActive end
 end
 
 runtime.start = function() setFly(true) end

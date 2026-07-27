@@ -15,11 +15,11 @@ local function playStaffAlert()
             local s = Instance.new("Sound")
             local adminAsset = nil
             pcall(function()
-                local _TL_safeIsFile = getgenv and getgenv()._TL_safeIsFile
-                local _TL_safeGetCustomAsset = getgenv and getgenv()._TL_safeGetCustomAsset
+                local _SU_safeIsFile = getgenv and getgenv()._SU_safeIsFile
+                local _SU_safeGetCustomAsset = getgenv and getgenv()._SU_safeGetCustomAsset
                 local adminAudioFileName = "admin_alert.mp3"
-                if _TL_safeIsFile and _TL_safeGetCustomAsset and _TL_safeIsFile(adminAudioFileName) then
-                    adminAsset = _TL_safeGetCustomAsset(adminAudioFileName)
+                if _SU_safeIsFile and _SU_safeGetCustomAsset and _SU_safeIsFile(adminAudioFileName) then
+                    adminAsset = _SU_safeGetCustomAsset(adminAudioFileName)
                 end
             end)
             if adminAsset then
@@ -38,11 +38,11 @@ local function playStaffAlert()
     end
 end
 
-local function sendStaffDetectorNotification(_TL_refs, title, text)
-    local settingsState = _TL_refs and _TL_refs._TL_settingsState
+local function sendStaffDetectorNotification(_SU_refs, title, text)
+    local settingsState = _SU_refs and _SU_refs._SU_settingsState
     if settingsState and settingsState.notifications == false then return end
     pcall(function()
-        local sendNotif = _TL_refs and _TL_refs._TL_sendNotif
+        local sendNotif = _SU_refs and _SU_refs._SU_sendNotif
         if sendNotif then
             sendNotif(title, text, 7, Color3.fromRGB(255, 80, 80))
         end
@@ -165,23 +165,23 @@ local function checkPlayerForStaff(plr)
     return false, ""
 end
 
-local function setStaffState(_TL_refs, plr, isStaff, role, notifyOnDetect)
+local function setStaffState(_SU_refs, plr, isStaff, role, notifyOnDetect)
     local previousRole = trackedStaff[plr]
     local normalizedRole = (isStaff and role) or nil
     staffCheckCache[plr] = normalizedRole or false
     trackedStaff[plr] = normalizedRole
     if notifyOnDetect and normalizedRole and not previousRole then
-        sendStaffDetectorNotification(_TL_refs, "Staff/Creator detected", plr.Name .. "\nRole: " .. normalizedRole)
+        sendStaffDetectorNotification(_SU_refs, "Staff/Creator detected", plr.Name .. "\nRole: " .. normalizedRole)
         playStaffAlert()
     end
     if previousRole ~= normalizedRole then
-        local fn = _TL_refs and _TL_refs._TL_rebuildPlayerList
+        local fn = _SU_refs and _SU_refs._SU_rebuildPlayerList
         if type(fn) == "function" then fn() end
     end
     return isStaff, role
 end
 
-local function runStaffCheck(_TL_refs, plr, notifyOnDetect, delaySec, onDone)
+local function runStaffCheck(_SU_refs, plr, notifyOnDetect, delaySec, onDone)
     if not plr or plr == LocalPlayer then
         if onDone then onDone(false, "") end
         return
@@ -198,16 +198,16 @@ local function runStaffCheck(_TL_refs, plr, notifyOnDetect, delaySec, onDone)
             local role = isStaff and cached or ""
             if isStaff and notifyOnDetect and not trackedStaff[plr] then
                 trackedStaff[plr] = role
-                sendStaffDetectorNotification(_TL_refs, "Staff/Creator detected", plr.Name .. "\nRole: " .. role)
+                sendStaffDetectorNotification(_SU_refs, "Staff/Creator detected", plr.Name .. "\nRole: " .. role)
                 playStaffAlert()
-                local fn = _TL_refs and _TL_refs._TL_rebuildPlayerList
+                local fn = _SU_refs and _SU_refs._SU_rebuildPlayerList
                 if type(fn) == "function" then fn() end
             end
             if onDone then onDone(isStaff, role) end
             return
         end
         local isStaff, role = checkPlayerForStaff(plr)
-        setStaffState(_TL_refs, plr, isStaff, role, notifyOnDetect)
+        setStaffState(_SU_refs, plr, isStaff, role, notifyOnDetect)
         if onDone then onDone(isStaff, role) end
     end)
 end
@@ -236,8 +236,8 @@ function SUPlayerlistModule:Build(cfg)
     local LocalPlayer = cfg.LocalPlayer
     local _C3_BG2    = cfg._C3_BG2
     local _C3_BG3    = cfg._C3_BG3
-    local _TL_refs   = cfg._TL_refs
-    local _TL_activeThemeId = cfg._TL_activeThemeId
+    local _SU_refs   = cfg._SU_refs
+    local _SU_activeThemeId = cfg._SU_activeThemeId
     local makePanel  = cfg.makePanel
     local _makeDummyStroke = cfg._makeDummyStroke
     local corner     = cfg.corner
@@ -263,10 +263,10 @@ function SUPlayerlistModule:Build(cfg)
     _OP_PlBgImg.ScaleType              = Enum.ScaleType.Crop
     _OP_PlBgImg.ImageTransparency      = 0.35
     _OP_PlBgImg.ZIndex                 = 1
-    _OP_PlBgImg.Visible                = (_TL_activeThemeId == "onepiece")
+    _OP_PlBgImg.Visible                = (_SU_activeThemeId == "onepiece")
     _OP_PlBgImg.Parent                 = p
     corner(_OP_PlBgImg, 12)
-    _TL_refs._OP_PlBgImg              = _OP_PlBgImg
+    _SU_refs._OP_PlBgImg              = _OP_PlBgImg
 
     local PAD                         = 16
     local PW                          = PANEL_W - PAD * 2
@@ -304,7 +304,7 @@ function SUPlayerlistModule:Build(cfg)
     -- SEARCHBAR (redesigned: sharp corners + colored underline focus)
     -- ============================================================
     local searchFrame                  = Instance.new("Frame", c)
-    searchFrame.Name                   = "TL_PL_SearchFrame"
+    searchFrame.Name                   = "SU_PL_SearchFrame"
     searchFrame.Size                   = UDim2.new(1, -PAD * 2, 0, 28)
     searchFrame.Position               = UDim2.new(0, PAD, 0, 6)
     searchFrame.BackgroundColor3       = C.bg2 or _C3_BG2
@@ -322,7 +322,7 @@ function SUPlayerlistModule:Build(cfg)
     -- colored underline accent (the focus indicator) - sits as its own thin frame
     -- so it can be 2px and independent from the UIStroke rounding
     local searchUnderline              = Instance.new("Frame", searchFrame)
-    searchUnderline.Name               = "TL_PL_SearchUnderline"
+    searchUnderline.Name               = "SU_PL_SearchUnderline"
     searchUnderline.AnchorPoint        = Vector2.new(0, 1)
     searchUnderline.Size               = UDim2.new(1, 0, 0, 2)
     searchUnderline.Position           = UDim2.new(0, 0, 1, 1)
@@ -333,7 +333,7 @@ function SUPlayerlistModule:Build(cfg)
 
     -- vector search icon (ImageLabel instead of emoji glyph)
     local searchIcon                   = Instance.new("ImageLabel", searchFrame)
-    searchIcon.Name                    = "TL_PL_SearchIcon"
+    searchIcon.Name                    = "SU_PL_SearchIcon"
     searchIcon.Size                    = UDim2.new(0, 14, 0, 14)
     searchIcon.Position                = UDim2.new(0, 10, 0.5, -7)
     searchIcon.BackgroundTransparency  = 1
@@ -344,7 +344,7 @@ function SUPlayerlistModule:Build(cfg)
     searchIcon.ScaleType               = Enum.ScaleType.Fit
 
     local searchBox                   = Instance.new("TextBox", searchFrame)
-    searchBox.Name                    = "TL_PL_SearchBox"
+    searchBox.Name                    = "SU_PL_SearchBox"
     searchBox.Size                    = UDim2.new(1, -62, 1, 0)
     searchBox.Position                = UDim2.new(0, 32, 0, 0)
     searchBox.BackgroundTransparency  = 1
@@ -360,7 +360,7 @@ function SUPlayerlistModule:Build(cfg)
 
     -- clear ("x") button, only visible once there's text
     local searchClearBtn               = Instance.new("TextButton", searchFrame)
-    searchClearBtn.Name                = "TL_PL_SearchClear"
+    searchClearBtn.Name                = "SU_PL_SearchClear"
     searchClearBtn.Size                = UDim2.new(0, 20, 0, 20)
     searchClearBtn.AnchorPoint          = Vector2.new(1, 0.5)
     searchClearBtn.Position             = UDim2.new(1, -6, 0.5, 0)
@@ -390,7 +390,7 @@ function SUPlayerlistModule:Build(cfg)
     local DROPDOWN_MAX_ROWS            = 6
 
     local dropdownFrame                 = Instance.new("Frame", c)
-    dropdownFrame.Name                  = "TL_PL_Dropdown"
+    dropdownFrame.Name                  = "SU_PL_Dropdown"
     dropdownFrame.Size                  = UDim2.new(1, -PAD * 2, 0, 0)
     dropdownFrame.Position              = UDim2.new(0, PAD, 0, 6 + 28) -- directly under searchFrame
     dropdownFrame.BackgroundColor3      = C.bg2 or _C3_BG2
@@ -405,7 +405,7 @@ function SUPlayerlistModule:Build(cfg)
     dropdownStroke.Transparency         = 0.3
 
     local dropdownList                  = Instance.new("ScrollingFrame", dropdownFrame)
-    dropdownList.Name                   = "TL_PL_DropdownList"
+    dropdownList.Name                   = "SU_PL_DropdownList"
     dropdownList.Size                   = UDim2.new(1, 0, 1, 0)
     dropdownList.BackgroundTransparency  = 1
     dropdownList.BorderSizePixel        = 0
@@ -413,7 +413,7 @@ function SUPlayerlistModule:Build(cfg)
     dropdownList.CanvasSize             = UDim2.new(0, 0, 0, 0)
 
     local dropdownEmptyLbl              = Instance.new("TextLabel", dropdownFrame)
-    dropdownEmptyLbl.Name               = "TL_PL_DropdownEmpty"
+    dropdownEmptyLbl.Name               = "SU_PL_DropdownEmpty"
     dropdownEmptyLbl.Size               = UDim2.new(1, 0, 1, 0)
     dropdownEmptyLbl.BackgroundTransparency = 1
     dropdownEmptyLbl.Font               = Enum.Font.Gotham
@@ -428,7 +428,7 @@ function SUPlayerlistModule:Build(cfg)
     local _pickedUserId                 = nil
 
     local function getThreatRankInfo(pl)
-        local role = (_TL_refs and _TL_refs._TL_getThreatRole and _TL_refs._TL_getThreatRole(pl)) or nil
+        local role = (_SU_refs and _SU_refs._SU_getThreatRole and _SU_refs._SU_getThreatRole(pl)) or nil
         if not role then
             return "Player", (C.bg3 or _C3_BG3), 0.35, (C.sub or Color3.fromRGB(120, 120, 130))
         end
@@ -811,7 +811,7 @@ function SUPlayerlistModule:Build(cfg)
         ownerTxt.TextXAlignment         = Enum.TextXAlignment.Center
 
         local function refreshThreatBadge()
-            local role = (_TL_refs and _TL_refs._TL_getThreatRole and _TL_refs._TL_getThreatRole(pl)) or nil
+            local role = (_SU_refs and _SU_refs._SU_getThreatRole and _SU_refs._SU_getThreatRole(pl)) or nil
             if role then
                 local lowRole     = role:lower()
                 local displayRole = role:gsub("^Group Role: ", "")
@@ -857,8 +857,8 @@ function SUPlayerlistModule:Build(cfg)
             end
         end
         refreshThreatBadge()
-        if not isMe and _TL_refs and _TL_refs._TL_checkThreatPlayer then
-            _TL_refs._TL_checkThreatPlayer(pl, function()
+        if not isMe and _SU_refs and _SU_refs._SU_checkThreatPlayer then
+            _SU_refs._SU_checkThreatPlayer(pl, function()
                 if card and card.Parent then
                     refreshThreatBadge()
                 end
@@ -1048,8 +1048,8 @@ function SUPlayerlistModule:Build(cfg)
         hdrLine.Visible = true
 
         table.sort(plrs, function(a, b)
-            local aMod = _TL_refs and _TL_refs._TL_isThreatPlayer and _TL_refs._TL_isThreatPlayer(a) or false
-            local bMod = _TL_refs and _TL_refs._TL_isThreatPlayer and _TL_refs._TL_isThreatPlayer(b) or false
+            local aMod = _SU_refs and _SU_refs._SU_isThreatPlayer and _SU_refs._SU_isThreatPlayer(a) or false
+            local bMod = _SU_refs and _SU_refs._SU_isThreatPlayer and _SU_refs._SU_isThreatPlayer(b) or false
             if aMod ~= bMod then return aMod end
             return a.Name < b.Name
         end)
@@ -1183,26 +1183,26 @@ function SUPlayerlistModule:Build(cfg)
         end
     end
 
-    _TL_refs._TL_rebuildPlayerList = rebuildList
-    _TL_refs._TL_isThreatPlayer = function(plr)
+    _SU_refs._SU_rebuildPlayerList = rebuildList
+    _SU_refs._SU_isThreatPlayer = function(plr)
         return trackedStaff[plr] ~= nil
     end
-    _TL_refs._TL_getThreatRole = function(plr)
+    _SU_refs._SU_getThreatRole = function(plr)
         return trackedStaff[plr]
     end
-    _TL_refs._TL_checkThreatPlayer = function(plr, callback)
-        runStaffCheck(_TL_refs, plr, false, 0, callback)
+    _SU_refs._SU_checkThreatPlayer = function(plr, callback)
+        runStaffCheck(_SU_refs, plr, false, 0, callback)
     end
 
     rebuildList()
 
     for _, pl in ipairs(Players:GetPlayers()) do
-        runStaffCheck(_TL_refs, pl, true, 0)
+        runStaffCheck(_SU_refs, pl, true, 0)
     end
 
     self._connections[#self._connections + 1] = Players.PlayerAdded:Connect(function(pl)
         task.wait(0.15); rebuildDropdown(); rebuildList()
-        runStaffCheck(_TL_refs, pl, true, 3)
+        runStaffCheck(_SU_refs, pl, true, 3)
     end)
     self._connections[#self._connections + 1] = Players.PlayerRemoving:Connect(function(pl)
         task.wait(0.15)
@@ -1215,14 +1215,14 @@ function SUPlayerlistModule:Build(cfg)
         if trackedStaff[pl] then
             local role = trackedStaff[pl]
             trackedStaff[pl] = nil
-            sendStaffDetectorNotification(_TL_refs, "SU: Staff/Creator left",
+            sendStaffDetectorNotification(_SU_refs, "SU: Staff/Creator left",
                 pl.Name .. "\nRole: " .. role .. "\nLeft the server.")
-            local fn = _TL_refs and _TL_refs._TL_rebuildPlayerList
+            local fn = _SU_refs and _SU_refs._SU_rebuildPlayerList
             if type(fn) == "function" then fn() end
             if not next(trackedStaff) then
                 task.delay(1, function()
                     if not next(trackedStaff) then
-                        sendStaffDetectorNotification(_TL_refs, "SU System:", "No Admin/Content-Creator Ingame.")
+                        sendStaffDetectorNotification(_SU_refs, "SU System:", "No Admin/Content-Creator Ingame.")
                     end
                 end)
             end

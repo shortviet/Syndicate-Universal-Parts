@@ -2,7 +2,7 @@
 
 
 local GLOBAL_ENV = (typeof(getgenv) == "function" and getgenv()) or _G
-local RUNTIME_KEY = "__TL_ESPRuntime"
+local RUNTIME_KEY = "__SU_ESPRuntime"
 
 local prev = GLOBAL_ENV and GLOBAL_ENV[RUNTIME_KEY]
 if type(prev) == "table" and type(prev.cleanup) == "function" then pcall(prev.cleanup) end
@@ -327,10 +327,10 @@ end
 
 
 if GLOBAL_ENV then
-    GLOBAL_ENV._TL_setESP       = API.start
-    GLOBAL_ENV._TL_espActive    = API.isActive
-    GLOBAL_ENV._TL_refreshESP   = refreshESPColor
-    GLOBAL_ENV._TL_espColors    = ESP_COLORS
+    GLOBAL_ENV._SU_setESP       = API.start
+    GLOBAL_ENV._SU_espActive    = API.isActive
+    GLOBAL_ENV._SU_refreshESP   = refreshESPColor
+    GLOBAL_ENV._SU_espColors    = ESP_COLORS
 end
 
 runtime.start     = API.start

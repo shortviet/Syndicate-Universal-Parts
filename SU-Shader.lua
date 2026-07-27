@@ -2,7 +2,7 @@
 
 
 local GLOBAL_ENV = (typeof(getgenv) == "function" and getgenv()) or _G
-local RUNTIME_KEY = "__TL_ShaderRuntime"
+local RUNTIME_KEY = "__SU_ShaderRuntime"
 
 local prev = GLOBAL_ENV and GLOBAL_ENV[RUNTIME_KEY]
 if type(prev) == "table" and type(prev.cleanup) == "function" then pcall(prev.cleanup) end
@@ -42,7 +42,7 @@ local function shClean()
         _origLighting = nil
     end
     for _, child in ipairs(Lighting:GetChildren()) do
-        if child.Name:find("TLShader_") then pcall(function() child:Destroy() end) end
+        if child.Name:find("SUShader_") then pcall(function() child:Destroy() end) end
     end
 end
 
@@ -69,7 +69,7 @@ local function shApply()
 
     local function mk(cls, name, props)
         local inst = Instance.new(cls)
-        inst.Name = "TLShader_" .. name
+        inst.Name = "SUShader_" .. name
         for k, v in pairs(props) do inst[k] = v end
         inst.Parent = Lighting
         table.insert(runtime.instances, inst)
@@ -127,8 +127,8 @@ end
 
 
 if GLOBAL_ENV then
-    GLOBAL_ENV._TL_setShader    = API.toggle
-    GLOBAL_ENV._TL_shaderActive = API.isActive
+    GLOBAL_ENV._SU_setShader    = API.toggle
+    GLOBAL_ENV._SU_shaderActive = API.isActive
 end
 
 runtime.start    = API.start

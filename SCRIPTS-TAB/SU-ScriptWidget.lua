@@ -1,6 +1,6 @@
 local M = {}
 local _cfg = {}
-local _TL_WIDGET_CLOSE_ICON = "rbxassetid://111119570195816"
+local _SU_WIDGET_CLOSE_ICON = "rbxassetid://111119570195816"
 
 local function _ds(p)
     if not p then return Instance.new("UIStroke") end
@@ -113,7 +113,7 @@ function M.createScriptWidget(scriptName, accentCol, onToggleFn, initState, extr
     closeBtn.BackgroundColor3 = C.bg3; closeBtn.BackgroundTransparency = 0.5; closeBtn.Text = ""; closeBtn.ZIndex = 9505; corner(closeBtn, 6)
     local closeBtnIco = Instance.new("ImageLabel", closeBtn)
     closeBtnIco.Size = UDim2.new(0, 18, 0, 18); closeBtnIco.Position = UDim2.new(0.5, -9, 0.5, -9)
-    local closeIconId = (scriptName == "Rush" or scriptName == "Fling") and "rbxassetid://121032825074289" or _TL_WIDGET_CLOSE_ICON
+    local closeIconId = (scriptName == "Rush" or scriptName == "Fling") and "rbxassetid://121032825074289" or _SU_WIDGET_CLOSE_ICON
     closeBtnIco.BackgroundTransparency = 1; closeBtnIco.Image = closeIconId; closeBtnIco.ImageColor3 = _C3_WHITE; closeBtnIco.ZIndex = 9506
     closeBtn.MouseButton1Click:Connect(function() W:Destroy() end)
     do

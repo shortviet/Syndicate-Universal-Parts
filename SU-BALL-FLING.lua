@@ -2,7 +2,7 @@
 
 
 local GLOBAL_ENV = (typeof(getgenv) == "function" and getgenv()) or _G
-local RUNTIME_KEY = "__TL_FlingRuntime"
+local RUNTIME_KEY = "__SU_FlingRuntime"
 
 local prev = GLOBAL_ENV and GLOBAL_ENV[RUNTIME_KEY]
 if type(prev) == "table" and type(prev.cleanup) == "function" then pcall(prev.cleanup) end
@@ -228,8 +228,8 @@ table.insert(runtime.connections, conn)
 
 
 if GLOBAL_ENV then
-    GLOBAL_ENV._TL_setFling    = API.start
-    GLOBAL_ENV._TL_flingActive = API.isActive
+    GLOBAL_ENV._SU_setFling    = API.start
+    GLOBAL_ENV._SU_flingActive = API.isActive
 end
 
 runtime.start    = API.start

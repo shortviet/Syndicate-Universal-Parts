@@ -73,9 +73,9 @@ function NametagSystem.Init(ctx)
     }
     local PANEL_W = ctx.PANEL_W or 540
     local _sc = ctx._sc or {}
-    local _TL_refs = ctx._TL_refs or {}
-    local _TL_loadModule = ctx._TL_loadModule or function() return nil end
-    local _TL_VP = ctx._TL_VP or { isMobile = false, isTablet = false, isTouch = false, long = 800, short = 600 }
+    local _SU_refs = ctx._SU_refs or {}
+    local _SU_loadModule = ctx._SU_loadModule or function() return nil end
+    local _SU_VP = ctx._SU_VP or { isMobile = false, isTablet = false, isTouch = false, long = 800, short = 600 }
 
     -- =========================================================================
     -- UNIVERSAL EXECUTOR & 100% MOBILE / HANDY COMPATIBILITY LAYER
@@ -1192,7 +1192,7 @@ end
                     local function _NT_resolveProfilePic(roleKey)
                         local pic = _NT_CONFIG.profilePictures[roleKey]
                         if pic and pic.file and pic.file ~= "" then
-                            local loaded = _TL_safeGetCustomAsset(pic.file)
+                            local loaded = _SU_safeGetCustomAsset(pic.file)
                             if loaded then return loaded, pic.url end
                         end
                         if pic and pic.url then return pic.url, nil end
@@ -1208,7 +1208,7 @@ end
                         imgLabel.Size                    = UDim2.new(1, -avInset, 1, -avInset)
                         imgLabel.Position                = UDim2.new(0, avPad, 0, avPad)
                         imgLabel.BackgroundTransparency  = 1
-                        local loadedFile = customAvatar.file and customAvatar.file ~= "" and _TL_safeGetCustomAsset(customAvatar.file) or nil
+                        local loadedFile = customAvatar.file and customAvatar.file ~= "" and _SU_safeGetCustomAsset(customAvatar.file) or nil
                         imgLabel.Image = loadedFile or customAvatar.url
                         imgLabel.ScaleType               = Enum.ScaleType.Crop
                         imgLabel.ZIndex                  = 3
@@ -1248,11 +1248,11 @@ end
                         local profPic = _NT_CONFIG.profilePictures and _NT_CONFIG.profilePictures[themeKey]
                         local resolvedFile, resolvedUrl
                         if tagImg and ((tagImg.file and tagImg.file ~= "") or (tagImg.url and tagImg.url ~= "")) then
-                            local loadedFile = tagImg.file and tagImg.file ~= "" and _TL_safeGetCustomAsset(tagImg.file) or nil
+                            local loadedFile = tagImg.file and tagImg.file ~= "" and _SU_safeGetCustomAsset(tagImg.file) or nil
                             resolvedFile = loadedFile
                             resolvedUrl = loadedFile or tagImg.url
                         elseif profPic then
-                            resolvedFile = profPic.file and profPic.file ~= "" and _TL_safeGetCustomAsset(profPic.file) or nil
+                            resolvedFile = profPic.file and profPic.file ~= "" and _SU_safeGetCustomAsset(profPic.file) or nil
                             resolvedUrl = resolvedFile or (profPic.url and profPic.url ~= "" and profPic.url) or nil
                         end
                         if resolvedUrl then

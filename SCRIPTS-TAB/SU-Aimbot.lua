@@ -286,7 +286,7 @@ function M.init(cfg)
 
     _aim.StartAimbot = function()
         if _aim.AimbotConnection then return end
-        _aim.RunService:BindToRenderStep("TLAimbotMaster", Enum.RenderPriority.Camera.Value + 1, function(dt)
+        _aim.RunService:BindToRenderStep("SUAimbotMaster", Enum.RenderPriority.Camera.Value + 1, function(dt)
             if _aim.Config.Enabled then
                 _aim.PerformAimbot(dt)
             else
@@ -298,7 +298,7 @@ function M.init(cfg)
 
     _aim.StopAimbot = function()
         if _aim.AimbotConnection then
-            _aim.RunService:UnbindFromRenderStep("TLAimbotMaster")
+            _aim.RunService:UnbindFromRenderStep("SUAimbotMaster")
             _aim.AimbotConnection = nil
         end
         if _aim.FOVCircle then _aim.FOVCircle.Visible = false end

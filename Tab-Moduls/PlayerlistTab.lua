@@ -71,9 +71,9 @@ function PlayerlistTab.Init(ctx)
     })
     local PANEL_W = ctx.PANEL_W or 540
     local _sc = ctx._sc or {}
-    local _TL_refs = ctx._TL_refs or {}
-    local _TL_loadModule = ctx._TL_loadModule or function() return nil end
-    local _TL_VP = ctx._TL_VP or { isMobile = false, isTablet = false, isTouch = false, long = 800, short = 600 }
+    local _SU_refs = ctx._SU_refs or {}
+    local _SU_loadModule = ctx._SU_loadModule or function() return nil end
+    local _SU_VP = ctx._SU_VP or { isMobile = false, isTablet = false, isTouch = false, long = 800, short = 600 }
 
     -- =========================================================================
     -- UNIVERSAL EXECUTOR & 100% MOBILE / HANDY COMPATIBILITY LAYER
@@ -164,9 +164,9 @@ function PlayerlistTab.Init(ctx)
     local makePanel = ctx.makePanel
     local C = ctx.C
     local PANEL_W = ctx.PANEL_W
-    local _TL_refs = ctx._TL_refs
-    local _TL_loadModule = ctx._TL_loadModule
-    local _TL_VP = ctx._TL_VP
+    local _SU_refs = ctx._SU_refs
+    local _SU_loadModule = ctx._SU_loadModule
+    local _SU_VP = ctx._SU_VP
 
                         local function _togglePL()
                             if _toggling then return end
@@ -230,7 +230,7 @@ function PlayerlistTab.Init(ctx)
                         end
                     end
                     
-                    _setOPRow(_TL_activeThemeId ~= nil, _TL_activeThemeId)
+                    _setOPRow(_SU_activeThemeId ~= nil, _SU_activeThemeId)
                     
                                         _panelColorHooks[#_panelColorHooks + 1] = function(newT)
                         pcall(function()

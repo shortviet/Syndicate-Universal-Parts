@@ -71,9 +71,9 @@ function CommunicationTab.Init(ctx)
     })
     local PANEL_W = ctx.PANEL_W or 540
     local _sc = ctx._sc or {}
-    local _TL_refs = ctx._TL_refs or {}
-    local _TL_loadModule = ctx._TL_loadModule or function() return nil end
-    local _TL_VP = ctx._TL_VP or { isMobile = false, isTablet = false, isTouch = false, long = 800, short = 600 }
+    local _SU_refs = ctx._SU_refs or {}
+    local _SU_loadModule = ctx._SU_loadModule or function() return nil end
+    local _SU_VP = ctx._SU_VP or { isMobile = false, isTablet = false, isTouch = false, long = 800, short = 600 }
 
     -- =========================================================================
     -- UNIVERSAL EXECUTOR & 100% MOBILE / HANDY COMPATIBILITY LAYER
@@ -164,14 +164,14 @@ function CommunicationTab.Init(ctx)
     local makePanel = ctx.makePanel
     local C = ctx.C
     local PANEL_W = ctx.PANEL_W
-    local _TL_refs = ctx._TL_refs
-    local _TL_loadModule = ctx._TL_loadModule
-    local _TL_VP = ctx._TL_VP
+    local _SU_refs = ctx._SU_refs
+    local _SU_loadModule = ctx._SU_loadModule
+    local _SU_VP = ctx._SU_VP
 
                     local _cp, _cs = makePanel("Communication", C.accent)
                     commPage = _cp
                     if _cs then _cs:Destroy() end
-                    commPage.Size = UDim2.new(0, PANEL_W, 0, math.min(520, math.floor(_TL_VP.long * 0.65)))
+                    commPage.Size = UDim2.new(0, PANEL_W, 0, math.min(520, math.floor(_SU_VP.long * 0.65)))
                     commPage.ClipsDescendants = true
                     pcall(function()
                         for _, child in ipairs(commPage:GetDescendants()) do
@@ -189,16 +189,16 @@ function CommunicationTab.Init(ctx)
                         _OP_ComPanelBgImg.Position = UDim2.new(0, 0, 0, 0)
                         _OP_ComPanelBgImg.BackgroundTransparency = 1
                         local _opComBgFile = "assets/THEMES/ONEPIECE/OP-COM-BG.png"
-                        _OP_ComPanelBgImg.Image = _TL_safeGetCustomAsset(_opComBgFile) or "rbxassetid://132090006833323"
+                        _OP_ComPanelBgImg.Image = _SU_safeGetCustomAsset(_opComBgFile) or "rbxassetid://132090006833323"
                         _OP_ComPanelBgImg.ScaleType = Enum.ScaleType.Crop
                         _OP_ComPanelBgImg.ImageTransparency = 0.35
                         _OP_ComPanelBgImg.ZIndex = 0
-                        _OP_ComPanelBgImg.Visible = (_TL_activeThemeId == "onepiece")
+                        _OP_ComPanelBgImg.Visible = (_SU_activeThemeId == "onepiece")
                         _OP_ComPanelBgImg.Parent = commPage
                         local corner = Instance.new("UICorner")
                         corner.CornerRadius = UDim.new(0, 10)
                         corner.Parent = _OP_ComPanelBgImg
-                        _TL_refs._OP_ComPanelBgImg = _OP_ComPanelBgImg
+                        _SU_refs._OP_ComPanelBgImg = _OP_ComPanelBgImg
                     end)
                 end
 
@@ -1969,7 +1969,7 @@ end
                     local function _NT_resolveProfilePic(roleKey)
                         local pic = _NT_CONFIG.profilePictures[roleKey]
                         if pic and pic.file and pic.file ~= "" then
-                            local loaded = _TL_safeGetCustomAsset(pic.file)
+                            local loaded = _SU_safeGetCustomAsset(pic.file)
                             if loaded then return loaded, pic.url end
                         end
                         if pic and pic.url then return pic.url, nil end
@@ -1985,7 +1985,7 @@ end
                         imgLabel.Size                    = UDim2.new(1, -avInset, 1, -avInset)
                         imgLabel.Position                = UDim2.new(0, avPad, 0, avPad)
                         imgLabel.BackgroundTransparency  = 1
-                        local loadedFile = customAvatar.file and customAvatar.file ~= "" and _TL_safeGetCustomAsset(customAvatar.file) or nil
+                        local loadedFile = customAvatar.file and customAvatar.file ~= "" and _SU_safeGetCustomAsset(customAvatar.file) or nil
                         imgLabel.Image = loadedFile or customAvatar.url
                         imgLabel.ScaleType               = Enum.ScaleType.Crop
                         imgLabel.ZIndex                  = 3
@@ -2025,11 +2025,11 @@ end
                         local profPic = _NT_CONFIG.profilePictures and _NT_CONFIG.profilePictures[themeKey]
                         local resolvedFile, resolvedUrl
                         if tagImg and ((tagImg.file and tagImg.file ~= "") or (tagImg.url and tagImg.url ~= "")) then
-                            local loadedFile = tagImg.file and tagImg.file ~= "" and _TL_safeGetCustomAsset(tagImg.file) or nil
+                            local loadedFile = tagImg.file and tagImg.file ~= "" and _SU_safeGetCustomAsset(tagImg.file) or nil
                             resolvedFile = loadedFile
                             resolvedUrl = loadedFile or tagImg.url
                         elseif profPic then
-                            resolvedFile = profPic.file and profPic.file ~= "" and _TL_safeGetCustomAsset(profPic.file) or nil
+                            resolvedFile = profPic.file and profPic.file ~= "" and _SU_safeGetCustomAsset(profPic.file) or nil
                             resolvedUrl = resolvedFile or (profPic.url and profPic.url ~= "" and profPic.url) or nil
                         end
                         if resolvedUrl then
@@ -2553,13 +2553,13 @@ local function parseFieldMessage(fullText, prefixLen)
 
                 local commSubNav         = _MkFrame(
                 { Size = UDim2.new(1, -8, 0, COMM_SUBNAV_H), Position = UDim2.new(0, 4, 0, COMM_SUBNAV_Y), BackgroundColor3 =
-                _C.BG2, BackgroundTransparency = _TL_isImgTheme(_TL_activeThemeId) and 0.45 or 0 }, commPage)
+                _C.BG2, BackgroundTransparency = _SU_isImgTheme(_SU_activeThemeId) and 0.45 or 0 }, commPage)
                 _Corner(commSubNav, 12); _Stroke(commSubNav, _C.Border, 1)
                 commSubChatBtn = _MkBtn({
                     Size = UDim2.new(0.48, -3, 1, -6),
                     Position = UDim2.new(0, 4, 0, 3),
                     BackgroundColor3 = _C.BG2,
-                    BackgroundTransparency = _TL_isImgTheme(_TL_activeThemeId) and 0.45 or 0,
+                    BackgroundTransparency = _SU_isImgTheme(_SU_activeThemeId) and 0.45 or 0,
                     Text = "CHAT",
                     TextSize = 12,
                     TextColor3 = _C.Silver,
@@ -2570,7 +2570,7 @@ local function parseFieldMessage(fullText, prefixLen)
                     Size = UDim2.new(0.48, -3, 1, -6),
                     Position = UDim2.new(0.52, 0, 0, 3),
                     BackgroundColor3 = _C.BG4,
-                    BackgroundTransparency = _TL_isImgTheme(_TL_activeThemeId) and 0.45 or 0,
+                    BackgroundTransparency = _SU_isImgTheme(_SU_activeThemeId) and 0.45 or 0,
                     Text = "PEERS",
                     TextSize = 12,
                     TextColor3 = _C.TxtSub,
@@ -2616,7 +2616,7 @@ local function parseFieldMessage(fullText, prefixLen)
                             local isOnline = (os.clock() - data.LastSeen) < 30
                             local allowed  = data.IsAllowed and isOnline
                             local isAdm    = IsAdminPlayer(player)
-                            local isOP = _TL_isImgTheme(_TL_activeThemeId)
+                            local isOP = _SU_isImgTheme(_SU_activeThemeId)
 
                             local row = _MkFrame({
                                 Name = "PeerRow",
@@ -2698,7 +2698,7 @@ local function parseFieldMessage(fullText, prefixLen)
                     BackgroundTransparency = 1,
                 }, commPage)
 
-                local chatStatus = _MkFrame({ Size = UDim2.new(1, 0, 0, 36), BackgroundColor3 = _C.BG2, BackgroundTransparency = _TL_isImgTheme(_TL_activeThemeId) and 0.45 or 0 }, commChatView)
+                local chatStatus = _MkFrame({ Size = UDim2.new(1, 0, 0, 36), BackgroundColor3 = _C.BG2, BackgroundTransparency = _SU_isImgTheme(_SU_activeThemeId) and 0.45 or 0 }, commChatView)
                 _Corner(chatStatus, 8); _Stroke(chatStatus, _C.Border, 1)
                 _MkLabel(
                 { Size = UDim2.new(1, -12, 0, 16), Position = UDim2.new(0, 10, 0, 4), Text = "Covert Network", TextSize = 11, Font =
@@ -2708,13 +2708,13 @@ local function parseFieldMessage(fullText, prefixLen)
                 _C.TxtSub, TextXAlignment = Enum.TextXAlignment.Left }, chatStatus)
 
                 local bringsRow = _MkFrame(
-                { Size = UDim2.new(1, 0, 0, 28), Position = UDim2.new(0, 0, 0, 42), BackgroundColor3 = _C.BG3, BackgroundTransparency = _TL_isImgTheme(_TL_activeThemeId) and 0.45 or 0 },
+                { Size = UDim2.new(1, 0, 0, 28), Position = UDim2.new(0, 0, 0, 42), BackgroundColor3 = _C.BG3, BackgroundTransparency = _SU_isImgTheme(_SU_activeThemeId) and 0.45 or 0 },
                     commChatView)
                 _Corner(bringsRow, 12); _Stroke(bringsRow, _C.Border, 1)
                 _MkLabel(
                 { Size = UDim2.new(0.65, 0, 1, 0), Position = UDim2.new(0, 10, 0, 0), Text = "Allow bring requests", TextSize = 11, TextColor3 =
                 _C.TxtMain, TextXAlignment = Enum.TextXAlignment.Left }, bringsRow)
-                local isOP = _TL_isImgTheme(_TL_activeThemeId)
+                local isOP = _SU_isImgTheme(_SU_activeThemeId)
                 local bringsBtn = _MkBtn(
                 { Size = UDim2.new(0, 52, 0, 20), Position = UDim2.new(1, -60, 0.5, -10), BackgroundColor3 = State
                 .AllowBrings and _C.Success or _C.BG4, BackgroundTransparency = (not State.AllowBrings and isOP) and 0.45 or 0, Text = State.AllowBrings and "ON" or "OFF", TextSize = 10 },
@@ -2723,14 +2723,14 @@ local function parseFieldMessage(fullText, prefixLen)
                     State.AllowBrings = not State.AllowBrings
                     bringsBtn.Text = State.AllowBrings and "ON" or "OFF"
                     bringsBtn.BackgroundColor3 = State.AllowBrings and _C.Success or _C.BG4
-                    local isOP = _TL_isImgTheme(_TL_activeThemeId)
+                    local isOP = _SU_isImgTheme(_SU_activeThemeId)
                     bringsBtn.BackgroundTransparency = (not State.AllowBrings and isOP) and 0.45 or 0
                     bringsBtn:SetAttribute("BaseColor", bringsBtn.BackgroundColor3)
                     BroadcastPresence()
                 end)
 
                 local chatCard = _MkFrame(
-                { Size = UDim2.new(1, 0, 1, -118), Position = UDim2.new(0, 0, 0, 76), BackgroundColor3 = _C.BG2, BackgroundTransparency = _TL_isImgTheme(_TL_activeThemeId) and 0.45 or 0, ClipsDescendants = true },
+                { Size = UDim2.new(1, 0, 1, -118), Position = UDim2.new(0, 0, 0, 76), BackgroundColor3 = _C.BG2, BackgroundTransparency = _SU_isImgTheme(_SU_activeThemeId) and 0.45 or 0, ClipsDescendants = true },
                     commChatView)
                 _Corner(chatCard, 12); _Stroke(chatCard, _C.Border, 1)
                 local chatScroll = Instance.new("ScrollingFrame")
@@ -2774,7 +2774,7 @@ local function parseFieldMessage(fullText, prefixLen)
                     end
                 end))
 
-                local isOP = _TL_isImgTheme(_TL_activeThemeId)
+                local isOP = _SU_isImgTheme(_SU_activeThemeId)
 
                 
                 local chatInputWrap = _MkFrame({
@@ -2886,7 +2886,7 @@ local function parseFieldMessage(fullText, prefixLen)
                 
                                 _panelColorHooks[#_panelColorHooks + 1] = function(newT)
                     pcall(function()
-                        local isOP = newT and _TL_isAnimeTheme(newT.id)
+                        local isOP = newT and _SU_isAnimeTheme(newT.id)
                         _C.BG      = C.panelBg
                         _C.BG2     = C.bg2
                         _C.BG3     = C.bg3
@@ -2992,17 +2992,17 @@ local function parseFieldMessage(fullText, prefixLen)
                         Size = UDim2.new(1, -2, 1, 0),
                         Position = UDim2.new(0, 1, 0, 0),
                         BackgroundColor3 = isSelf and _C.Accent or _C.BG3,
-                        BackgroundTransparency = _TL_isImgTheme(_TL_activeThemeId) and 0.45 or 1,
+                        BackgroundTransparency = _SU_isImgTheme(_SU_activeThemeId) and 0.45 or 1,
                     }, wrapper)
                     _Corner(mainFrame, 12)
 
                     
                     mainFrame.MouseEnter:Connect(function()
-                        local baseTrans = _TL_isImgTheme(_TL_activeThemeId) and 0.45 or 1
+                        local baseTrans = _SU_isImgTheme(_SU_activeThemeId) and 0.45 or 1
                         TweenService:Create(mainFrame, TweenInfo.new(0.2), { BackgroundTransparency = isSelf and (baseTrans - 0.05) or (baseTrans - 0.02) }):Play()
                     end)
                     mainFrame.MouseLeave:Connect(function()
-                        local baseTrans = _TL_isImgTheme(_TL_activeThemeId) and 0.45 or 1
+                        local baseTrans = _SU_isImgTheme(_SU_activeThemeId) and 0.45 or 1
                         TweenService:Create(mainFrame, TweenInfo.new(0.2), { BackgroundTransparency = baseTrans }):Play()
                     end)
 
@@ -3055,7 +3055,7 @@ local function parseFieldMessage(fullText, prefixLen)
                         mainFrame)
 
                     local tweenInfo = TweenInfo.new(0.35, Enum.EasingStyle.Quart, Enum.EasingDirection.Out)
-                    local baseTrans = _TL_isImgTheme(_TL_activeThemeId) and 0.45 or 1
+                    local baseTrans = _SU_isImgTheme(_SU_activeThemeId) and 0.45 or 1
                     TweenService:Create(wrapper, tweenInfo, { Size = UDim2.new(1, -4, 0, 42) }):Play()
                     TweenService:Create(mainFrame, tweenInfo, { BackgroundTransparency = baseTrans }):Play()
                     TweenService:Create(indicator, tweenInfo, { BackgroundTransparency = 0 }):Play()
@@ -3091,7 +3091,7 @@ local function parseFieldMessage(fullText, prefixLen)
                 end)
 
                 if _hasAdminAccess() then
-                    local isOP = _TL_isImgTheme(_TL_activeThemeId)
+                    local isOP = _SU_isImgTheme(_SU_activeThemeId)
                     if commSubChatBtn then
                         commSubChatBtn.Size = UDim2.new(0.32, 0, 1, -6)
                         commSubChatBtn.Position = UDim2.new(0.01, 0, 0, 3)
@@ -3133,9 +3133,9 @@ local function parseFieldMessage(fullText, prefixLen)
 
                     local adminLeft = _MkFrame(
                     { Size = UDim2.new(0.30, 0, 1, 0), Position = UDim2.new(0, _adminPad, 0, CONTENT_Y), BackgroundColor3 =
-                    _C.BG2, BackgroundTransparency = _TL_isImgTheme(_TL_activeThemeId) and 0.45 or 0 }, adminPage); _Corner(adminLeft, 8); _Stroke(adminLeft, _C.Border, 1)
+                    _C.BG2, BackgroundTransparency = _SU_isImgTheme(_SU_activeThemeId) and 0.45 or 0 }, adminPage); _Corner(adminLeft, 8); _Stroke(adminLeft, _C.Border, 1)
                     local adminHeader = _MkLabel(
-                    { Size = UDim2.new(1, 0, 0, 28), BackgroundColor3 = _C.BG3, BackgroundTransparency = _TL_isImgTheme(_TL_activeThemeId) and 0.45 or 0, Text =
+                    { Size = UDim2.new(1, 0, 0, 28), BackgroundColor3 = _C.BG3, BackgroundTransparency = _SU_isImgTheme(_SU_activeThemeId) and 0.45 or 0, Text =
                     "TARGETS", TextSize = 10, Font = Enum.Font.GothamBold, TextColor3 = _C.Accent, TextXAlignment =
                     Enum.TextXAlignment.Left }, adminLeft)
                     adminPlayerScroll = Instance.new("ScrollingFrame")
@@ -3163,10 +3163,10 @@ local function parseFieldMessage(fullText, prefixLen)
 
                     local adminRight = _MkFrame(
                     { Size = UDim2.new(0.68, -(_adminPad + _adminGap), 1, 0), Position = UDim2.new(0.30, _adminPad + _adminGap, 0, CONTENT_Y), BackgroundColor3 =
-                    _C.BG2, BackgroundTransparency = _TL_isImgTheme(_TL_activeThemeId) and 0.45 or 0 }, adminPage); _Corner(adminRight, 8); _Stroke(adminRight, _C.Border, 1)
-                    local targetBar = _MkFrame({ Size = UDim2.new(1, 0, 0, 34), BackgroundColor3 = _C.BG3, BackgroundTransparency = _TL_isImgTheme(_TL_activeThemeId) and 0.45 or 0 }, adminRight); _Corner(
+                    _C.BG2, BackgroundTransparency = _SU_isImgTheme(_SU_activeThemeId) and 0.45 or 0 }, adminPage); _Corner(adminRight, 8); _Stroke(adminRight, _C.Border, 1)
+                    local targetBar = _MkFrame({ Size = UDim2.new(1, 0, 0, 34), BackgroundColor3 = _C.BG3, BackgroundTransparency = _SU_isImgTheme(_SU_activeThemeId) and 0.45 or 0 }, adminRight); _Corner(
                     targetBar, 8); _Stroke(targetBar, _C.Border, 1); _MkFrame(
-                    { Size = UDim2.new(1, 0, 0, 10), Position = UDim2.new(0, 0, 1, -10), BackgroundColor3 = _C.BG3, BackgroundTransparency = _TL_isImgTheme(_TL_activeThemeId) and 0.45 or 0 },
+                    { Size = UDim2.new(1, 0, 0, 10), Position = UDim2.new(0, 0, 1, -10), BackgroundColor3 = _C.BG3, BackgroundTransparency = _SU_isImgTheme(_SU_activeThemeId) and 0.45 or 0 },
                         targetBar)
                     adminSelectedLabel = _MkLabel(
                     { Size = UDim2.new(1, -16, 1, 0), Position = UDim2.new(0, 12, 0, 0), Text =
@@ -3208,7 +3208,7 @@ local function parseFieldMessage(fullText, prefixLen)
                     for i, cat in ipairs(cats) do
                         local _xOff = _catPad + (i - 1) * (_catBtnW + _catGap)
                         local isActive = (i == 1)
-                        local isOP = _TL_isImgTheme(_TL_activeThemeId)
+                        local isOP = _SU_isImgTheme(_SU_activeThemeId)
                         catBtnList[i] = _MkBtn({
                             Size = UDim2.new(0, _catBtnW, 0, _catBtnH),
                             Position = UDim2.new(0, _xOff, 0, 38),
@@ -3257,7 +3257,7 @@ local function parseFieldMessage(fullText, prefixLen)
                     end)() 
 
                     local function HighlightSelectedPlayerBtn()
-                        local isOP = _TL_isImgTheme(_TL_activeThemeId)
+                        local isOP = _SU_isImgTheme(_SU_activeThemeId)
                         for player, btn in pairs(adminPlayerButtons) do
                             if btn and btn.Parent then
                                 local isSelected = adminSelectedPlayer == player
@@ -3301,7 +3301,7 @@ local function parseFieldMessage(fullText, prefixLen)
                             return
                         end
                         for _, cmd in ipairs(catCmds[catIdx]) do
-                            local isOP = _TL_isImgTheme(_TL_activeThemeId)
+                            local isOP = _SU_isImgTheme(_SU_activeThemeId)
                             if cmd.type == "slider" then
                                 local defVal = cmd.default
                                 if adminSelectedPlayer == LocalPlayer and State.AdminTargetStates[LocalPlayer] and State.AdminTargetStates[LocalPlayer][cmd.key] ~= nil then 
@@ -3917,7 +3917,7 @@ local function parseFieldMessage(fullText, prefixLen)
                     end
 
                     for i in ipairs(cats) do catBtnList[i].MouseButton1Click:Connect(function()
-                            local isOP = _TL_isImgTheme(_TL_activeThemeId)
+                            local isOP = _SU_isImgTheme(_SU_activeThemeId)
                             for j, cb in ipairs(catBtnList) do
                                 local isNowActive = (j == i)
                                 cb.BackgroundColor3 = isNowActive and _C.BG2 or _C.BG4
@@ -3943,7 +3943,7 @@ local function parseFieldMessage(fullText, prefixLen)
                         local any = false
                         local function MakePlayerBtn(player, labelExtra, statusText, statusCol)
                             any = true; local isAdm = IsAdminPlayer(player)
-                            local isOP = _TL_isImgTheme(_TL_activeThemeId)
+                            local isOP = _SU_isImgTheme(_SU_activeThemeId)
                             local pBtn = Instance.new("TextButton"); pBtn.Size = UDim2.new(1, 0, 0, 36); pBtn.BackgroundColor3 =
                             _C.BG3; pBtn.BackgroundTransparency = isOP and 0.45 or 0; pBtn.Text = ""; pBtn.AutoButtonColor = false; pBtn.BorderSizePixel = 0; pBtn.Parent =
                             adminPlayerScroll; _Corner(pBtn, 8); _Stroke(pBtn, _C.Border, 1); pBtn:SetAttribute(
@@ -4029,7 +4029,7 @@ local function parseFieldMessage(fullText, prefixLen)
                     State.PendingIncomingFrom = requesterPlayer
                     local _popupParent = ScreenGui or (game:GetService("CoreGui"):FindFirstChild("RobloxGui")) or
                     game:GetService("CoreGui")
-                    local isOP = _TL_isImgTheme(_TL_activeThemeId)
+                    local isOP = _SU_isImgTheme(_SU_activeThemeId)
                     local popup = _MkFrame(
                     { Name = "BringReqPopup", Size = UDim2.new(0, 300, 0, 115), Position = UDim2.new(0.5, -150, 0, -130), BackgroundColor3 =
                     _C.BG, BackgroundTransparency = isOP and 0.45 or 0, ZIndex = 20 }, _popupParent); _Corner(popup, 10); _Stroke(popup, _C.Border, 1.5)
@@ -4081,7 +4081,7 @@ local function parseFieldMessage(fullText, prefixLen)
                     
                     if input.KeyCode == Enum.KeyCode.F4 then
                         pcall(function()
-                            local _selTab = _TL_refs._TL_selectTab
+                            local _selTab = _SU_refs._SU_selectTab
                             if not _selTab then return end
                             _selTab("Communication")
                         end)
@@ -4206,7 +4206,7 @@ local function parseFieldMessage(fullText, prefixLen)
                 
 
                 end)
-                if not _ok_covertNet then warn("[TL] CovertNet crashed inside Settings: " .. tostring(_err_covertNet)) end
+                if not _ok_covertNet then warn("[SU] CovertNet crashed inside Settings: " .. tostring(_err_covertNet)) end
 
                 recalculateThemeSizes()
 
@@ -4242,8 +4242,8 @@ local function parseFieldMessage(fullText, prefixLen)
                     elseif type(id) == "string" and type(isfile) == "function" and type(getcustomasset) == "function" and isfile(id) then
                         local ok, _asset = pcall(function() return getcustomasset(id) end)
                         snd.SoundId = (ok and _asset) or id
-                    elseif type(id) == "string" and type(_TL_safeGetCustomAsset) == "function" and id:sub(1, 7) == "assets/" and isfile(id) then
-                        local _asset = _TL_safeGetCustomAsset(id)
+                    elseif type(id) == "string" and type(_SU_safeGetCustomAsset) == "function" and id:sub(1, 7) == "assets/" and isfile(id) then
+                        local _asset = _SU_safeGetCustomAsset(id)
                         snd.SoundId = _asset or id
                     else
                         snd.SoundId            = "rbxassetid://" .. tostring(id)

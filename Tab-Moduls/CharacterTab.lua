@@ -71,9 +71,9 @@ function CharacterTab.Init(ctx)
     })
     local PANEL_W = ctx.PANEL_W or 540
     local _sc = ctx._sc or {}
-    local _TL_refs = ctx._TL_refs or {}
-    local _TL_loadModule = ctx._TL_loadModule or function() return nil end
-    local _TL_VP = ctx._TL_VP or { isMobile = false, isTablet = false, isTouch = false, long = 800, short = 600 }
+    local _SU_refs = ctx._SU_refs or {}
+    local _SU_loadModule = ctx._SU_loadModule or function() return nil end
+    local _SU_VP = ctx._SU_VP or { isMobile = false, isTablet = false, isTouch = false, long = 800, short = 600 }
 
     -- =========================================================================
     -- UNIVERSAL EXECUTOR & 100% MOBILE / HANDY COMPATIBILITY LAYER
@@ -164,9 +164,9 @@ function CharacterTab.Init(ctx)
     local makePanel = ctx.makePanel
     local C = ctx.C
     local PANEL_W = ctx.PANEL_W
-    local _TL_refs = ctx._TL_refs
-    local _TL_loadModule = ctx._TL_loadModule
-    local _TL_VP = ctx._TL_VP
+    local _SU_refs = ctx._SU_refs
+    local _SU_loadModule = ctx._SU_loadModule
+    local _SU_VP = ctx._SU_VP
 
                 local p, c = makePanel("Character", C.accent)
                 p.BackgroundColor3 = C.panelBg or Color3.fromRGB(18, 18, 20)
@@ -198,7 +198,7 @@ function CharacterTab.Init(ctx)
                     row.card.Size = UDim2.new(1, -PAD * 2, 0, CARD_H)
                     row.card.Position = UDim2.new(0, PAD, 0, yPos)
                     row.card.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-                    row.card.BackgroundTransparency = _TL_isImgTheme(_TL_activeThemeId) and
+                    row.card.BackgroundTransparency = _SU_isImgTheme(_SU_activeThemeId) and
                     0.45 or 0.15
                     row.card.BorderSizePixel = 0
                     corner(row.card, 12)
@@ -206,7 +206,7 @@ function CharacterTab.Init(ctx)
 
                     local s = _makeRealStroke(row.card, 1.0, Color3.fromRGB(255, 255, 255), 0.6)
                     s.Name = "OnePiece_Stroke"
-                    s.Enabled = _TL_isImgTheme(_TL_activeThemeId)
+                    s.Enabled = _SU_isImgTheme(_SU_activeThemeId)
 
                     row.cdot = Instance.new("Frame", row.card)
                     row.cdot.Size = UDim2.new(0, 3, 0, CARD_H - 20)
@@ -418,14 +418,14 @@ function CharacterTab.Init(ctx)
                     end)
                     row.card.MouseEnter:Connect(function()
                         _sc._playHoverSound()
-                        if _TL_isImgTheme(_TL_activeThemeId) then
+                        if _SU_isImgTheme(_SU_activeThemeId) then
                             twP(row.card, 0.2, { BackgroundTransparency = 0.3 })
                         else
                             twP(row.card, 0.2, { BackgroundTransparency = 0.08 })
                         end
                     end)
                     row.card.MouseLeave:Connect(function()
-                        if _TL_isImgTheme(_TL_activeThemeId) then
+                        if _SU_isImgTheme(_SU_activeThemeId) then
                             twP(row.card, 0.2, { BackgroundTransparency = 0.45 })
                         else
                             twP(row.card, 0.2, { BackgroundTransparency = 0.15 })
@@ -451,7 +451,7 @@ function CharacterTab.Init(ctx)
 
                             pcall(function()
                                 if newT then
-                                    local isOP = _TL_isAnimeTheme(newT.id)
+                                    local isOP = _SU_isAnimeTheme(newT.id)
                                     row.card.BackgroundTransparency = isOP and 0.45 or 0.15
                                     if s then s.Enabled = isOP end
                                 end
@@ -469,14 +469,14 @@ function CharacterTab.Init(ctx)
                     card.Size = UDim2.new(1, -PAD * 2, 0, TOG_H)
                     card.Position = UDim2.new(0, PAD, 0, yPos)
                     card.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-                    card.BackgroundTransparency = _TL_isImgTheme(_TL_activeThemeId) and
+                    card.BackgroundTransparency = _SU_isImgTheme(_SU_activeThemeId) and
                     0.45 or 0.15
                     card.BorderSizePixel = 0
                     corner(card, 12)
 
                     local s = _makeRealStroke(card, 1.0, Color3.fromRGB(255, 255, 255), 0.6)
                     s.Name = "OnePiece_Stroke"
-                    s.Enabled = _TL_isImgTheme(_TL_activeThemeId)
+                    s.Enabled = _SU_isImgTheme(_SU_activeThemeId)
 
                     
                     local cStr = stroke(card, 1, C.bg3, 0.3)
@@ -530,14 +530,14 @@ function CharacterTab.Init(ctx)
                     btn.Size = UDim2.new(1, 0, 1, 0); btn.BackgroundTransparency = 1; btn.Text = ""; btn.ZIndex = 10
                     btn.MouseEnter:Connect(function()
                         _sc._playHoverSound()
-                        if _TL_isImgTheme(_TL_activeThemeId) then
+                        if _SU_isImgTheme(_SU_activeThemeId) then
                             twP(card, 0.2, { BackgroundTransparency = 0.3 })
                         else
                             twP(card, 0.2, { BackgroundTransparency = 0.08 })
                         end
                     end)
                     btn.MouseLeave:Connect(function()
-                        if _TL_isImgTheme(_TL_activeThemeId) then
+                        if _SU_isImgTheme(_SU_activeThemeId) then
                             twP(card, 0.2, { BackgroundTransparency = 0.45 })
                         else
                             twP(card, 0.2, { BackgroundTransparency = 0.15 })
@@ -562,7 +562,7 @@ function CharacterTab.Init(ctx)
 
                             pcall(function()
                                 if newT then
-                                    local isOP = _TL_isAnimeTheme(newT.id)
+                                    local isOP = _SU_isAnimeTheme(newT.id)
                                     card.BackgroundTransparency = isOP and 0.45 or 0.15
                                     if s then s.Enabled = isOP end
                                 end
@@ -602,13 +602,13 @@ function CharacterTab.Init(ctx)
                         chip.Size                   = UDim2.new(0, QA_W, 0, QA_H)
                         chip.Position               = UDim2.new(0, xOff, 0, 22)
                         chip.BackgroundColor3       = Color3.fromRGB(0, 0, 0)
-                        chip.BackgroundTransparency = _TL_isImgTheme(_TL_activeThemeId) and
+                        chip.BackgroundTransparency = _SU_isImgTheme(_SU_activeThemeId) and
                         0.45 or 0.2
                         chip.BorderSizePixel        = 0; corner(chip, 10)
 
                         local s                       = _makeRealStroke(chip, 1.0, Color3.fromRGB(255, 255, 255), 0.6)
                         s.Name                        = "OnePiece_Stroke"
-                        s.Enabled                     = _TL_isImgTheme(_TL_activeThemeId)
+                        s.Enabled                     = _SU_isImgTheme(_SU_activeThemeId)
 
                         local lbl                     = Instance.new("TextLabel", chip)
                         lbl.Size                      = UDim2.new(1, -4, 0, 16)
@@ -634,12 +634,12 @@ function CharacterTab.Init(ctx)
 
                         btn.MouseEnter:Connect(function()
                             _sc._playHoverSound()
-                            if _TL_isImgTheme(_TL_activeThemeId) then
+                            if _SU_isImgTheme(_SU_activeThemeId) then
                                 twP(chip, 0.2, { BackgroundTransparency = 0.3 })
                             end
                         end)
                         btn.MouseLeave:Connect(function()
-                            if _TL_isImgTheme(_TL_activeThemeId) then
+                            if _SU_isImgTheme(_SU_activeThemeId) then
                                 twP(chip, 0.2, { BackgroundTransparency = 0.45 })
                             end
                         end)
@@ -648,7 +648,7 @@ function CharacterTab.Init(ctx)
                             _panelColorHooks[#_panelColorHooks + 1] = function(newT)
                                 pcall(function()
                                     if newT then
-                                        local isOP = _TL_isAnimeTheme(newT.id)
+                                        local isOP = _SU_isAnimeTheme(newT.id)
                                         chip.BackgroundTransparency = isOP and 0.45 or 0.2
                                         if s then s.Enabled = isOP end
                                     end
@@ -702,7 +702,7 @@ function CharacterTab.Init(ctx)
                                         end
                                     end)
                                     pcall(function() if type(godStop) == "function" then godStop() end end)
-                                    pcall(function() if _TL_refs._TL_isGodOn and _TL_refs._TL_isGodOn() then godStop() end end)
+                                    pcall(function() if _SU_refs._SU_isGodOn and _SU_refs._SU_isGodOn() then godStop() end end)
 
                                     -- 3) Positionswiederherstellung VOR dem Tod registrieren
                                     local _respawnDone = false
@@ -1368,7 +1368,7 @@ local function RunCustomAnimation(Char)
                 
                 
                 do
-                    local _vcModule = _TL_loadModule("SU-ANTIVCBAN")
+                    local _vcModule = _SU_loadModule("SU-ANTIVCBAN")
                     sectionLbl(CY, "VOICE CHAT"); CY = CY + 18
                     local _vcSetToggle = nil
                     if _vcModule then
@@ -1381,13 +1381,13 @@ local function RunCustomAnimation(Char)
                         makeToggleRow(CY, "Anti-VC Ban", "mic protection (offline)", C.sub, function() end)
                     end
                     if _vcSetToggle then
-                        _G._TL_vcSetToggle = _vcSetToggle
+                        _G._SU_vcSetToggle = _vcSetToggle
                     end
                     CY = CY + TOG_H + GAP
                     -- Restore ANTIVCBAN if it was active before reinjection
                     task.defer(function()
-                        if _vcModule and rawget(_genv, "_TL_persist_antiVcBan") then
-                            rawset(_genv, "_TL_persist_antiVcBan", nil)
+                        if _vcModule and rawget(_genv, "_SU_persist_antiVcBan") then
+                            rawset(_genv, "_SU_persist_antiVcBan", nil)
                             settingsState.antiVcBan = true
                             if _vcSetToggle then pcall(function() _vcSetToggle(true) end) end
                             pcall(function() _vcModule.start(sendNotif) end)
@@ -1404,7 +1404,7 @@ local function RunCustomAnimation(Char)
                     local moveDropGap = 6
                     local moveDropExpandedH = 184
                     pcall(function()
-                        local prev = _genv.__TL_CharacterAnimRuntime
+                        local prev = _genv.__SU_CharacterAnimRuntime
                         if type(prev) == "table" and type(prev.cleanup) == "function" then
                             prev.cleanup()
                         end
@@ -1429,8 +1429,8 @@ local function RunCustomAnimation(Char)
                             pcall(function() hum.WalkSpeed = runtime.normalSpeed or 16 end)
                             pcall(function() hum.JumpPower = 50 end)
                         end
-                        if _genv.__TL_CharacterAnimRuntime == runtime then
-                            _genv.__TL_CharacterAnimRuntime = nil
+                        if _genv.__SU_CharacterAnimRuntime == runtime then
+                            _genv.__SU_CharacterAnimRuntime = nil
                         end
                     end
 
@@ -1551,7 +1551,7 @@ local function RunCustomAnimation(Char)
                         }
                         runtime.cleanup = cleanupMoveAnimRuntime
                         moveAnimRuntime = runtime
-                        _genv.__TL_CharacterAnimRuntime = runtime
+                        _genv.__SU_CharacterAnimRuntime = runtime
                         runtime.normalSpeed = pack.normalSpeed or runtime.normalSpeed
                         runtime.sprintSpeed = pack.sprintSpeed or runtime.sprintSpeed
 
@@ -2574,9 +2574,9 @@ local function RunCustomAnimation(Char)
                                 godStart(); pcall(function() sendNotif("Godmode", "Godmode Enabled!", 2) end)
                             else godStop(); pcall(function() sendNotif("Godmode", "Godmode Disabled!", 2) end) end end)
                     CY                    = CY + TOG_H + GAP
-                    _TL_refs._TL_godStart = godStart
-                    _TL_refs._TL_godStop  = godStop
-                    _TL_refs._TL_isGodOn  = function() return godActive end
+                    _SU_refs._SU_godStart = godStart
+                    _SU_refs._SU_godStop  = godStop
+                    _SU_refs._SU_isGodOn  = function() return godActive end
                 end
                 p.Size = UDim2.new(0, PANEL_W, 0, CY)
                 LocalPlayer.CharacterAdded:Connect(function(newChar)

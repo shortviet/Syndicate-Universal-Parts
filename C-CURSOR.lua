@@ -59,7 +59,7 @@ local function _VCOL() return _cfg.C.accent end
 local function _curCleanupGlobals()
     for _, k in ipairs({ "_TLNativeCursorFxGui", "_TLNativeCursorFxSettings", "_TLNativeCursorFxConn",
         "_TLNativeCursorFxInputConn", "_TLNativeCursorFxToggleConn", "_TLNativeCursorFxCursorConn",
-        "_TLNativeCursorFxTextFocusedConn", "_TLNativeCursorFxTextReleasedConn", "_TLNativeCursorVisualGui" }) do
+        "_TLNativeCursorFxTextFocusedConn", "_TLNativeCursorFxTextReleasedConn", "_SUNativeCursorVisualGui" }) do
         if _G[k] then pcall(function() if _G[k].Disconnect then _G[k]:Disconnect() elseif _G[k].Destroy then
                     _G[k]:Destroy() end end) end
         _G[k] = nil
@@ -126,16 +126,16 @@ local function _destroyCursorGui()
         pcall(function() cursorGui_:Destroy() end); cursorGui_ = nil
     end
     cursorImage_ = nil; cursorShadow_ = nil
-    _G._TLNativeCursorVisualGui = nil
+    _G._SUNativeCursorVisualGui = nil
 end
 
 local function _ensureCursorGui()
     if cursorGui_ and cursorGui_.Parent and cursorImage_ and cursorShadow_ then return end
     if cursorGui_ then pcall(function() cursorGui_:Destroy() end) end
-    cursorGui_ = Instance.new("ScreenGui"); cursorGui_.Name = "TLNativeCursorVisual"; cursorGui_.ResetOnSpawn = false
+    cursorGui_ = Instance.new("ScreenGui"); cursorGui_.Name = "SUNativeCursorVisual"; cursorGui_.ResetOnSpawn = false
     cursorGui_.IgnoreGuiInset = true; cursorGui_.ZIndexBehavior = Enum.ZIndexBehavior.Sibling; cursorGui_.DisplayOrder =
     FX_ORDER_CUR + 20
-    _cfg._tryParentGui(cursorGui_); _G._TLNativeCursorVisualGui = cursorGui_
+    _cfg._tryParentGui(cursorGui_); _G._SUNativeCursorVisualGui = cursorGui_
     cursorShadow_ = Instance.new("ImageLabel"); cursorShadow_.Name = "CursorShadow"
     cursorShadow_.Size = UDim2.fromOffset(CURSOR_SIZE, CURSOR_SIZE); cursorShadow_.BackgroundTransparency = 1
     cursorShadow_.BorderSizePixel = 0; cursorShadow_.Image = CURSOR_IMAGE; cursorShadow_.Visible = false; cursorShadow_.ZIndex = 998; cursorShadow_.Parent =
@@ -219,7 +219,7 @@ end
 local function _buildFxGui()
     if fxGui then return end
     fxParticles = {}
-    fxGui = Instance.new("ScreenGui"); fxGui.Name = "TLNativeCursorFX"; fxGui.ResetOnSpawn = false
+    fxGui = Instance.new("ScreenGui"); fxGui.Name = "SUNativeCursorFX"; fxGui.ResetOnSpawn = false
     fxGui.IgnoreGuiInset = true; fxGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling; fxGui.DisplayOrder =
     FX_ORDER_CUR
     _cfg._tryParentGui(fxGui); _G._TLNativeCursorFxGui = fxGui

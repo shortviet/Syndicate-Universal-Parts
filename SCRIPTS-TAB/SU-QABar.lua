@@ -1,9 +1,9 @@
--- TL-QABar.lua
--- Extracted QABar UI module from TL-ByteBreaker
+-- SU-QABar.lua
+-- Extracted QABar UI module from SU-ByteBreaker
 
 local M = {}
 
-local RUNTIME_KEY = "__TL_QABarRuntime"
+local RUNTIME_KEY = "__SU_QABarRuntime"
 local _qb            = {}
 local _qaInitialized   = false
 local _qaStarted       = false
@@ -62,54 +62,54 @@ function M.initQABar(deps)
     if _qaInitialized then return end
     _qaInitialized = true
 
-    local _TL_refs = deps._TL_refs or {}
+    local _SU_refs = deps._SU_refs or {}
     local _genv    = deps._genv or (getgenv and getgenv()) or {}
 
-    _qb.g               = _TL_refs
-    _TL_refs._TL_qb     = _qb
+    _qb.g               = _SU_refs
+    _SU_refs._SU_qb     = _qb
     _qb.env             = _genv
-    _qb.ScreenGui       = _TL_refs._TL_ScreenGui or _genv._TL_ScreenGui
-    _qb.tw              = _TL_refs._TL_tw or _genv._TL_tw
-    _qb.tlHitbox        = _TL_refs._TL_tlHitbox or _genv._TL_tlHitbox
-    _qb.tlLbl           = _TL_refs._TL_tlLbl or _genv._TL_tlLbl
-    _qb.tlArrow         = _TL_refs._TL_tlArrow or _genv._TL_tlArrow
-    _qb.tlArrowBig      = _TL_refs._TL_tlArrowBig or _genv._TL_tlArrowBig
-    _qb.FW_W            = _TL_refs._TL_FW_W or _genv._TL_FW_W or 230
-    _qb.FW_H            = _TL_refs._TL_FW_H or _genv._TL_FW_H or 34
-    _qb.FW_X_OFFSET     = _TL_refs._TL_FW_X_OFFSET or _genv._TL_FW_X_OFFSET or -5
-    _qb.VL_ICON_W       = _TL_refs._TL_VL_ICON_W or _genv._TL_VL_ICON_W or 58
-    _qb.sendNotif       = _TL_refs._TL_sendNotif or _genv._TL_sendNotif
-    _qb.getRootPart     = _TL_refs._TL_getRootPart or _genv._TL_getRootPart
-    _qb.safeStand       = _TL_refs._TL_safeStand or _genv._TL_safeStand
-    _qb.AF              = _TL_refs._TL_AF or _genv._TL_AF
-    _qb.SOH             = _TL_refs._TL_SOH or _genv._TL_SOH
-    _qb.act_stopFollow  = _TL_refs._TL_act_stopFollow or _genv._TL_act_stopFollow
+    _qb.ScreenGui       = _SU_refs._SU_ScreenGui or _genv._SU_ScreenGui
+    _qb.tw              = _SU_refs._SU_tw or _genv._SU_tw
+    _qb.tlHitbox        = _SU_refs._SU_tlHitbox or _genv._SU_tlHitbox
+    _qb.tlLbl           = _SU_refs._SU_tlLbl or _genv._SU_tlLbl
+    _qb.tlArrow         = _SU_refs._SU_tlArrow or _genv._SU_tlArrow
+    _qb.tlArrowBig      = _SU_refs._SU_tlArrowBig or _genv._SU_tlArrowBig
+    _qb.FW_W            = _SU_refs._SU_FW_W or _genv._SU_FW_W or 230
+    _qb.FW_H            = _SU_refs._SU_FW_H or _genv._SU_FW_H or 34
+    _qb.FW_X_OFFSET     = _SU_refs._SU_FW_X_OFFSET or _genv._SU_FW_X_OFFSET or -5
+    _qb.VL_ICON_W       = _SU_refs._SU_VL_ICON_W or _genv._SU_VL_ICON_W or 58
+    _qb.sendNotif       = _SU_refs._SU_sendNotif or _genv._SU_sendNotif
+    _qb.getRootPart     = _SU_refs._SU_getRootPart or _genv._SU_getRootPart
+    _qb.safeStand       = _SU_refs._SU_safeStand or _genv._SU_safeStand
+    _qb.AF              = _SU_refs._SU_AF or _genv._SU_AF
+    _qb.SOH             = _SU_refs._SU_SOH or _genv._SU_SOH
+    _qb.act_stopFollow  = _SU_refs._SU_act_stopFollow or _genv._SU_act_stopFollow
     _qb.stopBB          = deps.stopBB  or function() end
     _qb.startBB         = deps.startBB or function() end
-    _qb.qaDispatch      = _TL_refs._TL_qaDispatch
-    _qb.stopGhost       = _TL_refs._TL_stopGhost or _genv._TL_stopGhost
-    _qb.stopSitOnHead   = _TL_refs._TL_stopSitOnHead or _genv._TL_stopSitOnHead
-    _qb.stopPiggyback   = _TL_refs._TL_stopPiggyback or _genv._TL_stopPiggyback
-    _qb.stopPiggyback2  = _TL_refs._TL_stopPiggyback2 or _genv._TL_stopPiggyback2
-    _qb.stopKiss        = _TL_refs._TL_stopKiss or _genv._TL_stopKiss
-    _qb.stopBackpack    = _TL_refs._TL_stopBackpack or _genv._TL_stopBackpack
-    _qb.stopOrbit       = _TL_refs._TL_stopOrbit or _genv._TL_stopOrbit
-    _qb.stopUpsideDown  = _TL_refs._TL_stopUpsideDown or _genv._TL_stopUpsideDown
-    _qb.stopCrossUD     = _TL_refs._TL_stopCrossUD or _genv._TL_stopCrossUD
-    _qb.stopFriend      = _TL_refs._TL_stopFriend or _genv._TL_stopFriend
-    _qb.stopSpinning    = _TL_refs._TL_stopSpinning or _genv._TL_stopSpinning
-    _qb.stopLicking     = _TL_refs._TL_stopLicking or _genv._TL_stopLicking
-    _qb.stopSucking     = _TL_refs._TL_stopSucking or _genv._TL_stopSucking
-    _qb.stopSuckIt      = _TL_refs._TL_stopSuckIt or _genv._TL_stopSuckIt
-    _qb.stopBackshots   = _TL_refs._TL_stopBackshots or _genv._TL_stopBackshots
-    _qb.stopDoggy       = _TL_refs._TL_stopDoggy or _genv._TL_stopDoggy
-    _qb.stopLayFuck     = _TL_refs._TL_stopLayFuck or _genv._TL_stopLayFuck
-    _qb.stopFacefuck    = _TL_refs._TL_stopFacefuck or _genv._TL_stopFacefuck
-    _qb.stopPussySpread = _TL_refs._TL_stopPussySpread or _genv._TL_stopPussySpread
-    _qb.stopHug         = _TL_refs._TL_stopHug or _genv._TL_stopHug
-    _qb.stopHug2        = _TL_refs._TL_stopHug2 or _genv._TL_stopHug2
-    _qb.stopCarry       = _TL_refs._TL_stopCarry or _genv._TL_stopCarry
-    _qb.stopShoulderSit = _TL_refs._TL_stopShoulderSit or _genv._TL_stopShoulderSit
+    _qb.qaDispatch      = _SU_refs._SU_qaDispatch
+    _qb.stopGhost       = _SU_refs._SU_stopGhost or _genv._SU_stopGhost
+    _qb.stopSitOnHead   = _SU_refs._SU_stopSitOnHead or _genv._SU_stopSitOnHead
+    _qb.stopPiggyback   = _SU_refs._SU_stopPiggyback or _genv._SU_stopPiggyback
+    _qb.stopPiggyback2  = _SU_refs._SU_stopPiggyback2 or _genv._SU_stopPiggyback2
+    _qb.stopKiss        = _SU_refs._SU_stopKiss or _genv._SU_stopKiss
+    _qb.stopBackpack    = _SU_refs._SU_stopBackpack or _genv._SU_stopBackpack
+    _qb.stopOrbit       = _SU_refs._SU_stopOrbit or _genv._SU_stopOrbit
+    _qb.stopUpsideDown  = _SU_refs._SU_stopUpsideDown or _genv._SU_stopUpsideDown
+    _qb.stopCrossUD     = _SU_refs._SU_stopCrossUD or _genv._SU_stopCrossUD
+    _qb.stopFriend      = _SU_refs._SU_stopFriend or _genv._SU_stopFriend
+    _qb.stopSpinning    = _SU_refs._SU_stopSpinning or _genv._SU_stopSpinning
+    _qb.stopLicking     = _SU_refs._SU_stopLicking or _genv._SU_stopLicking
+    _qb.stopSucking     = _SU_refs._SU_stopSucking or _genv._SU_stopSucking
+    _qb.stopSuckIt      = _SU_refs._SU_stopSuckIt or _genv._SU_stopSuckIt
+    _qb.stopBackshots   = _SU_refs._SU_stopBackshots or _genv._SU_stopBackshots
+    _qb.stopDoggy       = _SU_refs._SU_stopDoggy or _genv._SU_stopDoggy
+    _qb.stopLayFuck     = _SU_refs._SU_stopLayFuck or _genv._SU_stopLayFuck
+    _qb.stopFacefuck    = _SU_refs._SU_stopFacefuck or _genv._SU_stopFacefuck
+    _qb.stopPussySpread = _SU_refs._SU_stopPussySpread or _genv._SU_stopPussySpread
+    _qb.stopHug         = _SU_refs._SU_stopHug or _genv._SU_stopHug
+    _qb.stopHug2        = _SU_refs._SU_stopHug2 or _genv._SU_stopHug2
+    _qb.stopCarry       = _SU_refs._SU_stopCarry or _genv._SU_stopCarry
+    _qb.stopShoulderSit = _SU_refs._SU_stopShoulderSit or _genv._SU_stopShoulderSit
     _qb.act_following   = false
     _qb.ppActive        = false
     _qb.QA_W            = _qb.FW_W
@@ -146,14 +146,14 @@ function M.initQABar(deps)
     _qb.LocalPlayer      = deps.LocalPlayer or (game and game:GetService("Players").LocalPlayer)
     _qb.RunService       = deps.RunService or (game and game:GetService("RunService"))
     _qb._SvcUIS          = deps._SvcUIS or (game and game:GetService("UserInputService"))
-    _qb._TL_VP           = deps._TL_VP or { mobScl = 1 }
+    _qb._SU_VP           = deps._SU_VP or { mobScl = 1 }
     _qb._sc              = deps._sc or {}
     _qb._AF              = deps._AF or _qb.AF
     _qb.stopQA74         = deps.stopQA74 or function() end
-    _qb._registerResetFn = deps.registerResetFn or function() end            _qb.safeGetCustomAsset = deps._TL_safeGetCustomAsset or function() return nil end
-            _qb.assetLoader = deps._TL_assetLoader
-    _qb.tlArrow    = _qb.tlArrow or _qb.g._TL_tlArrow
-    _qb.tlArrowBig = _qb.tlArrowBig or _qb.g._TL_tlArrowBig
+    _qb._registerResetFn = deps.registerResetFn or function() end            _qb.safeGetCustomAsset = deps._SU_safeGetCustomAsset or function() return nil end
+            _qb.assetLoader = deps._SU_assetLoader
+    _qb.tlArrow    = _qb.tlArrow or _qb.g._SU_tlArrow
+    _qb.tlArrowBig = _qb.tlArrowBig or _qb.g._SU_tlArrowBig
 end
 
 local QA_CATS = {{
@@ -689,8 +689,8 @@ function M.startQABar()
 
     local LocalPlayer = _qb.LocalPlayer
     local RunService  = _qb.RunService
-    local _TL_refs    = _qb.g
-    local _TL_VP      = _qb._TL_VP
+    local _SU_refs    = _qb.g
+    local _SU_VP      = _qb._SU_VP
     local _SvcUIS     = _qb._SvcUIS
 
     _qb.qaBarOpen         = false
@@ -715,25 +715,25 @@ function M.startQABar()
             local _isTab = _touch and not _kbd and _short >= 500
 
             local _QA_RIGHT_OFFSET = -5
-            local _VL_ICON_H = _TL_refs._TL_VL_ICON_H or 58
+            local _VL_ICON_H = _SU_refs._SU_VL_ICON_H or 58
             local _QA_TOP_Y = 5 + _VL_ICON_H + 4
             _qb.qaBar = mkF(_qb.ScreenGui,
                 UDim2.new(0, _qb.QA_W, 0, 0),
                 UDim2.new(1, _QA_RIGHT_OFFSET, 0, _QA_TOP_Y),
                 P.panel, 0, 8)
             local qaBar = _qb.qaBar
-            qaBar.Name = "TLQuickActionsBar"
+            qaBar.Name = "SUQuickActionsBar"
             qaBar.AnchorPoint = Vector2.new(1, 0)
             qaBar.ClipsDescendants = true
             qaBar.Visible = false; qaBar.ZIndex = 9
 
-            pcall(function() if getgenv then _qb.env._TL_qaBar = qaBar end end)
-            pcall(function() _TL_refs._TL_qaBar = qaBar end)
+            pcall(function() if getgenv then _qb.env._SU_qaBar = qaBar end end)
+            pcall(function() _SU_refs._SU_qaBar = qaBar end)
             _qb._qaBarStroke = mkStroke(_qb.qaBar, 1, P.panelBrd, 0.7)
 
             if _isMob or _isTab then
                 local _qaScale    = Instance.new("UIScale", qaBar)
-                _qaScale.Scale    = _TL_VP.mobScl
+                _qaScale.Scale    = _SU_VP.mobScl
                 qaBar.AnchorPoint = Vector2.new(1, 0)
                 qaBar.Position    = UDim2.new(1, _QA_RIGHT_OFFSET, 0, _QA_TOP_Y)
             end
@@ -756,7 +756,7 @@ function M.startQABar()
             icoLbl.ScaleType = Enum.ScaleType.Fit
             icoLbl.ZIndex = 12
 
-            -- Retry icon after assets finish loading
+            -- Try to load Syndicate logo after assets finish loading
             if _qb.assetLoader then
                 task.spawn(function()
                     local maxWait = 30
@@ -895,6 +895,7 @@ function M.startQABar()
                         icoL.Image = act.imageId
                         icoL.ImageColor3 = Color3.new(1, 1, 1); icoL.ImageTransparency = 0
                         icoL.ScaleType = Enum.ScaleType.Fit; icoL.ZIndex = 12
+    
                     else
                         icoL = mkTxt(bg, UDim2.new(1, 0, 0, 30), UDim2.new(0, 0, 0, 8),
                             act.icon, Enum.Font.GothamBold, 20, Color3.new(1, 1, 1),
@@ -1122,7 +1123,7 @@ function M.startQABar()
                     if not _qb.qaBarOpen then _qb.qaBar.Visible = false end
                 end
             end
-            _TL_refs._TL_closeQABar = _qb.closeQABar
+            _SU_refs._SU_closeQABar = _qb.closeQABar
 
             _qb._tlHitboxLastClick = 0
             _qb.tlHitboxActivate = function()
@@ -1151,7 +1152,7 @@ function M.startQABar()
 
             _qb._FULL_H = FULL_H
         end, function(e) return debug.traceback(tostring(e), 2) end); if not _ok_QABar then
-            warn("[TL] QABar:error " .. tostring(_err_QABar))
+            warn("[SU] QABar:error " .. tostring(_err_QABar))
             _qb._handleError("[QABar] " .. tostring(_err_QABar))
         end
     end)
@@ -1190,28 +1191,28 @@ function M.cleanupQABar()
     end
 
     _qb.qaCardRefs = {}
-    pcall(function() _qb.g._TL_qb = nil end)
-    pcall(function() _qb.g._TL_closeQABar = nil end)
-    pcall(function() _qb.g._TL_qaBar = nil end)
-    pcall(function() _qb.env._TL_qaBar = nil end)
+    pcall(function() _qb.g._SU_qb = nil end)
+    pcall(function() _qb.g._SU_closeQABar = nil end)
+    pcall(function() _qb.g._SU_qaBar = nil end)
+    pcall(function() _qb.env._SU_qaBar = nil end)
 
     pcall(function() _G.TLQA_ResetUI = nil end)
-    pcall(function() _G._TL_setQABar = nil end)
-    pcall(function() _G._TL_qaBarActive = nil end)
+    pcall(function() _G._SU_setQABar = nil end)
+    pcall(function() _G._SU_qaBarActive = nil end)
 
     _qaInitialized = false
     _qaStarted = false
 end
 
 
-_G._TL_setQABar = function(frame)
+_G._SU_setQABar = function(frame)
     if frame then
         _qb.qaBar = frame
     end
     return _qb.qaBar
 end
 
-_G._TL_qaBarActive = function()
+_G._SU_qaBarActive = function()
     return _qb.qaBarOpen == true
 end
 

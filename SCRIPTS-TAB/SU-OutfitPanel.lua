@@ -15,7 +15,7 @@ function M.open()
     if not _active then M.start() end
     _isOpen = true
     pcall(function()
-        warn("[TL] OutfitPanel: Panel opened (minimal stub)")
+        warn("[SU] OutfitPanel: Panel opened (minimal stub)")
     end)
 end
 
@@ -31,7 +31,7 @@ function M.openForPlayer(player)
     if not _active then M.start() end
     _isOpen = true
     pcall(function()
-        warn("[TL] OutfitPanel: Opening for player " .. tostring(player and player.Name))
+        warn("[SU] OutfitPanel: Opening for player " .. tostring(player and player.Name))
     end)
 end
 

@@ -9,7 +9,7 @@ local _dot = nil
 local function createDot()
     if _dot and _dot.Parent then return end
     _dot = Instance.new("Part")
-    _dot.Name = "TLClickTeleportDot"
+    _dot.Name = "SUClickTeleportDot"
     _dot.Shape = Enum.PartType.Ball
     _dot.Size = Vector3.new(0.5, 0.5, 0.5)
     _dot.Material = Enum.Material.Neon

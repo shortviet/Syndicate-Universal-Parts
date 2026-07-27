@@ -71,9 +71,9 @@ function HomeTab.Init(ctx)
     })
     local PANEL_W = ctx.PANEL_W or 540
     local _sc = ctx._sc or {}
-    local _TL_refs = ctx._TL_refs or {}
-    local _TL_loadModule = ctx._TL_loadModule or function() return nil end
-    local _TL_VP = ctx._TL_VP or { isMobile = false, isTablet = false, isTouch = false, long = 800, short = 600 }
+    local _SU_refs = ctx._SU_refs or {}
+    local _SU_loadModule = ctx._SU_loadModule or function() return nil end
+    local _SU_VP = ctx._SU_VP or { isMobile = false, isTablet = false, isTouch = false, long = 800, short = 600 }
 
     -- =========================================================================
     -- UNIVERSAL EXECUTOR & 100% MOBILE / HANDY COMPATIBILITY LAYER
@@ -164,9 +164,9 @@ function HomeTab.Init(ctx)
     local makePanel = ctx.makePanel
     local C = ctx.C
     local PANEL_W = ctx.PANEL_W
-    local _TL_refs = ctx._TL_refs
-    local _TL_loadModule = ctx._TL_loadModule
-    local _TL_VP = ctx._TL_VP
+    local _SU_refs = ctx._SU_refs
+    local _SU_loadModule = ctx._SU_loadModule
+    local _SU_VP = ctx._SU_VP
 
 makePanel("Home", C.accent)
                 _homeSc:Destroy()
@@ -250,7 +250,7 @@ makePanel("Home", C.accent)
                     
                     local s = _makeRealStroke(frame, 1.0, Color3.fromRGB(255, 255, 255), 0.6)
                     s.Name = "OnePiece_Stroke"
-                    s.Enabled = _TL_isImgTheme(_TL_activeThemeId)
+                    s.Enabled = _SU_isImgTheme(_SU_activeThemeId)
 
                     return cCrn, grad
                 end
@@ -668,7 +668,7 @@ makePanel("Home", C.accent)
                     local dStroke                                    = _makeRealStroke(_discDrop, 1.0,
                         Color3.fromRGB(255, 255, 255), 0.6)
                     dStroke.Name                                     = "OnePieceStroke"
-                    dStroke.Enabled                                  = _TL_isImgTheme(_TL_activeThemeId)
+                    dStroke.Enabled                                  = _SU_isImgTheme(_SU_activeThemeId)
 
                     local _DISC_SERVERS                              = {
                         { label = "🇩🇪  German Server", link = "https://discord.gg/6RK7yANN7F" },
@@ -691,7 +691,7 @@ makePanel("Home", C.accent)
                         local rStroke                              = _makeRealStroke(row, 1.0,
                             Color3.fromRGB(255, 255, 255), 0.6)
                         rStroke.Name                               = "OnePieceStroke"
-                        rStroke.Enabled                            = _TL_isImgTheme(_TL_activeThemeId)
+                        rStroke.Enabled                            = _SU_isImgTheme(_SU_activeThemeId)
 
                         row.MouseEnter:Connect(function() twP(row, 0.15, { BackgroundTransparency = 0.88 }) end)
                         row.MouseLeave:Connect(function() twP(row, 0.15, { BackgroundTransparency = 0.94 }) end)
@@ -790,7 +790,7 @@ makePanel("Home", C.accent)
 
                     
                     pcall(function()
-                        local isOP = _TL_isAnimeTheme(newT.id)
+                        local isOP = _SU_isAnimeTheme(newT.id)
                         for _, child in ipairs(c:GetDescendants()) do
                             if child:IsA("UIStroke") and child.Name == "OnePiece_Stroke" then
                                 child.Enabled = isOP

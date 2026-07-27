@@ -95,7 +95,7 @@ local function startTool()
 
     _tool = Instance.new("Tool")
     _tool.RequiresHandle = false
-    _tool.Name = "TLPunchFling"
+    _tool.Name = "SUPunchFling"
     _tool.TextureId = "rbxassetid://139541574667160"
     _tool.Parent = LP.Backpack
 

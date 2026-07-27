@@ -1,5 +1,5 @@
 local ENV = (typeof(getgenv) == "function" and getgenv()) or _G
-local RUNTIME_KEY = "__TL_InvisRuntime"
+local RUNTIME_KEY = "__SU_InvisRuntime"
 local prev = ENV[RUNTIME_KEY]
 if type(prev) == "table" and type(prev.cleanup) == "function" then 
     pcall(prev.cleanup) 
@@ -19,7 +19,7 @@ runtime.cleanup = function()
     end
     runtime.instances = {}
     
-    pcall(function() game:GetService("RunService"):UnbindFromRenderStep("__TL_InvisRender") end)
+    pcall(function() game:GetService("RunService"):UnbindFromRenderStep("__SU_InvisRender") end)
     
     if ENV[RUNTIME_KEY] == runtime then ENV[RUNTIME_KEY] = nil end
 end
@@ -97,7 +97,7 @@ local function startInvisHeartbeat()
     local isDesynced = false
     local savedRealCF = nil
     
-    RunService:BindToRenderStep("__TL_InvisRender", Enum.RenderPriority.Camera.Value - 1, function()
+    RunService:BindToRenderStep("__SU_InvisRender", Enum.RenderPriority.Camera.Value - 1, function()
         if isDesynced and cachedRoot and cachedRoot.Parent and cachedHum and cachedHum.Parent then
             -- Restore visual position for local player
             cachedRoot.CFrame       = targetCF
@@ -172,7 +172,7 @@ local function setInvis(on)
     if invisHeartConn then pcall(function() invisHeartConn:Disconnect() end); invisHeartConn = nil end
     if _invisHL and _invisHL.Parent then pcall(function() _invisHL:Destroy() end); _invisHL = nil end
     
-    pcall(function() RunService:UnbindFromRenderStep("__TL_InvisRender") end)
+    pcall(function() RunService:UnbindFromRenderStep("__SU_InvisRender") end)
 
     local ch   = lp.Character
     local hum  = ch and ch:FindFirstChildOfClass("Humanoid")
@@ -227,7 +227,7 @@ end
 bind(lp.CharacterAdded, function(newChar)
     if invisHeartConn then pcall(function() invisHeartConn:Disconnect() end); invisHeartConn = nil end
     if _invisHL and _invisHL.Parent then pcall(function() _invisHL:Destroy() end); _invisHL = nil end
-    pcall(function() RunService:UnbindFromRenderStep("__TL_InvisRender") end)
+    pcall(function() RunService:UnbindFromRenderStep("__SU_InvisRender") end)
 
     for _, entry in ipairs(invisParts) do
         if entry.part and entry.part.Parent then
@@ -261,8 +261,8 @@ runtime.stop        = function() setInvis(false) end
 runtime.isActive    = function() return invisActive end
 runtime.setupParts  = invisSetupParts
 
-ENV._TL_Runtime     = runtime
-ENV._TL_setInvis    = setInvis
-ENV._TL_invisActive = function() return invisActive end
+ENV._SU_Runtime     = runtime
+ENV._SU_setInvis    = setInvis
+ENV._SU_invisActive = function() return invisActive end
 
 return runtime
