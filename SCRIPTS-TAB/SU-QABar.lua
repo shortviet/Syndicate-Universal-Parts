@@ -769,7 +769,7 @@ function M.startQABar()
                         icoLbl.Image = syndicateLogo
                     end
                 end)
-            end)
+            end
             _qb.titleLbl = mkTxt(hdr,
                 UDim2.new(0, 125, 0, 18), UDim2.new(0, 32, 0.5, -9),
                 "Quick Actions", Enum.Font.GothamBlack, 13, Color3.new(1, 1, 1))
