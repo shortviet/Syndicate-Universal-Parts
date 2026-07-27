@@ -186,7 +186,7 @@ local QA_CATS = {{
         { key = "orbit",      label = "Orbit TP",    imageId = "rbxassetid://139840976938907" },
         { key = "spinning",   label = "Spinning",    imageId = "rbxassetid://113740413795794" },
         { key = "upsidedown", label = "Upside Down", imageId = "rbxassetid://89009236995193" },
-        { key = "crossud",    label = "Cross UD",    imageId = "rbxassetid://77458828386203", useCustomLogo = true },
+        { key = "crossud",    label = "Cross UD",    imageId = "", useCustomLogo = true },
         { key = "ghost",      label = "Ghost",       imageId = "rbxassetid://77104113506431" },
     }
 }, {
@@ -751,7 +751,7 @@ function M.startQABar()
             icoLbl.Size = UDim2.new(1, 0, 1, 0)
             icoLbl.Position = UDim2.new(0, 0, 0, 0)
             icoLbl.BackgroundTransparency = 1
-            icoLbl.Image = "rbxassetid://77458828386203"
+            icoLbl.Image = ""
             icoLbl.ImageColor3 = Color3.new(1, 1, 1)
             icoLbl.ScaleType = Enum.ScaleType.Fit
             icoLbl.ZIndex = 12
