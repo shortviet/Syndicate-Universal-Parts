@@ -98,17 +98,18 @@ function NametagSystem.Init(ctx)
         if not userId then return nil end
         if _avatarCache[userId] then return _avatarCache[userId] end
         -- Use built-in Roblox API (works in ALL executors, no HTTP needed)
-        pcall(task.spawn, function()
-            local ok, thumbUrl = pcall(function()
-                return Players:GetUserThumbnailAsync(
+        -- NOTE: GetUserThumbnailAsync YIELDS, so must use task.spawn + pcall pattern
+        task.spawn(function()
+            pcall(function()
+                local thumbUrl = Players:GetUserThumbnailAsync(
                     userId,
                     Enum.ThumbnailType.HeadShot,
                     Enum.ThumbnailSize.Size100x100
                 )
+                if thumbUrl and thumbUrl ~= "" then
+                    _avatarCache[userId] = thumbUrl
+                end
             end)
-            if ok and thumbUrl and thumbUrl ~= "" then
-                _avatarCache[userId] = thumbUrl
-            end
         end)
         return nil
     end
@@ -135,23 +136,23 @@ function NametagSystem.Init(ctx)
         end
     end)
 
-    --- Synchronous avatar fetch: uses built-in Roblox API (works in ALL executors).
+    --- Synchronous avatar fetch: triggers async fetch then polls cache.
+    --- GetUserThumbnailAsync is a yielding function - cannot be called
+    --- directly inside pcall in some executors. Instead we trigger the
+    --- async fetch (which uses task.spawn+pcall) and wait for the cache.
     local function _fetchRobloxAvatarSync(userId)
         userId = tonumber(userId)
         if not userId then return nil end
         if _avatarCache[userId] then return _avatarCache[userId] end
-        local ok, thumbUrl = pcall(function()
-            return Players:GetUserThumbnailAsync(
-                userId,
-                Enum.ThumbnailType.HeadShot,
-                Enum.ThumbnailSize.Size100x100
-            )
-        end)
-        if ok and thumbUrl and thumbUrl ~= "" then
-            _avatarCache[userId] = thumbUrl
-            return thumbUrl
+        -- Trigger async fetch (uses task.spawn + pcall, works everywhere)
+        _fetchRobloxAvatar(userId)
+        -- Poll cache up to 2 seconds
+        local waited = 0
+        while not _avatarCache[userId] and waited < 2 do
+            pcall(task.wait, 0.1)
+            waited = waited + 0.1
         end
-        return nil
+        return _avatarCache[userId]
     end
 
     local function _resolveAvatar(playerName, player, themeKey, config)
