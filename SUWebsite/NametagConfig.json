@@ -258,8 +258,8 @@
       "file": "assets/ROLE-ICONS/SUUSER-ROLE.png"
     },
     "staff": {
-      "url": "",
-      "file": "assets/TL-ROLE-PICS/TL-ROLE-LOGO.png"
+      "url": "https://raw.githubusercontent.com/shortviet/Syndicate-Universal-Parts/main/SU-Icons/Syndicate-App-Logo-Main.png",
+      "file": "assets/SU-Icons/Syndicate-App-Logo-Main.png"
     },
     "admin": {
       "file": "assets/ROLE-ICONS/SU-STAFF.png"
