@@ -1770,6 +1770,10 @@ end
 
                 local creatingNametag = {}
                 local function CreateCustomNametag(character, playerName, isAdmin)
+                    -- Bridge: delegate to new NametagSystem v2 if available
+                    if _G.SU_Nametag and _G.SU_Nametag.CreateCustomNametag then
+                        return _G.SU_Nametag.CreateCustomNametag(character, playerName, isAdmin)
+                    end
                     if not character then return end
                     if creatingNametag[playerName] then return end
                     creatingNametag[playerName] = true
@@ -4094,6 +4098,10 @@ local function parseFieldMessage(fullText, prefixLen)
                 if LocalPlayer.Character then CreateCustomNametag(LocalPlayer.Character, LocalPlayer.Name, IsLocalAdmin) end
 
                 local function DoesPlayerQualifyForNametag(p)
+                    -- Bridge: delegate to new NametagSystem v2 if available
+                    if _G.SU_Nametag and _G.SU_Nametag.DoesPlayerQualifyForNametag then
+                        return _G.SU_Nametag.DoesPlayerQualifyForNametag(p)
+                    end
                     if not _NT_CONFIG.enabled then return false end
                     if not p then return false end
                     
