@@ -253,14 +253,8 @@
       "url": "https://raw.githubusercontent.com/shortviet/Syndicate-Universal-Script/refs/heads/main/NAMETAG-PROFILEPICTURES/SU-owner.png",
       "file": "assets/SU-ROLE-PICS/SU-owner.png"
     },
-    "user": {
-      "url": "https://raw.githubusercontent.com/shortviet/Syndicate-Universal-Parts/main/SU-Icons/Syndicate-App-Logo-Main.png",
-      "file": "assets/SU-Icons/Syndicate-App-Logo-Main.png"
-    },
-    "staff": {
-      "url": "https://raw.githubusercontent.com/shortviet/Syndicate-Universal-Parts/main/SU-Icons/Syndicate-App-Logo-Main.png",
-      "file": "assets/SU-Icons/Syndicate-App-Logo-Main.png"
-    },
+    "user": {},
+    "staff": {},
     "admin": {
       "file": "assets/ROLE-ICONS/SU-STAFF.png"
     }

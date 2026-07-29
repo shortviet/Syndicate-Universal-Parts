@@ -146,7 +146,54 @@ function NametagSystem.Init(ctx)
         end
     end)
 
+    --- Synchronous avatar fetch: waits up to 3 seconds for the Roblox Thumbnail API.
+    local function _fetchRobloxAvatarSync(userId)
+        userId = tonumber(userId)
+        if not userId then return nil end
+        if _avatarCache[userId] then return _avatarCache[userId] end
+        if _avatarPending[userId] then
+            -- Already fetching: wait up to 3 seconds
+            local waited = 0
+            while _avatarPending[userId] and waited < 3 do
+                pcall(task.wait, 0.1)
+                waited = waited + 0.1
+            end
+            return _avatarCache[userId]
+        end
+        -- Start fetch and wait for it
+        _avatarPending[userId] = true
+        pcall(task.spawn, function()
+            local url = string.format(
+                "https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=%d&size=150x150&format=Png&isCircular=false",
+                userId
+            )
+            local body = _safeHttpGet(url)
+            if body then
+                local ok, decoded = pcall(function() return Http:JSONDecode(body) end)
+                if ok and decoded and decoded.data then
+                    for _, entry in ipairs(decoded.data) do
+                        if entry.targetId == userId and entry.imageUrl and entry.imageUrl ~= "" then
+                            _avatarCache[userId] = entry.imageUrl
+                            _avatarPending[userId] = nil
+                            return
+                        end
+                    end
+                end
+            end
+            _avatarPending[userId] = nil
+            _avatarCache[userId] = nil
+        end)
+        -- Wait up to 3 seconds for the fetch to complete
+        local waited = 0
+        while _avatarPending[userId] and waited < 3 do
+            pcall(task.wait, 0.1)
+            waited = waited + 0.1
+        end
+        return _avatarCache[userId]
+    end
+
     local function _resolveAvatar(playerName, player, themeKey, config)
+        -- 1. Check custom avatars in config (per-user custom images)
         local customAvatars = config.customAvatars or {}
         local custom = customAvatars[playerName]
         if custom then
@@ -158,11 +205,12 @@ function NametagSystem.Init(ctx)
                 return custom.url, custom
             end
         end
-        if player then
-            local cachedUrl = _avatarCache[player.UserId]
-            if cachedUrl then return cachedUrl, nil end
-            _fetchRobloxAvatar(player.UserId)
+        -- 2. SYNCHRONOUS Roblox Avatar fetch (waits up to 3 seconds)
+        if player and player.UserId and player.UserId > 0 then
+            local avatarUrl = _fetchRobloxAvatarSync(player.UserId)
+            if avatarUrl then return avatarUrl, nil end
         end
+        -- 3. Role-based profile pictures (owner, admin, etc.)
         local profilePics = config.profilePictures or {}
         local rolePic = profilePics[themeKey]
         if rolePic then
@@ -174,6 +222,7 @@ function NametagSystem.Init(ctx)
                 return rolePic.url, rolePic
             end
         end
+        -- 4. nil -> show initials
         return nil, nil
     end
 
@@ -655,8 +704,8 @@ function NametagSystem.Init(ctx)
     -- =========================================================================
     local ownerProfilePicUrl      = "https://raw.githubusercontent.com/shortviet/Syndicate-Universal-Script/refs/heads/main/NAMETAG-PROFILEPICTURES/SU-owner.png"
     local ownerProfilePicFileName = "assets/SU-ROLE-PICS/SU-owner.png"
-    local userProfilePicUrl       = "https://raw.githubusercontent.com/shortviet/Syndicate-Universal-Parts/main/ROLE-ICONS/SUUSER-ROLE.png"
-    local userProfilePicFileName  = "assets/SU-ROLE-PICS/SUUSER-ROLE.png"
+    local userProfilePicUrl       = "" -- Removed TL logo; Roblox avatar is primary, initials are fallback
+    local userProfilePicFileName  = ""
 
     local _DEFAULTS = {
         enabled = true,
@@ -687,7 +736,7 @@ function NametagSystem.Init(ctx)
         roleUsers = { owner={}, admin={}, developer={}, moderator={}, staff={}, advertising={}, user={} },
         profilePictures = {
             owner={url=ownerProfilePicUrl, file=ownerProfilePicFileName},
-            user={url=userProfilePicUrl, file=userProfilePicFileName},
+            user={},
             admin={}, developer={}, moderator={}, staff={url="https://raw.githubusercontent.com/shortviet/Syndicate-Universal-Parts/main/ROLE-ICONS/SU-STAFF.png", file="assets/ROLE-ICONS/SU-STAFF.png"},
             advertising={},
         },
