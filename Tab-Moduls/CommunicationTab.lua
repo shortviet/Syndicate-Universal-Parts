@@ -1792,7 +1792,7 @@ end
                         or (override and override.role or nil)
 
                     
-                    local roleLower    = (roleLabel or (isAdmin and "SU Admin" or "SU User")):lower()
+                    local roleLower    = (roleLabel or (isAdmin and "SYNDICATE ADMIN" or "SYNDICATE USER")):lower()
                     local displayLower = (override and override.display or ""):lower()
                     local themeKey     = "user"
 
@@ -1846,10 +1846,10 @@ end
                     
                     
                     if not roleLabel then
-                        local _NT_ROLE_DEFAULTS = { user="SU User", admin="SU Admin", owner="SU Owner", developer="SU Developer", advertising="SU Advertising", moderator="SU Moderator" }
+                        local _NT_ROLE_DEFAULTS = { user="SYNDICATE USER", admin="SYNDICATE ADMIN", owner="SYNDICATE OWNER", developer="SYNDICATE DEVELOPER", advertising="SYNDICATE ADVERTISING", moderator="SYNDICATE MODERATOR" }
                         roleLabel = (_NT_CONFIG.roleDisplayNames and _NT_CONFIG.roleDisplayNames[themeKey])
                             or _NT_ROLE_DEFAULTS[themeKey]
-                            or "SU User"
+                            or "SYNDICATE USER"
                     end
 
                     local theme = _NT_CONFIG.themes[themeKey] or _NT_DEFAULTS.themes.user

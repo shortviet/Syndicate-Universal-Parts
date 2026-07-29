@@ -856,7 +856,7 @@ function NametagSystem.Init(ctx)
         local roleLabel = _CONFIG.roleLabels and _CONFIG.roleLabels[playerName]
             or (override and override.role) or nil
 
-        local roleLower    = (roleLabel or (isAdmin and "SU Admin" or "SU User")):lower()
+        local roleLower    = (roleLabel or (isAdmin and "SYNDICATE ADMIN" or "SYNDICATE USER")):lower()
         local displayLower = (override and override.display or ""):lower()
         local themeKey     = "user"
 
@@ -890,12 +890,12 @@ function NametagSystem.Init(ctx)
 
         if not roleLabel then
             local _ROLE_DEFAULTS = {
-                user="SU User", admin="SU Admin", owner="SU Owner",
+                user="SYNDICATE USER", admin="SYNDICATE ADMIN", owner="SYNDICATE OWNER",
                 developer="SU Developer", advertising="SU Advertising",
                 moderator="SU Moderator", staff="SU Staff",
             }
             roleLabel = (_CONFIG.roleDisplayNames and _CONFIG.roleDisplayNames[themeKey])
-                or _ROLE_DEFAULTS[themeKey] or "SU User"
+                or _ROLE_DEFAULTS[themeKey]                or "SYNDICATE USER"
         end
 
         local theme = _CONFIG.themes[themeKey] or _DEFAULTS.themes.user
