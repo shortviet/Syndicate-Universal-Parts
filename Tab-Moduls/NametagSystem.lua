@@ -91,35 +91,24 @@ function NametagSystem.Init(ctx)
 
     -- ── Roblox Thumbnail API cache ────────────────────────────────────────
     local _avatarCache = {}
-    local _avatarPending = {}
+    -- _avatarPending removed: no longer needed with built-in GetUserThumbnailAsync
 
     local function _fetchRobloxAvatar(userId)
         userId = tonumber(userId)
         if not userId then return nil end
         if _avatarCache[userId] then return _avatarCache[userId] end
-        if _avatarPending[userId] then return nil end
-
-        _avatarPending[userId] = true
+        -- Use built-in Roblox API (works in ALL executors, no HTTP needed)
         pcall(task.spawn, function()
-            local url = string.format(
-                "https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=%d&size=150x150&format=Png&isCircular=false",
-                userId
-            )
-            local body = _safeHttpGet(url)
-            if body then
-                local ok, decoded = pcall(function() return Http:JSONDecode(body) end)
-                if ok and decoded and decoded.data then
-                    for _, entry in ipairs(decoded.data) do
-                        if entry.targetId == userId and entry.imageUrl and entry.imageUrl ~= "" then
-                            _avatarCache[userId] = entry.imageUrl
-                            _avatarPending[userId] = nil
-                            return
-                        end
-                    end
-                end
+            local ok, thumbUrl = pcall(function()
+                return Players:GetUserThumbnailAsync(
+                    userId,
+                    Enum.ThumbnailType.HeadShot,
+                    Enum.ThumbnailSize.Size100x100
+                )
+            end)
+            if ok and thumbUrl and thumbUrl ~= "" then
+                _avatarCache[userId] = thumbUrl
             end
-            _avatarPending[userId] = nil
-            _avatarCache[userId] = nil
         end)
         return nil
     end
@@ -142,54 +131,27 @@ function NametagSystem.Init(ctx)
     Players.PlayerRemoving:Connect(function(p)
         if p.UserId then
             _avatarCache[p.UserId] = nil
-            _avatarPending[p.UserId] = nil
+
         end
     end)
 
-    --- Synchronous avatar fetch: waits up to 3 seconds for the Roblox Thumbnail API.
+    --- Synchronous avatar fetch: uses built-in Roblox API (works in ALL executors).
     local function _fetchRobloxAvatarSync(userId)
         userId = tonumber(userId)
         if not userId then return nil end
         if _avatarCache[userId] then return _avatarCache[userId] end
-        if _avatarPending[userId] then
-            -- Already fetching: wait up to 3 seconds
-            local waited = 0
-            while _avatarPending[userId] and waited < 3 do
-                pcall(task.wait, 0.1)
-                waited = waited + 0.1
-            end
-            return _avatarCache[userId]
-        end
-        -- Start fetch and wait for it
-        _avatarPending[userId] = true
-        pcall(task.spawn, function()
-            local url = string.format(
-                "https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=%d&size=150x150&format=Png&isCircular=false",
-                userId
+        local ok, thumbUrl = pcall(function()
+            return Players:GetUserThumbnailAsync(
+                userId,
+                Enum.ThumbnailType.HeadShot,
+                Enum.ThumbnailSize.Size100x100
             )
-            local body = _safeHttpGet(url)
-            if body then
-                local ok, decoded = pcall(function() return Http:JSONDecode(body) end)
-                if ok and decoded and decoded.data then
-                    for _, entry in ipairs(decoded.data) do
-                        if entry.targetId == userId and entry.imageUrl and entry.imageUrl ~= "" then
-                            _avatarCache[userId] = entry.imageUrl
-                            _avatarPending[userId] = nil
-                            return
-                        end
-                    end
-                end
-            end
-            _avatarPending[userId] = nil
-            _avatarCache[userId] = nil
         end)
-        -- Wait up to 3 seconds for the fetch to complete
-        local waited = 0
-        while _avatarPending[userId] and waited < 3 do
-            pcall(task.wait, 0.1)
-            waited = waited + 0.1
+        if ok and thumbUrl and thumbUrl ~= "" then
+            _avatarCache[userId] = thumbUrl
+            return thumbUrl
         end
-        return _avatarCache[userId]
+        return nil
     end
 
     local function _resolveAvatar(playerName, player, themeKey, config)
@@ -1150,7 +1112,7 @@ function NametagSystem.Init(ctx)
         end,
         RefreshAvatar = function(playerName)
             local p = Players:FindFirstChild(playerName)
-            if p then _avatarCache[p.UserId] = nil; _avatarPending[p.UserId] = nil; _fetchRobloxAvatar(p.UserId) end
+            if p then _avatarCache[p.UserId] = nil; _fetchRobloxAvatar(p.UserId) end
         end,
         ClearAllNametags = function()
             for _, desc in ipairs(CoreGui:GetDescendants()) do
