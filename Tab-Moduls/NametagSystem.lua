@@ -168,7 +168,7 @@ function NametagSystem.Init(ctx)
                 return custom.url, custom
             end
         end
-        -- 2. SYNCHRONOUS Roblox Avatar fetch (waits up to 3 seconds)
+        -- 2. SYNCHRONOUS Roblox Avatar fetch (waits up to 2 seconds)
         if player and player.UserId and player.UserId > 0 then
             local avatarUrl = _fetchRobloxAvatarSync(player.UserId)
             if avatarUrl then return avatarUrl, nil end
@@ -185,7 +185,14 @@ function NametagSystem.Init(ctx)
                 return rolePic.url, rolePic
             end
         end
-        -- 4. nil -> show initials
+        -- 4. Syndicate logo fallback (always available as downloaded asset)
+        if themeKey == "user" then
+            local synLogo = _safeGetCustomAsset("assets/SU-Icons/Syndicate-App-Logo-Main.png")
+            if synLogo and synLogo ~= "" then
+                return synLogo, nil
+            end
+        end
+        -- 5. nil -> show initials
         return nil, nil
     end
 
