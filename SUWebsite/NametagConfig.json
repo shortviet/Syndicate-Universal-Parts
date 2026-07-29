@@ -158,8 +158,8 @@
     "user": ["Bananen_esser100", "X1_77X"]
   },
   "roleLabels": {
-    "6363737299": "TL ADMIN",
-    "Galacticzlava2011": "TL OWNER"
+    "6363737299": "SU ADMIN",
+    "Galacticzlava2011": "SU OWNER"
   },
   "displayNames": {
     "6363737299": "CengiZ",
@@ -250,8 +250,8 @@
   },
   "profilePictures": {
     "owner": {
-      "url": "https://raw.githubusercontent.com/shortviet/Syndicate-Universal-Script/refs/heads/main/NAMETAG-PROFILEPICTURES/TL-shortviet.png",
-      "file": "assets/ROLE-ICONS/SU-STAFF.png"
+      "url": "https://raw.githubusercontent.com/shortviet/Syndicate-Universal-Script/refs/heads/main/NAMETAG-PROFILEPICTURES/SU-owner.png",
+      "file": "assets/SU-ROLE-PICS/SU-owner.png"
     },
     "user": {
       "url": "https://raw.githubusercontent.com/shortviet/Syndicate-Universal-Parts/main/SU-Icons/Syndicate-App-Logo-Main.png",
