@@ -483,6 +483,150 @@ local function closeMenu()
 end
 
 -- ═══════════════════════════════════════════════════════════════
+-- Discord AD Blocker
+-- ═══════════════════════════════════════════════════════════════
+-- ═══════════════════════════════════════════════════════════════
+-- Discord AD Blocker (Module Scope)
+-- ═══════════════════════════════════════════════════════════════
+local DiscordKeywords = {
+    "discord.gg", "discord.com/invite",
+    "Join our Discord", "join our Discord",
+    "Join Our Discord", "Join Our Server",
+    "join our server", "Join our server",
+    "SP Hub", "SP_Hub", "SPHub"
+}
+local WhitelistKeywords = {
+    "whitelist", "Whitelist", "WHITELIST",
+    "WhitelistedMouse", "adScreen", "AdScreen"
+}
+
+local function isDiscordAD(obj)
+    if not obj then return false end
+    if obj:IsA("TextLabel") or obj:IsA("TextButton") then
+        local text = string.lower(obj.Text or "")
+        for _, kw in ipairs(DiscordKeywords) do
+            if string.find(text, string.lower(kw)) then return true end
+        end
+        for _, kw in ipairs(WhitelistKeywords) do
+            if string.find(text, string.lower(kw)) then return true end
+        end
+    end
+    if obj:IsA("ImageLabel") or obj:IsA("ImageButton") then
+        local img = string.lower(obj.Image or "")
+        if string.find(img, "discord") or string.find(img, "whitelist") then
+            return true
+        end
+    end
+    return false
+end
+
+local function scanAndDestroy(parent)
+    for _, gui in ipairs(parent:GetChildren()) do
+        if gui:IsA("ScreenGui") then
+            local shouldDestroy = false
+            for _, desc in ipairs(gui:GetDescendants()) do
+                if isDiscordAD(desc) then
+                    shouldDestroy = true
+                    break
+                end
+            end
+            if shouldDestroy then
+                gui:Destroy()
+            end
+        end
+    end
+end
+
+local function startDiscordADBlocker()
+    local function monitorGUI(parent)
+        parent.ChildAdded:Connect(function(child)
+            task.wait(0.3)
+            pcall(function()
+                if child:IsA("ScreenGui") then
+                    for _, desc in ipairs(child:GetDescendants()) do
+                        if isDiscordAD(desc) then
+                            child:Destroy()
+                            return
+                        end
+                    end
+                end
+            end)
+        end)
+    end
+    scanAndDestroy(PlayerGui)
+    scanAndDestroy(CoreGui)
+    monitorGUI(PlayerGui)
+    monitorGUI(CoreGui)
+end
+        "discord.gg", "discord.com/invite",
+        "Join our Discord", "join our Discord",
+        "Join Our Discord", "Join Our Server",
+        "join our server", "Join our server",
+        "SP Hub", "SP_Hub", "SPHub"
+    }
+    local WhitelistKeywords = {
+        "whitelist", "Whitelist", "WHITELIST",
+        "WhitelistedMouse", "adScreen", "AdScreen"
+    }
+    local function isDiscordAD(obj)
+        if not obj then return false end
+        if obj:IsA("TextLabel") or obj:IsA("TextButton") then
+            local text = string.lower(obj.Text or "")
+            for _, kw in ipairs(DiscordKeywords) do
+                if string.find(text, string.lower(kw)) then return true end
+            end
+            for _, kw in ipairs(WhitelistKeywords) do
+                if string.find(text, string.lower(kw)) then return true end
+            end
+        end
+        if obj:IsA("ImageLabel") or obj:IsA("ImageButton") then
+            local img = string.lower(obj.Image or "")
+            if string.find(img, "discord") or string.find(img, "whitelist") then
+                return true
+            end
+        end
+        return false
+    end
+    local function scanAndDestroy(parent)
+        for _, gui in ipairs(parent:GetChildren()) do
+            if gui:IsA("ScreenGui") then
+                local shouldDestroy = false
+                for _, desc in ipairs(gui:GetDescendants()) do
+                    if isDiscordAD(desc) then
+                        shouldDestroy = true
+                        break
+                    end
+                end
+                if shouldDestroy then
+                    gui:Destroy()
+                end
+            end
+        end
+    end
+    local function monitorGUI(parent)
+        parent.ChildAdded:Connect(function(child)
+            task.wait(0.3)
+            pcall(function()
+                if child:IsA("ScreenGui") then
+                    for _, desc in ipairs(child:GetDescendants()) do
+                        if isDiscordAD(desc) then
+                            child:Destroy()
+                            return
+                        end
+                    end
+                end
+            end)
+        end)
+    end
+    scanAndDestroy(PlayerGui)
+    scanAndDestroy(CoreGui)
+    monitorGUI(PlayerGui)
+    monitorGUI(CoreGui)
+end
+
+startDiscordADBlocker()
+
+-- ═══════════════════════════════════════════════════════════════
 -- Launch Game Script
 -- ═══════════════════════════════════════════════════════════════
 local function launchGameScript(langCode)
@@ -517,6 +661,11 @@ local function launchGameScript(langCode)
     pcall(function()
         loadstring(game:HttpGet(scriptUrl))()
     end)
+
+    -- Post-launch Discord AD scan (catches delayed AD creation)
+    task.delay(0.5, function() scanAndDestroy(PlayerGui) scanAndDestroy(CoreGui) end)
+    task.delay(1.5, function() scanAndDestroy(PlayerGui) scanAndDestroy(CoreGui) end)
+    task.delay(3.0, function() scanAndDestroy(PlayerGui) scanAndDestroy(CoreGui) end)
 end
 
 -- ═══════════════════════════════════════════════════════════════
