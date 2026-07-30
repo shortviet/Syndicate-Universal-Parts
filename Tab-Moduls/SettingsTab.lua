@@ -614,6 +614,7 @@ function SettingsTab.Init(ctx)
                         { "Toggle Noclip", nil, function()
                             noclipActive = not noclipActive
                             setNoclip(noclipActive)
+                            sendNotif("Noclip", noclipActive and "Noclip ACTIVATED" or "Noclip DEACTIVATED", noclipActive and 3 or 2)
                         end },
                         { "Toggle ESP", nil, function()
                             local anyActive = espMod and espMod.isActive() or false

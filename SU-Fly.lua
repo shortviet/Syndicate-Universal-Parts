@@ -282,6 +282,12 @@ SpeedBtn.Size = UDim2.new(0, 120, 1, 0); SpeedBtn.LayoutOrder = 1; SpeedBtn.Pare
 local NoclipBtn = createButton("NOCLIP", function()
     noclipFly = not noclipFly
     updateFlyPanel()
+    pcall(function()
+        local _sendNotif = GLOBAL_ENV and GLOBAL_ENV._SU_sendNotif
+        if _sendNotif then
+            _sendNotif("Noclip", noclipFly and "Noclip ACTIVATED" or "Noclip DEACTIVATED", noclipFly and 3 or 2)
+        end
+    end)
 end)
 NoclipBtn.Size = UDim2.new(0, 85, 0, 26); NoclipBtn.LayoutOrder = 4; NoclipBtn.Parent = ButtonContainer
 

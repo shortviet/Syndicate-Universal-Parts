@@ -2165,6 +2165,8 @@ local function RunCustomAnimation(Char)
                 local _, noclipSetFn = makeToggleRow(CY, "Noclip", "no collision", C.accent,
                     function(on)
                         noclipActive = on; setNoclip(on)
+                        sendNotif("Noclip", on and "Noclip ACTIVATED" or "Noclip DEACTIVATED", on and 3 or 2)
+                        pcall(function() if _sc._playClickSound then _sc._playClickSound() end end)
                     end)
                 CY = CY + TOG_H + GAP
                 
