@@ -615,6 +615,7 @@ function SettingsTab.Init(ctx)
                             noclipActive = not noclipActive
                             setNoclip(noclipActive)
                             sendNotif("Noclip", noclipActive and "Noclip ACTIVATED" or "Noclip DEACTIVATED", noclipActive and 3 or 2)
+                            pcall(function() if _sc._playClickSound then _sc._playClickSound() end end)
                         end },
                         { "Toggle ESP", nil, function()
                             local anyActive = espMod and espMod.isActive() or false
